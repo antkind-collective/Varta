@@ -1,0 +1,13 @@
+{
+  "retrieval": {
+    "default_top_k": 5,
+    "min_similarity_score": -1.0,
+    "group_by_parent_doc": false,
+    "vector_db_dir": "data/vector_db"
+  },
+  "embedding": {
+    "provider": "sentence-transformers",
+    "model_name": "sentence-transformers/all-MiniLM-L6-v2",
+    "device": "cpu"
+  }
+}

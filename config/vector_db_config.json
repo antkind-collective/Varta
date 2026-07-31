@@ -1,0 +1,19 @@
+{
+  "index": {
+    "index_type": "IndexFlatIP",
+    "normalize_vectors": true,
+    "metric_type": "inner_product",
+    "nlist": 100
+  },
+  "metadata_store": {
+    "db_type": "sqlite",
+    "filename": "metadata.sqlite",
+    "table_name": "chunk_metadata"
+  },
+  "storage": {
+    "vector_index_filename": "faiss_index.bin",
+    "manifest_filename": "db_manifest.json",
+    "statistics_filename": "index_statistics.json",
+    "health_filename": "index_health.json"
+  }
+}

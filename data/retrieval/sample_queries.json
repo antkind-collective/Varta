@@ -1,0 +1,22 @@
+[
+  {"id": 1, "query": "Rapti River embankment repair Gorakhpur", "language": "English", "category": "Infra Repair"},
+  {"id": 2, "query": "गोरखपुर में बाढ़ की स्थिति और राहत कार्य", "language": "Hindi", "category": "Disaster Relief"},
+  {"id": 3, "query": "Ghaghara and Sharda river water levels", "language": "English", "category": "River Level"},
+  {"id": 4, "query": "बांसगांव गगहा क्षेत्र में बाढ़ का प्रकोप", "language": "Hindi", "category": "Regional Alert"},
+  {"id": 5, "query": "Flood control measures in Uttar Pradesh villages", "language": "English", "category": "Policy"},
+  {"id": 6, "query": "घाघरा नदी का जलस्तर खतरे के निशान से ऊपर", "language": "Hindi", "category": "River Level"},
+  {"id": 7, "query": "Disaster management team deployment in Gorakhpur", "language": "English", "category": "Disaster Relief"},
+  {"id": 8, "query": "राप्ती नदी का जलस्तर बांसगांव क्षेत्र", "language": "Hindi", "category": "River Level"},
+  {"id": 9, "query": "Embankment breach near Gagaha village", "language": "English", "category": "Infra Breach"},
+  {"id": 10, "query": "बाढ़ पीड़ितों के लिए खाद्यान्न और राहत सामग्री वितरण", "language": "Hindi", "category": "Disaster Relief"},
+  {"id": 11, "query": "Assam and Bihar monsoon flood status", "language": "English", "category": "Regional Alert"},
+  {"id": 12, "query": "गोरखपुर जिला प्रशासन बाढ़ अलर्ट", "language": "Hindi", "category": "Admin Alert"},
+  {"id": 13, "query": "Sarayu river overflow in Ayodhya district", "language": "English", "category": "River Level"},
+  {"id": 14, "query": "बाढ़ प्रभावित गांवों का सर्वेक्षण", "language": "Hindi", "category": "Survey"},
+  {"id": 15, "query": "NDRF NDRF boat rescue operations", "language": "English", "category": "Rescue"},
+  {"id": 16, "query": "मुख्यमंत्री योगी आदित्यनाथ का बाढ़ क्षेत्र निरीक्षण", "language": "Hindi", "category": "Inspection"},
+  {"id": 17, "query": "Crops damage assessment due to heavy rainfall", "language": "English", "category": "Crop Loss"},
+  {"id": 18, "query": "सिंचाई विभाग द्वारा तटबंध सुदृढ़ीकरण कार्य", "language": "Hindi", "category": "Infra Repair"},
+  {"id": 19, "query": "বন্যা পরিস্থিতিতে ত্রাণ বিতরণ এবং সহায়তা কেন্দ্র", "language": "Bengali", "category": "Disaster Relief"},
+  {"id": 20, "query": "Flood inundation mapping and satellite imagery", "language": "English", "category": "GIS Mapping"}
+]

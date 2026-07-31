@@ -1,0 +1,35 @@
+{
+  "column_rename_map": {
+    "Post ID": "post_id",
+    "Sound Bite Text": "text_content",
+    "Title": "title",
+    "Source Type": "source_type",
+    "Unnamed: 4": "image_url",
+    "Unnamed: 25": "user_rating",
+    "Unnamed: 26": "category_taxonomy"
+  },
+  "columns_to_drop": [
+    "Unnamed: 5",
+    "Unnamed: 6",
+    "Unnamed: 7",
+    "Unnamed: 8",
+    "Unnamed: 9",
+    "Unnamed: 10",
+    "Unnamed: 11",
+    "Unnamed: 12",
+    "Unnamed: 13",
+    "Unnamed: 14",
+    "Unnamed: 15",
+    "Unnamed: 16",
+    "Unnamed: 17",
+    "Unnamed: 18",
+    "Unnamed: 19",
+    "Unnamed: 20",
+    "Unnamed: 21",
+    "Unnamed: 22",
+    "Unnamed: 23",
+    "Unnamed: 24"
+  ],
+  "core_payload_columns": ["title", "text_content"],
+  "identifier_column": "post_id"
+}

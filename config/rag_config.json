@@ -1,0 +1,15 @@
+{
+  "token_budget": {
+    "max_context_tokens": 2048,
+    "token_counter_strategy": "heuristic",
+    "allow_partial_truncation": true
+  },
+  "retrieval": {
+    "default_top_k": 5,
+    "min_similarity_threshold": 0.30
+  },
+  "assembly": {
+    "merge_overlapping_chunks": true,
+    "group_by_parent_doc": true
+  }
+}

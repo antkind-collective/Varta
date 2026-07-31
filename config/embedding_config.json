@@ -1,0 +1,28 @@
+{
+  "chunking": {
+    "target_chunk_size": 1200,
+    "chunk_overlap": 200,
+    "separators": [
+      "\n\n",
+      "\n",
+      "। ",
+      ". ",
+      " ",
+      ""
+    ],
+    "inject_title_header": true
+  },
+  "embedding": {
+    "provider": "sentence-transformers",
+    "model_name": "sentence-transformers/all-MiniLM-L6-v2",
+    "fallback_model_name": "sentence-transformers/all-MiniLM-L6-v2",
+    "batch_size": 128,
+    "normalize_embeddings": true,
+    "device": "cpu"
+  },
+  "storage": {
+    "embeddings_filename": "embeddings.npy",
+    "chunks_filename": "chunks.json",
+    "statistics_filename": "embedding_statistics.json"
+  }
+}

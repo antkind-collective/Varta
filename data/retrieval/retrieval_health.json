@@ -1,0 +1,28 @@
+{
+    "project": "VARTA",
+    "phase": "Phase 2 - Knowledge Layer",
+    "sprint": "Sprint 2.3 - Semantic Retrieval",
+    "created_at": "2026-07-30T06:13:02.280883+00:00",
+    "status": "HEALTHY",
+    "health_score_pct": 100.0,
+    "evaluated_queries_count": 20,
+    "score_range": "[-1.0, 1.0]",
+    "latency_ms": {
+        "mean": 40.73,
+        "min": 34.47,
+        "max": 96.02,
+        "p95": 51.91,
+        "p99": 66.43
+    },
+    "top1_score_distribution": {
+        "mean": 0.7058,
+        "min": 0.5929,
+        "max": 0.8088
+    },
+    "edge_case_validation": {
+        "empty_query_handled": true,
+        "missing_db_handled": true,
+        "zero_filter_match_handled": true
+    },
+    "overall_retrieval_health": true
+}

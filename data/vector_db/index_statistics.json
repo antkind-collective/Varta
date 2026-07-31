@@ -1,0 +1,19 @@
+{
+    "project": "VARTA",
+    "phase": "Phase 2 - Knowledge Layer",
+    "sprint": "Sprint 2.2 - Vector Database Indexing",
+    "pipeline_version": "1.0.0",
+    "created_at": "2026-07-30T05:31:39.996245+00:00",
+    "index_type": "IndexFlatIP",
+    "embedding_model": "sentence-transformers/all-MiniLM-L6-v2",
+    "embedding_dimension": 384,
+    "metadata_store": "SQLite Relational Store",
+    "indexed_vectors_count": 39172,
+    "indexed_metadata_records": 39172,
+    "storage": {
+        "faiss_index_file": "faiss_index.bin",
+        "faiss_index_size_mb": 57.38,
+        "sqlite_db_file": "metadata.sqlite",
+        "sqlite_db_size_mb": 114.6
+    }
+}

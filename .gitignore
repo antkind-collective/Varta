@@ -1,0 +1,48 @@
+# Environment and Secrets
+.env
+.env.local
+.env.*.local
+
+# Virtual Environments
+.venv/
+venv/
+env/
+ENV/
+env.bak/
+venv.bak/
+
+# Python Bytecode and Caches
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# Local IDE and Agent Configs
+.vscode/
+.idea/
+.gemini/
+.agents/
+*.swp
+*.swo
+
+# Operating System Files
+.DS_Store
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Logs and Temporary Files
+*.log
+tmp/
+temp/
+
+# Large Generated Vector DBs, Binary Embeddings & SQLite Databases
+*.sqlite
+*.db
+*.npy
+*.bin

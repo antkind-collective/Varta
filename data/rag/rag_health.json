@@ -1,0 +1,25 @@
+{
+    "project": "VARTA",
+    "phase": "Phase 2 - Knowledge Layer",
+    "sprint": "Sprint 2.4 - Context Assembly & RAG Orchestration",
+    "created_at": "2026-07-30T06:26:46.832681+00:00",
+    "status": "HEALTHY",
+    "health_score_pct": 100.0,
+    "evaluated_queries_count": 20,
+    "latency_ms": {
+        "mean": 158.26,
+        "p95": 204.13,
+        "p99": 247.01
+    },
+    "token_utilization": {
+        "mean_pct": 35.45,
+        "max_budget": 2048
+    },
+    "pipeline_validation": {
+        "token_budget_enforced": true,
+        "citation_preservation": true,
+        "short_circuit_handling": true,
+        "model_adapter_decoupled": true
+    },
+    "overall_rag_health": true
+}

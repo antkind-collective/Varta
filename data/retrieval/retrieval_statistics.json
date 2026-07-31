@@ -1,0 +1,718 @@
+{
+    "project": "VARTA",
+    "phase": "Phase 2 - Knowledge Layer",
+    "sprint": "Sprint 2.3 - Semantic Retrieval",
+    "timestamp": "2026-07-30T06:13:02.268118+00:00",
+    "total_queries_evaluated": 20,
+    "score_format": "raw_cosine_similarity [-1.0, 1.0]",
+    "benchmarks": {
+        "top_1": {
+            "evaluated_queries_count": 20,
+            "latency_ms": {
+                "mean": 39.9,
+                "min": 35.08,
+                "max": 58.56,
+                "p95": 45.02,
+                "p99": 55.85
+            },
+            "similarity_score": {
+                "mean": 0.7058,
+                "min": 0.5929,
+                "max": 0.8088
+            },
+            "queries_executed": [
+                {
+                    "id": 1,
+                    "query": "Rapti River embankment repair Gorakhpur",
+                    "language": "English",
+                    "execution_time_ms": 58.56,
+                    "results_returned": 1,
+                    "top1_score": 0.7203
+                },
+                {
+                    "id": 2,
+                    "query": "गोरखपुर में बाढ़ की स्थिति और राहत कार्य",
+                    "language": "Hindi",
+                    "execution_time_ms": 36.84,
+                    "results_returned": 1,
+                    "top1_score": 0.7357
+                },
+                {
+                    "id": 3,
+                    "query": "Ghaghara and Sharda river water levels",
+                    "language": "English",
+                    "execution_time_ms": 43.65,
+                    "results_returned": 1,
+                    "top1_score": 0.6347
+                },
+                {
+                    "id": 4,
+                    "query": "बांसगांव गगहा क्षेत्र में बाढ़ का प्रकोप",
+                    "language": "Hindi",
+                    "execution_time_ms": 37.92,
+                    "results_returned": 1,
+                    "top1_score": 0.7601
+                },
+                {
+                    "id": 5,
+                    "query": "Flood control measures in Uttar Pradesh villages",
+                    "language": "English",
+                    "execution_time_ms": 36.57,
+                    "results_returned": 1,
+                    "top1_score": 0.7852
+                },
+                {
+                    "id": 6,
+                    "query": "घाघरा नदी का जलस्तर खतरे के निशान से ऊपर",
+                    "language": "Hindi",
+                    "execution_time_ms": 37.67,
+                    "results_returned": 1,
+                    "top1_score": 0.751
+                },
+                {
+                    "id": 7,
+                    "query": "Disaster management team deployment in Gorakhpur",
+                    "language": "English",
+                    "execution_time_ms": 35.08,
+                    "results_returned": 1,
+                    "top1_score": 0.6905
+                },
+                {
+                    "id": 8,
+                    "query": "राप्ती नदी का जलस्तर बांसगांव क्षेत्र",
+                    "language": "Hindi",
+                    "execution_time_ms": 39.5,
+                    "results_returned": 1,
+                    "top1_score": 0.763
+                },
+                {
+                    "id": 9,
+                    "query": "Embankment breach near Gagaha village",
+                    "language": "English",
+                    "execution_time_ms": 41.65,
+                    "results_returned": 1,
+                    "top1_score": 0.6214
+                },
+                {
+                    "id": 10,
+                    "query": "बाढ़ पीड़ितों के लिए खाद्यान्न और राहत सामग्री वितरण",
+                    "language": "Hindi",
+                    "execution_time_ms": 42.76,
+                    "results_returned": 1,
+                    "top1_score": 0.8002
+                },
+                {
+                    "id": 11,
+                    "query": "Assam and Bihar monsoon flood status",
+                    "language": "English",
+                    "execution_time_ms": 36.46,
+                    "results_returned": 1,
+                    "top1_score": 0.8088
+                },
+                {
+                    "id": 12,
+                    "query": "गोरखपुर जिला प्रशासन बाढ़ अलर्ट",
+                    "language": "Hindi",
+                    "execution_time_ms": 38.35,
+                    "results_returned": 1,
+                    "top1_score": 0.7428
+                },
+                {
+                    "id": 13,
+                    "query": "Sarayu river overflow in Ayodhya district",
+                    "language": "English",
+                    "execution_time_ms": 39.79,
+                    "results_returned": 1,
+                    "top1_score": 0.6184
+                },
+                {
+                    "id": 14,
+                    "query": "बाढ़ प्रभावित गांवों का सर्वेक्षण",
+                    "language": "Hindi",
+                    "execution_time_ms": 36.98,
+                    "results_returned": 1,
+                    "top1_score": 0.6514
+                },
+                {
+                    "id": 15,
+                    "query": "NDRF NDRF boat rescue operations",
+                    "language": "English",
+                    "execution_time_ms": 40.29,
+                    "results_returned": 1,
+                    "top1_score": 0.6821
+                },
+                {
+                    "id": 16,
+                    "query": "मुख्यमंत्री योगी आदित्यनाथ का बाढ़ क्षेत्र निरीक्षण",
+                    "language": "Hindi",
+                    "execution_time_ms": 41.31,
+                    "results_returned": 1,
+                    "top1_score": 0.6809
+                },
+                {
+                    "id": 17,
+                    "query": "Crops damage assessment due to heavy rainfall",
+                    "language": "English",
+                    "execution_time_ms": 35.99,
+                    "results_returned": 1,
+                    "top1_score": 0.7139
+                },
+                {
+                    "id": 18,
+                    "query": "सिंचाई विभाग द्वारा तटबंध सुदृढ़ीकरण कार्य",
+                    "language": "Hindi",
+                    "execution_time_ms": 38.07,
+                    "results_returned": 1,
+                    "top1_score": 0.6884
+                },
+                {
+                    "id": 19,
+                    "query": "বন্যা পরিস্থিতিতে ত্রাণ বিতরণ এবং সহায়তা কেন্দ্র",
+                    "language": "Bengali",
+                    "execution_time_ms": 44.31,
+                    "results_returned": 1,
+                    "top1_score": 0.6745
+                },
+                {
+                    "id": 20,
+                    "query": "Flood inundation mapping and satellite imagery",
+                    "language": "English",
+                    "execution_time_ms": 36.34,
+                    "results_returned": 1,
+                    "top1_score": 0.5929
+                }
+            ]
+        },
+        "top_3": {
+            "evaluated_queries_count": 20,
+            "latency_ms": {
+                "mean": 43.56,
+                "min": 34.67,
+                "max": 96.02,
+                "p95": 54.54,
+                "p99": 87.72
+            },
+            "similarity_score": {
+                "mean": 0.7058,
+                "min": 0.5929,
+                "max": 0.8088
+            },
+            "queries_executed": [
+                {
+                    "id": 1,
+                    "query": "Rapti River embankment repair Gorakhpur",
+                    "language": "English",
+                    "execution_time_ms": 34.87,
+                    "results_returned": 3,
+                    "top1_score": 0.7203
+                },
+                {
+                    "id": 2,
+                    "query": "गोरखपुर में बाढ़ की स्थिति और राहत कार्य",
+                    "language": "Hindi",
+                    "execution_time_ms": 38.63,
+                    "results_returned": 3,
+                    "top1_score": 0.7357
+                },
+                {
+                    "id": 3,
+                    "query": "Ghaghara and Sharda river water levels",
+                    "language": "English",
+                    "execution_time_ms": 37.48,
+                    "results_returned": 3,
+                    "top1_score": 0.6347
+                },
+                {
+                    "id": 4,
+                    "query": "बांसगांव गगहा क्षेत्र में बाढ़ का प्रकोप",
+                    "language": "Hindi",
+                    "execution_time_ms": 37.6,
+                    "results_returned": 3,
+                    "top1_score": 0.7601
+                },
+                {
+                    "id": 5,
+                    "query": "Flood control measures in Uttar Pradesh villages",
+                    "language": "English",
+                    "execution_time_ms": 34.67,
+                    "results_returned": 3,
+                    "top1_score": 0.7852
+                },
+                {
+                    "id": 6,
+                    "query": "घाघरा नदी का जलस्तर खतरे के निशान से ऊपर",
+                    "language": "Hindi",
+                    "execution_time_ms": 43.05,
+                    "results_returned": 3,
+                    "top1_score": 0.751
+                },
+                {
+                    "id": 7,
+                    "query": "Disaster management team deployment in Gorakhpur",
+                    "language": "English",
+                    "execution_time_ms": 49.02,
+                    "results_returned": 3,
+                    "top1_score": 0.6905
+                },
+                {
+                    "id": 8,
+                    "query": "राप्ती नदी का जलस्तर बांसगांव क्षेत्र",
+                    "language": "Hindi",
+                    "execution_time_ms": 42.67,
+                    "results_returned": 3,
+                    "top1_score": 0.763
+                },
+                {
+                    "id": 9,
+                    "query": "Embankment breach near Gagaha village",
+                    "language": "English",
+                    "execution_time_ms": 38.71,
+                    "results_returned": 3,
+                    "top1_score": 0.6214
+                },
+                {
+                    "id": 10,
+                    "query": "बाढ़ पीड़ितों के लिए खाद्यान्न और राहत सामग्री वितरण",
+                    "language": "Hindi",
+                    "execution_time_ms": 42.17,
+                    "results_returned": 3,
+                    "top1_score": 0.8002
+                },
+                {
+                    "id": 11,
+                    "query": "Assam and Bihar monsoon flood status",
+                    "language": "English",
+                    "execution_time_ms": 52.36,
+                    "results_returned": 3,
+                    "top1_score": 0.8088
+                },
+                {
+                    "id": 12,
+                    "query": "गोरखपुर जिला प्रशासन बाढ़ अलर्ट",
+                    "language": "Hindi",
+                    "execution_time_ms": 96.02,
+                    "results_returned": 3,
+                    "top1_score": 0.7428
+                },
+                {
+                    "id": 13,
+                    "query": "Sarayu river overflow in Ayodhya district",
+                    "language": "English",
+                    "execution_time_ms": 37.1,
+                    "results_returned": 3,
+                    "top1_score": 0.6184
+                },
+                {
+                    "id": 14,
+                    "query": "बाढ़ प्रभावित गांवों का सर्वेक्षण",
+                    "language": "Hindi",
+                    "execution_time_ms": 38.93,
+                    "results_returned": 3,
+                    "top1_score": 0.6514
+                },
+                {
+                    "id": 15,
+                    "query": "NDRF NDRF boat rescue operations",
+                    "language": "English",
+                    "execution_time_ms": 36.01,
+                    "results_returned": 3,
+                    "top1_score": 0.6821
+                },
+                {
+                    "id": 16,
+                    "query": "मुख्यमंत्री योगी आदित्यनाथ का बाढ़ क्षेत्र निरीक्षण",
+                    "language": "Hindi",
+                    "execution_time_ms": 40.9,
+                    "results_returned": 3,
+                    "top1_score": 0.6809
+                },
+                {
+                    "id": 17,
+                    "query": "Crops damage assessment due to heavy rainfall",
+                    "language": "English",
+                    "execution_time_ms": 38.9,
+                    "results_returned": 3,
+                    "top1_score": 0.7139
+                },
+                {
+                    "id": 18,
+                    "query": "सिंचाई विभाग द्वारा तटबंध सुदृढ़ीकरण कार्य",
+                    "language": "Hindi",
+                    "execution_time_ms": 37.1,
+                    "results_returned": 3,
+                    "top1_score": 0.6884
+                },
+                {
+                    "id": 19,
+                    "query": "বন্যা পরিস্থিতিতে ত্রাণ বিতরণ এবং সহায়তা কেন্দ্র",
+                    "language": "Bengali",
+                    "execution_time_ms": 43.2,
+                    "results_returned": 3,
+                    "top1_score": 0.6745
+                },
+                {
+                    "id": 20,
+                    "query": "Flood inundation mapping and satellite imagery",
+                    "language": "English",
+                    "execution_time_ms": 51.89,
+                    "results_returned": 3,
+                    "top1_score": 0.5929
+                }
+            ]
+        },
+        "top_5": {
+            "evaluated_queries_count": 20,
+            "latency_ms": {
+                "mean": 38.4,
+                "min": 34.47,
+                "max": 45.23,
+                "p95": 43.02,
+                "p99": 44.79
+            },
+            "similarity_score": {
+                "mean": 0.7058,
+                "min": 0.5929,
+                "max": 0.8088
+            },
+            "queries_executed": [
+                {
+                    "id": 1,
+                    "query": "Rapti River embankment repair Gorakhpur",
+                    "language": "English",
+                    "execution_time_ms": 35.99,
+                    "results_returned": 5,
+                    "top1_score": 0.7203
+                },
+                {
+                    "id": 2,
+                    "query": "गोरखपुर में बाढ़ की स्थिति और राहत कार्य",
+                    "language": "Hindi",
+                    "execution_time_ms": 40.83,
+                    "results_returned": 5,
+                    "top1_score": 0.7357
+                },
+                {
+                    "id": 3,
+                    "query": "Ghaghara and Sharda river water levels",
+                    "language": "English",
+                    "execution_time_ms": 35.34,
+                    "results_returned": 5,
+                    "top1_score": 0.6347
+                },
+                {
+                    "id": 4,
+                    "query": "बांसगांव गगहा क्षेत्र में बाढ़ का प्रकोप",
+                    "language": "Hindi",
+                    "execution_time_ms": 38.91,
+                    "results_returned": 5,
+                    "top1_score": 0.7601
+                },
+                {
+                    "id": 5,
+                    "query": "Flood control measures in Uttar Pradesh villages",
+                    "language": "English",
+                    "execution_time_ms": 36.33,
+                    "results_returned": 5,
+                    "top1_score": 0.7852
+                },
+                {
+                    "id": 6,
+                    "query": "घाघरा नदी का जलस्तर खतरे के निशान से ऊपर",
+                    "language": "Hindi",
+                    "execution_time_ms": 39.02,
+                    "results_returned": 5,
+                    "top1_score": 0.751
+                },
+                {
+                    "id": 7,
+                    "query": "Disaster management team deployment in Gorakhpur",
+                    "language": "English",
+                    "execution_time_ms": 34.85,
+                    "results_returned": 5,
+                    "top1_score": 0.6905
+                },
+                {
+                    "id": 8,
+                    "query": "राप्ती नदी का जलस्तर बांसगांव क्षेत्र",
+                    "language": "Hindi",
+                    "execution_time_ms": 40.39,
+                    "results_returned": 5,
+                    "top1_score": 0.763
+                },
+                {
+                    "id": 9,
+                    "query": "Embankment breach near Gagaha village",
+                    "language": "English",
+                    "execution_time_ms": 34.47,
+                    "results_returned": 5,
+                    "top1_score": 0.6214
+                },
+                {
+                    "id": 10,
+                    "query": "बाढ़ पीड़ितों के लिए खाद्यान्न और राहत सामग्री वितरण",
+                    "language": "Hindi",
+                    "execution_time_ms": 41.82,
+                    "results_returned": 5,
+                    "top1_score": 0.8002
+                },
+                {
+                    "id": 11,
+                    "query": "Assam and Bihar monsoon flood status",
+                    "language": "English",
+                    "execution_time_ms": 45.23,
+                    "results_returned": 5,
+                    "top1_score": 0.8088
+                },
+                {
+                    "id": 12,
+                    "query": "गोरखपुर जिला प्रशासन बाढ़ अलर्ट",
+                    "language": "Hindi",
+                    "execution_time_ms": 37.23,
+                    "results_returned": 5,
+                    "top1_score": 0.7428
+                },
+                {
+                    "id": 13,
+                    "query": "Sarayu river overflow in Ayodhya district",
+                    "language": "English",
+                    "execution_time_ms": 38.78,
+                    "results_returned": 5,
+                    "top1_score": 0.6184
+                },
+                {
+                    "id": 14,
+                    "query": "बाढ़ प्रभावित गांवों का सर्वेक्षण",
+                    "language": "Hindi",
+                    "execution_time_ms": 39.04,
+                    "results_returned": 5,
+                    "top1_score": 0.6514
+                },
+                {
+                    "id": 15,
+                    "query": "NDRF NDRF boat rescue operations",
+                    "language": "English",
+                    "execution_time_ms": 37.45,
+                    "results_returned": 5,
+                    "top1_score": 0.6821
+                },
+                {
+                    "id": 16,
+                    "query": "मुख्यमंत्री योगी आदित्यनाथ का बाढ़ क्षेत्र निरीक्षण",
+                    "language": "Hindi",
+                    "execution_time_ms": 39.51,
+                    "results_returned": 5,
+                    "top1_score": 0.6809
+                },
+                {
+                    "id": 17,
+                    "query": "Crops damage assessment due to heavy rainfall",
+                    "language": "English",
+                    "execution_time_ms": 35.66,
+                    "results_returned": 5,
+                    "top1_score": 0.7139
+                },
+                {
+                    "id": 18,
+                    "query": "सिंचाई विभाग द्वारा तटबंध सुदृढ़ीकरण कार्य",
+                    "language": "Hindi",
+                    "execution_time_ms": 39.82,
+                    "results_returned": 5,
+                    "top1_score": 0.6884
+                },
+                {
+                    "id": 19,
+                    "query": "বন্যা পরিস্থিতিতে ত্রাণ বিতরণ এবং সহায়তা কেন্দ্র",
+                    "language": "Bengali",
+                    "execution_time_ms": 42.9,
+                    "results_returned": 5,
+                    "top1_score": 0.6745
+                },
+                {
+                    "id": 20,
+                    "query": "Flood inundation mapping and satellite imagery",
+                    "language": "English",
+                    "execution_time_ms": 34.51,
+                    "results_returned": 5,
+                    "top1_score": 0.5929
+                }
+            ]
+        },
+        "top_10": {
+            "evaluated_queries_count": 20,
+            "latency_ms": {
+                "mean": 41.03,
+                "min": 36.77,
+                "max": 52.49,
+                "p95": 46.96,
+                "p99": 51.38
+            },
+            "similarity_score": {
+                "mean": 0.7058,
+                "min": 0.5929,
+                "max": 0.8088
+            },
+            "queries_executed": [
+                {
+                    "id": 1,
+                    "query": "Rapti River embankment repair Gorakhpur",
+                    "language": "English",
+                    "execution_time_ms": 36.99,
+                    "results_returned": 10,
+                    "top1_score": 0.7203
+                },
+                {
+                    "id": 2,
+                    "query": "गोरखपुर में बाढ़ की स्थिति और राहत कार्य",
+                    "language": "Hindi",
+                    "execution_time_ms": 39.81,
+                    "results_returned": 10,
+                    "top1_score": 0.7357
+                },
+                {
+                    "id": 3,
+                    "query": "Ghaghara and Sharda river water levels",
+                    "language": "English",
+                    "execution_time_ms": 37.61,
+                    "results_returned": 10,
+                    "top1_score": 0.6347
+                },
+                {
+                    "id": 4,
+                    "query": "बांसगांव गगहा क्षेत्र में बाढ़ का प्रकोप",
+                    "language": "Hindi",
+                    "execution_time_ms": 39.94,
+                    "results_returned": 10,
+                    "top1_score": 0.7601
+                },
+                {
+                    "id": 5,
+                    "query": "Flood control measures in Uttar Pradesh villages",
+                    "language": "English",
+                    "execution_time_ms": 36.77,
+                    "results_returned": 10,
+                    "top1_score": 0.7852
+                },
+                {
+                    "id": 6,
+                    "query": "घाघरा नदी का जलस्तर खतरे के निशान से ऊपर",
+                    "language": "Hindi",
+                    "execution_time_ms": 41.12,
+                    "results_returned": 10,
+                    "top1_score": 0.751
+                },
+                {
+                    "id": 7,
+                    "query": "Disaster management team deployment in Gorakhpur",
+                    "language": "English",
+                    "execution_time_ms": 37.62,
+                    "results_returned": 10,
+                    "top1_score": 0.6905
+                },
+                {
+                    "id": 8,
+                    "query": "राप्ती नदी का जलस्तर बांसगांव क्षेत्र",
+                    "language": "Hindi",
+                    "execution_time_ms": 42.63,
+                    "results_returned": 10,
+                    "top1_score": 0.763
+                },
+                {
+                    "id": 9,
+                    "query": "Embankment breach near Gagaha village",
+                    "language": "English",
+                    "execution_time_ms": 38.83,
+                    "results_returned": 10,
+                    "top1_score": 0.6214
+                },
+                {
+                    "id": 10,
+                    "query": "बाढ़ पीड़ितों के लिए खाद्यान्न और राहत सामग्री वितरण",
+                    "language": "Hindi",
+                    "execution_time_ms": 43.17,
+                    "results_returned": 10,
+                    "top1_score": 0.8002
+                },
+                {
+                    "id": 11,
+                    "query": "Assam and Bihar monsoon flood status",
+                    "language": "English",
+                    "execution_time_ms": 52.49,
+                    "results_returned": 10,
+                    "top1_score": 0.8088
+                },
+                {
+                    "id": 12,
+                    "query": "गोरखपुर जिला प्रशासन बाढ़ अलर्ट",
+                    "language": "Hindi",
+                    "execution_time_ms": 42.02,
+                    "results_returned": 10,
+                    "top1_score": 0.7428
+                },
+                {
+                    "id": 13,
+                    "query": "Sarayu river overflow in Ayodhya district",
+                    "language": "English",
+                    "execution_time_ms": 39.65,
+                    "results_returned": 10,
+                    "top1_score": 0.6184
+                },
+                {
+                    "id": 14,
+                    "query": "बाढ़ प्रभावित गांवों का सर्वेक्षण",
+                    "language": "Hindi",
+                    "execution_time_ms": 39.49,
+                    "results_returned": 10,
+                    "top1_score": 0.6514
+                },
+                {
+                    "id": 15,
+                    "query": "NDRF NDRF boat rescue operations",
+                    "language": "English",
+                    "execution_time_ms": 40.78,
+                    "results_returned": 10,
+                    "top1_score": 0.6821
+                },
+                {
+                    "id": 16,
+                    "query": "मुख्यमंत्री योगी आदित्यनाथ का बाढ़ क्षेत्र निरीक्षण",
+                    "language": "Hindi",
+                    "execution_time_ms": 42.86,
+                    "results_returned": 10,
+                    "top1_score": 0.6809
+                },
+                {
+                    "id": 17,
+                    "query": "Crops damage assessment due to heavy rainfall",
+                    "language": "English",
+                    "execution_time_ms": 40.1,
+                    "results_returned": 10,
+                    "top1_score": 0.7139
+                },
+                {
+                    "id": 18,
+                    "query": "सिंचाई विभाग द्वारा तटबंध सुदृढ़ीकरण कार्य",
+                    "language": "Hindi",
+                    "execution_time_ms": 43.59,
+                    "results_returned": 10,
+                    "top1_score": 0.6884
+                },
+                {
+                    "id": 19,
+                    "query": "বন্যা পরিস্থিতিতে ত্রাণ বিতরণ এবং সহায়তা কেন্দ্র",
+                    "language": "Bengali",
+                    "execution_time_ms": 46.67,
+                    "results_returned": 10,
+                    "top1_score": 0.6745
+                },
+                {
+                    "id": 20,
+                    "query": "Flood inundation mapping and satellite imagery",
+                    "language": "English",
+                    "execution_time_ms": 38.51,
+                    "results_returned": 10,
+                    "top1_score": 0.5929
+                }
+            ]
+        }
+    }
+}
