@@ -4,11 +4,12 @@ from typing import List, Dict, Any
 class QueryDecomposer:
     """
     Query Decomposer for VARTA Agentic Planner.
-    Splits complex, multi-part, or comparative queries into atomic sub-queries and execution steps.
+    Splits complex, multi-part, or comparative queries into concise, grammatically correct,
+    and search-optimized atomic sub-queries.
     """
 
     COMPARISON_REGEX_EN = [
-        r"compare\s+(.*?)\s+and\s+(.*?)(?:\s+floods|\s+situation|\s+during|\s+in|\.|\?|$)",
+        r"^compare\s+(?:the\s+)?(?:latest\s+)?(?:floods?|flood\s+situations?|situations?|status)?\s*(?:in|of)?\s*(.*?)\s+and\s+(.*?)(?:\s+floods|\s+situations?|\s+during|\s+in|\.|\?|$)",
         r"comparison\s+between\s+(.*?)\s+and\s+(.*?)(?:\.|\?|$)",
         r"(.*?)\s+versus\s+(.*?)(?:\.|\?|$)"
     ]
@@ -33,24 +34,27 @@ class QueryDecomposer:
 
     def _decompose_comparison(self, query: str) -> List[Dict[str, Any]]:
         """
-        Extracts comparative subjects and generates comparison steps.
+        Extracts comparative subjects and generates clean, concise standalone sub-queries.
         """
+        q_lower = query.lower()
+
         # Try English Comparative Patterns
         for pat in self.COMPARISON_REGEX_EN:
             match = re.search(pat, query, re.IGNORECASE)
             if match:
-                item1 = match.group(1).strip()
-                item2 = match.group(2).strip()
-                # Clean lead-ins
-                item1 = re.sub(r"^(floods?|situation|status|in)\s+", "", item1, flags=re.IGNORECASE).strip()
-                item2 = re.sub(r"^(floods?|situation|status|in)\s+", "", item2, flags=re.IGNORECASE).strip()
-                
-                sub1 = f"Flood situation in {item1}" if "flood" in query.lower() else f"Information on {item1}"
-                sub2 = f"Flood situation in {item2}" if "flood" in query.lower() else f"Information on {item2}"
+                raw1 = match.group(1).strip()
+                raw2 = match.group(2).strip()
+
+                entity1 = self._clean_entity_name(raw1)
+                entity2 = self._clean_entity_name(raw2)
+
+                prefix = "Latest flood situation in" if "latest" in q_lower else ("Flood situation in" if "flood" in q_lower else "Information on")
+                sub1 = f"{prefix} {entity1}"
+                sub2 = f"{prefix} {entity2}"
 
                 return [
-                    {"type": "retrieve", "query": sub1, "target": item1},
-                    {"type": "retrieve", "query": sub2, "target": item2},
+                    {"type": "retrieve", "query": sub1, "target": entity1},
+                    {"type": "retrieve", "query": sub2, "target": entity2},
                     {"type": "compare"}
                 ]
 
@@ -58,28 +62,32 @@ class QueryDecomposer:
         for pat in self.COMPARISON_REGEX_HI:
             match = re.search(pat, query)
             if match:
-                item1 = match.group(1).strip()
-                item2 = match.group(2).strip()
-                item1 = re.sub(r"^(बाढ़|स्थिति|में)\s+", "", item1).strip()
-                item2 = re.sub(r"^(बाढ़|स्थिति|में)\s+", "", item2).strip()
+                raw1 = match.group(1).strip()
+                raw2 = match.group(2).strip()
 
-                sub1 = f"{item1} में बाढ़ की स्थिति" if "बाढ़" in query else f"{item1} की जानकारी"
-                sub2 = f"{item2} में बाढ़ की स्थिति" if "बाढ़" in query else f"{item2} की जानकारी"
+                entity1 = self._clean_entity_name(raw1)
+                entity2 = self._clean_entity_name(raw2)
+
+                sub1 = f"{entity1} में बाढ़ की स्थिति" if "बाढ़" in query else f"{entity1} की जानकारी"
+                sub2 = f"{entity2} में बाढ़ की स्थिति" if "बाढ़" in query else f"{entity2} की जानकारी"
 
                 return [
-                    {"type": "retrieve", "query": sub1, "target": item1},
-                    {"type": "retrieve", "query": sub2, "target": item2},
+                    {"type": "retrieve", "query": sub1, "target": entity1},
+                    {"type": "retrieve", "query": sub2, "target": entity2},
                     {"type": "compare"}
                 ]
 
         # Fallback splitting by 'and' / 'और' if regex didn't match cleanly
         parts = re.split(r"\b(and|vs|versus|और|तथा)\b", query, flags=re.IGNORECASE)
         if len(parts) >= 3:
-            part1 = parts[0].strip()
-            part2 = parts[2].strip()
+            raw1 = parts[0].strip()
+            raw2 = parts[2].strip()
+            e1 = self._clean_entity_name(raw1)
+            e2 = self._clean_entity_name(raw2)
+            prefix = "Latest flood situation in" if "latest" in q_lower else "Flood situation in"
             return [
-                {"type": "retrieve", "query": part1},
-                {"type": "retrieve", "query": part2},
+                {"type": "retrieve", "query": f"{prefix} {e1}", "target": e1},
+                {"type": "retrieve", "query": f"{prefix} {e2}", "target": e2},
                 {"type": "compare"}
             ]
 
@@ -87,6 +95,14 @@ class QueryDecomposer:
             {"type": "retrieve", "query": query},
             {"type": "compare"}
         ]
+
+    def _clean_entity_name(self, text: str) -> str:
+        """Strips common prefix/suffix noise to extract clean entity/location names."""
+        cleaned = text.strip()
+        cleaned = re.sub(r"^(compare|the|latest|flood|floods|situations?|status|of|in|about)\s+", "", cleaned, flags=re.IGNORECASE).strip()
+        cleaned = re.sub(r"^(floods?|situations?|status|in|of)\s+", "", cleaned, flags=re.IGNORECASE).strip()
+        cleaned = re.sub(r"\s+(floods?|situations?|status|during|in|\.|\?)$", "", cleaned, flags=re.IGNORECASE).strip()
+        return cleaned.title() if cleaned.islower() or cleaned.isupper() else (cleaned if cleaned else text)
 
     def _decompose_multistep(self, query: str) -> List[Dict[str, Any]]:
         """

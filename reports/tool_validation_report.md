@@ -16,7 +16,7 @@
 | **System Info Tool Execution** | Standardized Requirement | SystemInfoTool returned runtime model, provider, and session telemetry. | 🟢 PASS |
 | **Invalid Tool Request Handling** | Standardized Requirement | ToolRouter safely caught unregistered tool request without exception. | 🟢 PASS |
 | **Tool Exception & Graceful Fallback** | Standardized Requirement | Division by zero in CalculatorTool returned clean error dictionary. | 🟢 PASS |
-| **Tool Telemetry Log Audit** | Standardized Requirement | Verified tool_log.json (3 log entries). Schema compliant & context excluded. | 🟢 PASS |
+| **Tool Telemetry Log Audit** | Standardized Requirement | Verified tool_log.json (12 log entries). Schema compliant & context excluded. | 🟢 PASS |
 
 ## 3. Key Findings & Architectural Compliance
 - **Unified Tool Contract**: All tools inherit from `BaseTool` and implement standardized `validate()` and `execute()` contracts.

@@ -8,12 +8,18 @@ class ContextResolver:
     and resolves ambiguous follow-up queries into complete standalone queries.
     
     Implements a hybrid approach:
-    1. Local rule-based resolution for pronoun substitution, entity carry-over, and short follow-up phrases (0 token overhead, low latency).
-    2. LLM fallback resolution for complex or ambiguous multi-turn queries.
+    1. Local rule-based resolution for pronoun substitution, entity carry-over, and short follow-up phrases.
+    2. Explicit standalone detection to prevent independent topic changes from inheriting previous context.
+    3. LLM fallback resolution for complex multi-turn queries.
     """
 
     ENGLISH_PRONOUNS = {r"\bits\b", r"\bit\b", r"\bthis\b", r"\bthat\b", r"\bthere\b", r"\bthey\b", r"\bthem\b", r"\btheir\b"}
     HINDI_PRONOUNS = {r"\bउसका\b", r"\bउसकी\b", r"\bउसके\b", r"\bवह\b", r"\bवहाँ\b", r"\bइसकी\b", r"\bइसके\b", r"\bइन्हें\b"}
+
+    FOLLOWUP_PREAMBLES_EN = (r"^what about\b", r"^how about\b", r"^and\b")
+    FOLLOWUP_PHRASES_HI = ("का क्या हाल है", "क्या हाल है", "के बारे में क्या", "और बताएँ")
+
+    STANDALONE_OPENERS = (r"^tell me about\b", r"^explain\b", r"^describe\b", r"^details on\b", r"^information on\b", r"^what is\b", r"^compare\b")
 
     def __init__(self, llm_adapter: Optional[BaseLLMAdapter] = None):
         self.llm_adapter = llm_adapter if llm_adapter else MockLLMAdapter()
@@ -31,14 +37,14 @@ class ContextResolver:
         prev_user = last_turn.get("user_query", "").strip()
         prev_asst = last_turn.get("assistant_response", "").strip()
 
-        # 1. Attempt Rule-Based Resolution (Fast Path)
+        # 1. Check if query is ALREADY standalone (Independent Topic Change Guard)
+        if self._is_already_standalone(clean_query, prev_user):
+            return False, clean_query, "none"
+
+        # 2. Attempt Rule-Based Resolution (Fast Path)
         rule_success, rule_query = self._try_rule_based_resolution(clean_query, prev_user, prev_asst)
         if rule_success:
             return True, rule_query, "rule_based"
-
-        # 2. Check if query is already completely standalone (no pronouns, contains substantive query structure)
-        if self._is_already_standalone(clean_query, prev_user):
-            return False, clean_query, "none"
 
         # 3. LLM Fallback Resolution for ambiguous cases
         llm_success, llm_query = self._llm_resolution(clean_query, history)
@@ -47,44 +53,85 @@ class ContextResolver:
 
         return False, clean_query, "none"
 
+    def _is_already_standalone(self, query: str, prev_user: str) -> bool:
+        """
+        Determines if a query is complete and independent without needing context from previous turns.
+        """
+        q_lower = query.lower()
+
+        # 1. Check for explicit pronouns in English or Hindi -> NOT standalone (requires follow-up resolution)
+        has_pronoun = any(re.search(p, q_lower) for p in self.ENGLISH_PRONOUNS | self.HINDI_PRONOUNS)
+        if has_pronoun:
+            return False
+
+        # 2. Check if query starts with explicit standalone opener like "Tell me about Assam floods."
+        starts_with_standalone_opener = any(re.search(op, q_lower) for op in self.STANDALONE_OPENERS)
+
+        # 3. Check if query contains explicit follow-up preambles or continuation phrases -> NOT standalone
+        has_followup_preamble = any(re.search(p, q_lower) for p in self.FOLLOWUP_PREAMBLES_EN)
+        if has_followup_preamble:
+            return False
+
+        has_followup_phrase_hi = any(p in query for p in self.FOLLOWUP_PHRASES_HI)
+        if has_followup_phrase_hi:
+            return False
+
+        # 4. If query starts with standalone opener and has no pronouns/follow-up preambles -> STANDALONE
+        if starts_with_standalone_opener:
+            return True
+
+        # 5. Check if query is a short fragment (< 4 words) missing a main subject -> NOT standalone
+        words = query.split()
+        if len(words) <= 3 and not self._contains_specific_subject(query):
+            return False
+
+        # 6. Independent topic change guard:
+        # If query starts with a brand new location or independent entity (e.g. "गोरखपुर में बाढ़ की स्थिति?")
+        prev_subject = self._extract_main_subject(prev_user).lower()
+        curr_subject = self._extract_main_subject(query).lower()
+
+        if curr_subject and prev_subject and curr_subject != prev_subject and curr_subject not in prev_subject:
+            return True
+
+        # Default: if query has >= 4 words and no pronouns or follow-up markers, treat as standalone
+        if len(words) >= 4:
+            return True
+
+        return False
+
     def _try_rule_based_resolution(self, query: str, prev_user: str, prev_asst: str) -> Tuple[bool, str]:
         """
-        Applies deterministic pattern matching and entity carry-over rules.
+        Applies deterministic pattern matching and entity carry-over rules for genuine follow-ups.
         """
         q_lower = query.lower()
         p_user_lower = prev_user.lower()
 
-        # Extract primary entity/topic from previous user query
         prev_entity = self._extract_main_subject(prev_user)
 
         # Rule Case 1: "What about X?" / "How about X?" / "And X?"
-        # Example: Prev: "Tell me about Bihar floods." | Query: "What about Patna?"
-        # Result: "What about floods in Patna, Bihar?"
-        match_about = re.match(r"^(what about|how about|and|tell me about)\s+(.+)$", query, re.IGNORECASE)
+        # Example: Prev: "Tell me about Bihar floods." | Query: "What about Patna?" -> "What is the flood situation in Patna, Bihar?"
+        match_about = re.match(r"^(what about|how about|and)\s+(.+)$", query, re.IGNORECASE)
         if match_about:
             target_x = match_about.group(2).strip(" ?.")
             if prev_entity and target_x.lower() not in prev_entity.lower():
-                # Carry over context topic from prev_user
                 if "flood" in p_user_lower or "बाढ़" in prev_user:
                     resolved = f"What is the flood situation in {target_x}, {prev_entity}?"
                 else:
                     resolved = f"Tell me about {target_x} regarding {prev_entity}."
                 return True, resolved
 
-        # Rule Case 1 (Hindi): "X का क्या हाल है?" / "X के बारे में?" / "X की स्थिति?"
-        # Example: Prev: "गोरखपुर में बाढ़ की स्थिति?" | Query: "राप्ती नदी का क्या हाल है?"
-        if re.search(r"(का क्या हाल है|के बारे में|की स्थिति|का जलस्तर)", query) and ("बाढ़" in prev_user or "गोरखपुर" in prev_user or "बिहार" in prev_user):
-            if prev_entity and prev_entity not in query:
+        # Rule Case 1 (Hindi): "X का क्या हाल है?" / "X के बारे में?"
+        # Example: Prev: "गोरखपुर में बाढ़ की क्या स्थिति है?" | Query: "राप्ती नदी का क्या हाल है?" -> "गोरखपुर में राप्ती नदी का क्या हाल है?"
+        if any(p in query for p in self.FOLLOWUP_PHRASES_HI) and prev_entity:
+            if prev_entity not in query:
                 resolved = f"{prev_entity} में {query}"
                 return True, resolved
 
-        # Rule Case 2: English Pronouns ("its", "it", "there")
-        # Example: Prev: "Tell me about Rapti river." | Query: "What is its current water level?"
-        # Result: "What is the current water level of Rapti river?"
+        # Rule Case 2: English Pronouns ("its", "it", "there", "this", "that")
+        # Example: Prev: "Tell me about Rapti river." | Query: "What is its current water level?" -> "What is Rapti river current water level?"
         for pronoun_pat in self.ENGLISH_PRONOUNS:
             if re.search(pronoun_pat, q_lower):
                 if prev_entity:
-                    # Replace pronoun with entity
                     resolved = re.sub(pronoun_pat, prev_entity, query, flags=re.IGNORECASE)
                     return True, resolved
 
@@ -92,53 +139,47 @@ class ContextResolver:
         for pronoun_pat in self.HINDI_PRONOUNS:
             if re.search(pronoun_pat, query):
                 if prev_entity:
-                    resolved = re.sub(pronoun_pat, prev_entity, query)
+                    resolved = re.sub(pronoun_pat, f"{prev_entity} का", query)
                     return True, resolved
 
         # Rule Case 4: Short ellipsis/incomplete phrase (< 4 words)
         words = query.split()
         if len(words) <= 3 and prev_entity and prev_entity.lower() not in q_lower:
             if "flood" in p_user_lower or "बाढ़" in prev_user:
-                resolved = f"{query} for {prev_entity} flood" if not re.search(r"[\u0900-\u097F]", query) else f"{prev_entity} {query}"
+                resolved = f"{query} for {prev_entity} flood" if not re.search(r"[\u0900-\u097F]", query) else f"{prev_entity} में {query}"
                 return True, resolved
 
         return False, query
 
     def _extract_main_subject(self, text: str) -> str:
         """
-        Extracts the main subject/entity from text (e.g. 'Bihar', 'Patna', 'Rapti river', 'Gorakhpur').
+        Extracts the primary location/entity from query text.
         """
-        # Remove common preamble phrases
-        cleaned = re.sub(r"^(tell me about|what is the|update on|what about|status of|info on)\s+", "", text, flags=re.IGNORECASE)
+        cleaned = re.sub(r"^(tell me about|what is the|update on|what about|status of|info on|compare|explain|describe)\s+", "", text, flags=re.IGNORECASE)
         cleaned = re.sub(r"\s+(floods?|situation|status|update|details|report|\?|\.)$", "", cleaned, flags=re.IGNORECASE)
         cleaned = cleaned.strip()
         return cleaned if cleaned else text
 
-    def _is_already_standalone(self, query: str, prev_user: str) -> bool:
+    def _contains_specific_subject(self, text: str) -> bool:
         """
-        Returns True if the query appears self-contained without needing resolution.
+        Returns True if text contains a specific entity or location name.
         """
-        words = query.split()
-        # If query is long (> 8 words) and contains no pronouns, likely standalone
-        if len(words) >= 8:
-            has_pronoun = any(re.search(p, query, re.IGNORECASE) for p in self.ENGLISH_PRONOUNS | self.HINDI_PRONOUNS)
-            if not has_pronoun:
-                return True
-        return False
+        locations = ["bihar", "patna", "gorakhpur", "assam", "rapti", "kosi", "ganga", "बिहार", "पटना", "गोरखपुर", "असम", "राप्ती", "कोसी", "गंगा"]
+        return any(loc in text.lower() for loc in locations)
 
     def _llm_resolution(self, query: str, history: List[Dict[str, Any]]) -> Tuple[bool, str]:
         """
         Uses LLM Adapter as fallback to rewrite ambiguous queries into standalone search queries.
         """
         history_snippet = []
-        for turn in history[-2:]:  # look at last 2 turns
+        for turn in history[-2:]:
             history_snippet.append(f"User: {turn['user_query']}")
             history_snippet.append(f"Assistant: {turn['assistant_response'][:150]}...")
         
         hist_text = "\n".join(history_snippet)
         prompt = (
             "System: You are a query rewriting assistant. Given the conversation history, rewrite the user's latest follow-up question "
-            "into a complete, self-contained standalone search query. Do NOT answer the question. Output ONLY the rewritten standalone query.\n\n"
+            "into a complete, self-contained standalone search query. Do NOT answer the question. If the question is an independent new topic, output it unchanged. Output ONLY the rewritten standalone query.\n\n"
             f"Conversation History:\n{hist_text}\n\n"
             f"Follow-up Question: {query}\n\n"
             "Standalone Query:"
@@ -147,7 +188,6 @@ class ContextResolver:
         try:
             llm_resp = self.llm_adapter.generate(prompt)
             rewritten = llm_resp.get("text", "").strip()
-            # Clean quotes if LLM wraps response in quotes
             rewritten = re.sub(r'^["\']|["\']$', '', rewritten).strip()
             if rewritten and rewritten.lower() != query.lower():
                 return True, rewritten

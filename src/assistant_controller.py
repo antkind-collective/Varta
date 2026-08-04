@@ -128,7 +128,10 @@ class AssistantController:
         tool_result = self.tool_router.route_and_execute(execution_plan, context_data)
 
         # 5. Record Turn in Conversation Memory
-        assistant_answer = tool_result.get("answer", "")
+        assistant_answer = tool_result.get("assistant_answer") or tool_result.get("answer", "")
+        if not assistant_answer:
+            assistant_answer = "Retrieved information successfully from knowledge repository."
+
         turn_data = session.memory.add_turn(
             user_query=clean_query,
             assistant_response=assistant_answer

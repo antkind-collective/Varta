@@ -1087,5 +1087,1791 @@
     },
     "provider": "MockLLMAdapter",
     "model": "mock-rag-synthesizer-v1"
+  },
+  {
+    "timestamp": "2026-08-04T04:34:05.490115+00:00",
+    "session_id": "12aa3bb126bf",
+    "user_query": "Tell me about bihar floods",
+    "rewritten_query": "Tell me about bihar floods",
+    "memory_used": false,
+    "turn_number": 1,
+    "plan_type": "direct",
+    "tool_selected": "rag_search",
+    "execution_time": 23167.15,
+    "confidence": {
+      "score": 0.6376,
+      "level": "HIGH",
+      "retrieval_support": "STRONG",
+      "context_coverage_pct": 23.88
+    },
+    "provider": "OpenAILLMAdapter",
+    "model": "gpt-5"
+  },
+  {
+    "timestamp": "2026-08-04T04:34:49.957337+00:00",
+    "session_id": "12aa3bb126bf",
+    "user_query": "What about Patna?",
+    "rewritten_query": "What is the flood situation in Patna, bihar?",
+    "memory_used": true,
+    "turn_number": 2,
+    "plan_type": "followup",
+    "tool_selected": "rag_search",
+    "execution_time": 14066.03,
+    "confidence": {
+      "score": 0.6353,
+      "level": "HIGH",
+      "retrieval_support": "STRONG",
+      "context_coverage_pct": 29.2
+    },
+    "provider": "OpenAILLMAdapter",
+    "model": "gpt-5"
+  },
+  {
+    "timestamp": "2026-08-04T04:36:01.107295+00:00",
+    "session_id": "12aa3bb126bf",
+    "user_query": "गोरखपुर में बाढ़ की स्थिति?",
+    "rewritten_query": "गोरखपुर में बाढ़ की ताज़ा स्थिति क्या है?",
+    "memory_used": true,
+    "turn_number": 3,
+    "plan_type": "followup",
+    "tool_selected": "rag_search",
+    "execution_time": 13203.54,
+    "confidence": {
+      "score": 0.568,
+      "level": "HIGH",
+      "retrieval_support": "STRONG",
+      "context_coverage_pct": 22.66
+    },
+    "provider": "OpenAILLMAdapter",
+    "model": "gpt-5"
+  },
+  {
+    "timestamp": "2026-08-04T04:37:06.326639+00:00",
+    "session_id": "12aa3bb126bf",
+    "user_query": "Compare Bihar and Assam floods.",
+    "rewritten_query": "Compare the latest flood situations in Bihar and Assam, including severity, affected districts, rivers above danger mark, casualties, displacement figures, and relief and rescue operations.",
+    "memory_used": true,
+    "turn_number": 4,
+    "plan_type": "comparison",
+    "tool_selected": "rag_search",
+    "execution_time": 50175.17,
+    "confidence": {
+      "score": 0.7108,
+      "level": "HIGH",
+      "retrieval_support": "STRONG",
+      "context_coverage_pct": 50.0
+    },
+    "provider": "OpenAILLMAdapter",
+    "model": "gpt-5"
+  },
+  {
+    "timestamp": "2026-08-04T04:37:26.941976+00:00",
+    "session_id": "12aa3bb126bf",
+    "user_query": "25 * 19",
+    "rewritten_query": "25 * 19 for Compare Bihar and Assam floods. flood",
+    "memory_used": true,
+    "turn_number": 5,
+    "plan_type": "calculator",
+    "tool_selected": "calculator",
+    "execution_time": 1.05,
+    "confidence": {
+      "score": 1.0,
+      "level": "HIGH",
+      "retrieval_support": "EXACT_CALCULATION",
+      "context_coverage_pct": 100.0
+    },
+    "provider": "OpenAILLMAdapter",
+    "model": "gpt-5"
+  },
+  {
+    "timestamp": "2026-08-04T04:37:59.489074+00:00",
+    "session_id": "12aa3bb126bf",
+    "user_query": "What model are you using?",
+    "rewritten_query": "Which AI language model and version is powering this chat assistant's responses?",
+    "memory_used": true,
+    "turn_number": 6,
+    "plan_type": "system_info",
+    "tool_selected": "system_info",
+    "execution_time": 11448.03,
+    "confidence": {
+      "score": 1.0,
+      "level": "HIGH",
+      "retrieval_support": "SYSTEM_METADATA",
+      "context_coverage_pct": 100.0
+    },
+    "provider": "OpenAILLMAdapter",
+    "model": "gpt-5"
+  },
+  {
+    "timestamp": "2026-08-04T04:53:25.062540+00:00",
+    "session_id": "982773fd191a",
+    "user_query": "Compare Bihar and Assam floods.",
+    "rewritten_query": "Compare Bihar and Assam floods.",
+    "memory_used": false,
+    "turn_number": 1,
+    "plan_type": "comparison",
+    "tool_selected": "rag_search",
+    "execution_time": 32.32,
+    "confidence": {
+      "score": 0.7095,
+      "level": "HIGH",
+      "retrieval_support": "STRONG",
+      "context_coverage_pct": 90.0
+    },
+    "provider": "MockLLMAdapter",
+    "model": "mock-rag-synthesizer-v1"
+  },
+  {
+    "timestamp": "2026-08-04T04:54:34.888422+00:00",
+    "session_id": "5c5961768acb",
+    "user_query": "calculate 25 * 19",
+    "rewritten_query": "calculate 25 * 19",
+    "memory_used": false,
+    "turn_number": 1,
+    "plan_type": "calculator",
+    "tool_selected": "calculator",
+    "execution_time": 0.38,
+    "confidence": {
+      "score": 1.0,
+      "level": "HIGH",
+      "retrieval_support": "EXACT_CALCULATION",
+      "context_coverage_pct": 100.0
+    },
+    "provider": "MockLLMAdapter",
+    "model": "mock-rag-synthesizer-v1"
+  },
+  {
+    "timestamp": "2026-08-04T04:54:52.684762+00:00",
+    "session_id": "f49c6421063c",
+    "user_query": "Tell me about Bihar floods.",
+    "rewritten_query": "Tell me about Bihar floods.",
+    "memory_used": false,
+    "turn_number": 1,
+    "plan_type": "direct",
+    "tool_selected": "rag_search",
+    "execution_time": 55.1,
+    "confidence": {
+      "score": 0.6324,
+      "level": "HIGH",
+      "retrieval_support": "STRONG",
+      "context_coverage_pct": 23.88
+    },
+    "provider": "MockLLMAdapter",
+    "model": "mock-rag-synthesizer-v1"
+  },
+  {
+    "timestamp": "2026-08-04T04:54:52.720501+00:00",
+    "session_id": "cdd50f064358",
+    "user_query": "Tell me about Bihar floods.",
+    "rewritten_query": "Tell me about Bihar floods.",
+    "memory_used": false,
+    "turn_number": 1,
+    "plan_type": "direct",
+    "tool_selected": "rag_search",
+    "execution_time": 22.37,
+    "confidence": {
+      "score": 0.6324,
+      "level": "HIGH",
+      "retrieval_support": "STRONG",
+      "context_coverage_pct": 23.88
+    },
+    "provider": "MockLLMAdapter",
+    "model": "mock-rag-synthesizer-v1"
+  },
+  {
+    "timestamp": "2026-08-04T04:54:52.748961+00:00",
+    "session_id": "cdd50f064358",
+    "user_query": "What about Patna?",
+    "rewritten_query": "What is the flood situation in Patna, Bihar floods.?",
+    "memory_used": true,
+    "turn_number": 2,
+    "plan_type": "followup",
+    "tool_selected": "rag_search",
+    "execution_time": 19.27,
+    "confidence": {
+      "score": 0.6467,
+      "level": "HIGH",
+      "retrieval_support": "STRONG",
+      "context_coverage_pct": 36.57
+    },
+    "provider": "MockLLMAdapter",
+    "model": "mock-rag-synthesizer-v1"
+  },
+  {
+    "timestamp": "2026-08-04T04:54:52.777469+00:00",
+    "session_id": "b350358b6ca1",
+    "user_query": "Tell me about Rapti river.",
+    "rewritten_query": "Tell me about Rapti river.",
+    "memory_used": false,
+    "turn_number": 1,
+    "plan_type": "direct",
+    "tool_selected": "rag_search",
+    "execution_time": 20.61,
+    "confidence": {
+      "score": 0.592,
+      "level": "MEDIUM",
+      "retrieval_support": "MODERATE",
+      "context_coverage_pct": 47.8
+    },
+    "provider": "MockLLMAdapter",
+    "model": "mock-rag-synthesizer-v1"
+  },
+  {
+    "timestamp": "2026-08-04T04:54:52.801760+00:00",
+    "session_id": "b350358b6ca1",
+    "user_query": "What is its current water level?",
+    "rewritten_query": "What is Rapti river. current water level?",
+    "memory_used": true,
+    "turn_number": 2,
+    "plan_type": "followup",
+    "tool_selected": "rag_search",
+    "execution_time": 17.26,
+    "confidence": {
+      "score": 0.6413,
+      "level": "MEDIUM",
+      "retrieval_support": "MODERATE",
+      "context_coverage_pct": 57.08
+    },
+    "provider": "MockLLMAdapter",
+    "model": "mock-rag-synthesizer-v1"
+  },
+  {
+    "timestamp": "2026-08-04T04:54:52.828600+00:00",
+    "session_id": "9d2bbab0d529",
+    "user_query": "Gorakhpur flood situation",
+    "rewritten_query": "Gorakhpur flood situation",
+    "memory_used": false,
+    "turn_number": 1,
+    "plan_type": "direct",
+    "tool_selected": "rag_search",
+    "execution_time": 19.02,
+    "confidence": {
+      "score": 0.6893,
+      "level": "HIGH",
+      "retrieval_support": "STRONG",
+      "context_coverage_pct": 39.65
+    },
+    "provider": "MockLLMAdapter",
+    "model": "mock-rag-synthesizer-v1"
+  },
+  {
+    "timestamp": "2026-08-04T04:54:52.853529+00:00",
+    "session_id": "9d2bbab0d529",
+    "user_query": "Relief measures?",
+    "rewritten_query": "Relief measures? for Gorakhpur flood flood",
+    "memory_used": true,
+    "turn_number": 2,
+    "plan_type": "followup",
+    "tool_selected": "rag_search",
+    "execution_time": 17.61,
+    "confidence": {
+      "score": 0.6786,
+      "level": "HIGH",
+      "retrieval_support": "STRONG",
+      "context_coverage_pct": 50.15
+    },
+    "provider": "MockLLMAdapter",
+    "model": "mock-rag-synthesizer-v1"
+  },
+  {
+    "timestamp": "2026-08-04T04:54:52.879239+00:00",
+    "session_id": "4c23f463dfe6",
+    "user_query": "Query turn number 1",
+    "rewritten_query": "Query turn number 1",
+    "memory_used": false,
+    "turn_number": 1,
+    "plan_type": "direct",
+    "tool_selected": "rag_search",
+    "execution_time": 17.35,
+    "confidence": {
+      "score": 0.2585,
+      "level": "INSUFFICIENT",
+      "retrieval_support": "NONE",
+      "context_coverage_pct": 0.0
+    },
+    "provider": "MockLLMAdapter",
+    "model": "mock-rag-synthesizer-v1"
+  },
+  {
+    "timestamp": "2026-08-04T04:54:52.901893+00:00",
+    "session_id": "4c23f463dfe6",
+    "user_query": "Query turn number 2",
+    "rewritten_query": "Query turn number 2",
+    "memory_used": false,
+    "turn_number": 2,
+    "plan_type": "direct",
+    "tool_selected": "rag_search",
+    "execution_time": 15.01,
+    "confidence": {
+      "score": 0.2638,
+      "level": "INSUFFICIENT",
+      "retrieval_support": "NONE",
+      "context_coverage_pct": 0.0
+    },
+    "provider": "MockLLMAdapter",
+    "model": "mock-rag-synthesizer-v1"
+  },
+  {
+    "timestamp": "2026-08-04T04:54:52.924437+00:00",
+    "session_id": "4c23f463dfe6",
+    "user_query": "Query turn number 3",
+    "rewritten_query": "Query turn number 3",
+    "memory_used": false,
+    "turn_number": 3,
+    "plan_type": "direct",
+    "tool_selected": "rag_search",
+    "execution_time": 14.81,
+    "confidence": {
+      "score": 0.2578,
+      "level": "INSUFFICIENT",
+      "retrieval_support": "NONE",
+      "context_coverage_pct": 0.0
+    },
+    "provider": "MockLLMAdapter",
+    "model": "mock-rag-synthesizer-v1"
+  },
+  {
+    "timestamp": "2026-08-04T04:54:52.947328+00:00",
+    "session_id": "4c23f463dfe6",
+    "user_query": "Query turn number 4",
+    "rewritten_query": "Query turn number 4",
+    "memory_used": false,
+    "turn_number": 4,
+    "plan_type": "direct",
+    "tool_selected": "rag_search",
+    "execution_time": 14.71,
+    "confidence": {
+      "score": 0.265,
+      "level": "INSUFFICIENT",
+      "retrieval_support": "NONE",
+      "context_coverage_pct": 0.0
+    },
+    "provider": "MockLLMAdapter",
+    "model": "mock-rag-synthesizer-v1"
+  },
+  {
+    "timestamp": "2026-08-04T04:54:52.971338+00:00",
+    "session_id": "4c23f463dfe6",
+    "user_query": "Query turn number 5",
+    "rewritten_query": "Query turn number 5",
+    "memory_used": false,
+    "turn_number": 5,
+    "plan_type": "direct",
+    "tool_selected": "rag_search",
+    "execution_time": 16.44,
+    "confidence": {
+      "score": 0.2898,
+      "level": "INSUFFICIENT",
+      "retrieval_support": "NONE",
+      "context_coverage_pct": 0.0
+    },
+    "provider": "MockLLMAdapter",
+    "model": "mock-rag-synthesizer-v1"
+  },
+  {
+    "timestamp": "2026-08-04T04:54:52.995250+00:00",
+    "session_id": "4c23f463dfe6",
+    "user_query": "Query turn number 6",
+    "rewritten_query": "Query turn number 6",
+    "memory_used": false,
+    "turn_number": 6,
+    "plan_type": "direct",
+    "tool_selected": "rag_search",
+    "execution_time": 16.17,
+    "confidence": {
+      "score": 0.2589,
+      "level": "INSUFFICIENT",
+      "retrieval_support": "NONE",
+      "context_coverage_pct": 0.0
+    },
+    "provider": "MockLLMAdapter",
+    "model": "mock-rag-synthesizer-v1"
+  },
+  {
+    "timestamp": "2026-08-04T04:54:53.020854+00:00",
+    "session_id": "4c23f463dfe6",
+    "user_query": "Query turn number 7",
+    "rewritten_query": "Query turn number 7",
+    "memory_used": false,
+    "turn_number": 7,
+    "plan_type": "direct",
+    "tool_selected": "rag_search",
+    "execution_time": 17.05,
+    "confidence": {
+      "score": 0.2947,
+      "level": "INSUFFICIENT",
+      "retrieval_support": "NONE",
+      "context_coverage_pct": 0.0
+    },
+    "provider": "MockLLMAdapter",
+    "model": "mock-rag-synthesizer-v1"
+  },
+  {
+    "timestamp": "2026-08-04T04:54:53.046019+00:00",
+    "session_id": "4c23f463dfe6",
+    "user_query": "Query turn number 8",
+    "rewritten_query": "Query turn number 8",
+    "memory_used": false,
+    "turn_number": 8,
+    "plan_type": "direct",
+    "tool_selected": "rag_search",
+    "execution_time": 16.75,
+    "confidence": {
+      "score": 0.296,
+      "level": "INSUFFICIENT",
+      "retrieval_support": "NONE",
+      "context_coverage_pct": 0.0
+    },
+    "provider": "MockLLMAdapter",
+    "model": "mock-rag-synthesizer-v1"
+  },
+  {
+    "timestamp": "2026-08-04T04:54:53.070620+00:00",
+    "session_id": "4c23f463dfe6",
+    "user_query": "Query turn number 9",
+    "rewritten_query": "Query turn number 9",
+    "memory_used": false,
+    "turn_number": 9,
+    "plan_type": "direct",
+    "tool_selected": "rag_search",
+    "execution_time": 15.77,
+    "confidence": {
+      "score": 0.281,
+      "level": "INSUFFICIENT",
+      "retrieval_support": "NONE",
+      "context_coverage_pct": 0.0
+    },
+    "provider": "MockLLMAdapter",
+    "model": "mock-rag-synthesizer-v1"
+  },
+  {
+    "timestamp": "2026-08-04T04:54:53.096681+00:00",
+    "session_id": "4c23f463dfe6",
+    "user_query": "Query turn number 10",
+    "rewritten_query": "Query turn number 10",
+    "memory_used": false,
+    "turn_number": 10,
+    "plan_type": "direct",
+    "tool_selected": "rag_search",
+    "execution_time": 18.0,
+    "confidence": {
+      "score": 0.2737,
+      "level": "INSUFFICIENT",
+      "retrieval_support": "NONE",
+      "context_coverage_pct": 0.0
+    },
+    "provider": "MockLLMAdapter",
+    "model": "mock-rag-synthesizer-v1"
+  },
+  {
+    "timestamp": "2026-08-04T04:54:53.122491+00:00",
+    "session_id": "4c23f463dfe6",
+    "user_query": "Query turn number 11",
+    "rewritten_query": "Query turn number 11",
+    "memory_used": false,
+    "turn_number": 11,
+    "plan_type": "direct",
+    "tool_selected": "rag_search",
+    "execution_time": 16.78,
+    "confidence": {
+      "score": 0.3516,
+      "level": "LOW",
+      "retrieval_support": "MODERATE",
+      "context_coverage_pct": 42.33
+    },
+    "provider": "MockLLMAdapter",
+    "model": "mock-rag-synthesizer-v1"
+  },
+  {
+    "timestamp": "2026-08-04T04:54:53.148406+00:00",
+    "session_id": "4c23f463dfe6",
+    "user_query": "Query turn number 12",
+    "rewritten_query": "Query turn number 12",
+    "memory_used": false,
+    "turn_number": 12,
+    "plan_type": "direct",
+    "tool_selected": "rag_search",
+    "execution_time": 17.81,
+    "confidence": {
+      "score": 0.3951,
+      "level": "LOW",
+      "retrieval_support": "MODERATE",
+      "context_coverage_pct": 59.03
+    },
+    "provider": "MockLLMAdapter",
+    "model": "mock-rag-synthesizer-v1"
+  },
+  {
+    "timestamp": "2026-08-04T04:54:53.177357+00:00",
+    "session_id": "b5d2a0fd4580",
+    "user_query": "What is the flood status in Bihar?",
+    "rewritten_query": "What is the flood status in Bihar?",
+    "memory_used": false,
+    "turn_number": 1,
+    "plan_type": "direct",
+    "tool_selected": "rag_search",
+    "execution_time": 18.93,
+    "confidence": {
+      "score": 0.6083,
+      "level": "HIGH",
+      "retrieval_support": "STRONG",
+      "context_coverage_pct": 24.17
+    },
+    "provider": "MockLLMAdapter",
+    "model": "mock-rag-synthesizer-v1"
+  },
+  {
+    "timestamp": "2026-08-04T04:54:53.205865+00:00",
+    "session_id": "296cac0a5e3e",
+    "user_query": "गोरखपुर में बाढ़ की क्या स्थिति है?",
+    "rewritten_query": "गोरखपुर में बाढ़ की क्या स्थिति है?",
+    "memory_used": false,
+    "turn_number": 1,
+    "plan_type": "direct",
+    "tool_selected": "rag_search",
+    "execution_time": 18.54,
+    "confidence": {
+      "score": 0.5314,
+      "level": "MEDIUM",
+      "retrieval_support": "MODERATE",
+      "context_coverage_pct": 18.41
+    },
+    "provider": "MockLLMAdapter",
+    "model": "mock-rag-synthesizer-v1"
+  },
+  {
+    "timestamp": "2026-08-04T04:54:53.236277+00:00",
+    "session_id": "296cac0a5e3e",
+    "user_query": "राप्ती नदी का क्या हाल है?",
+    "rewritten_query": "राप्ती नदी का क्या हाल है?",
+    "memory_used": false,
+    "turn_number": 2,
+    "plan_type": "direct",
+    "tool_selected": "rag_search",
+    "execution_time": 21.21,
+    "confidence": {
+      "score": 0.5675,
+      "level": "HIGH",
+      "retrieval_support": "STRONG",
+      "context_coverage_pct": 24.71
+    },
+    "provider": "MockLLMAdapter",
+    "model": "mock-rag-synthesizer-v1"
+  },
+  {
+    "timestamp": "2026-08-04T04:55:15.421771+00:00",
+    "session_id": "417f065efc5a",
+    "user_query": "What is the flood status in Patna?",
+    "rewritten_query": "What is the flood status in Patna?",
+    "memory_used": false,
+    "turn_number": 1,
+    "plan_type": "direct",
+    "tool_selected": "rag_search",
+    "execution_time": 54.48,
+    "confidence": {
+      "score": 0.6638,
+      "level": "HIGH",
+      "retrieval_support": "STRONG",
+      "context_coverage_pct": 50.98
+    },
+    "provider": "MockLLMAdapter",
+    "model": "mock-rag-synthesizer-v1"
+  },
+  {
+    "timestamp": "2026-08-04T04:55:15.450512+00:00",
+    "session_id": "417f065efc5a",
+    "user_query": "Tell me about relief efforts.",
+    "rewritten_query": "What is the flood situation in relief efforts, flood status in Patna??",
+    "memory_used": true,
+    "turn_number": 2,
+    "plan_type": "followup",
+    "tool_selected": "rag_search",
+    "execution_time": 19.83,
+    "confidence": {
+      "score": 0.719,
+      "level": "HIGH",
+      "retrieval_support": "STRONG",
+      "context_coverage_pct": 57.91
+    },
+    "provider": "MockLLMAdapter",
+    "model": "mock-rag-synthesizer-v1"
+  },
+  {
+    "timestamp": "2026-08-04T04:55:15.460473+00:00",
+    "session_id": "cd12d1af34e9",
+    "user_query": "",
+    "rewritten_query": "",
+    "memory_used": false,
+    "turn_number": 1,
+    "plan_type": "clarification",
+    "tool_selected": "rag_search",
+    "execution_time": 0.05,
+    "confidence": {
+      "score": 0.0,
+      "level": "INVALID_INPUT",
+      "retrieval_support": "NONE",
+      "context_coverage_pct": 0.0
+    },
+    "provider": "MockLLMAdapter",
+    "model": "mock-rag-synthesizer-v1"
+  },
+  {
+    "timestamp": "2026-08-04T04:55:15.490633+00:00",
+    "session_id": "fc22fa9d6547",
+    "user_query": "बिहार में गंगा नदी के जलस्तर का अपडेट क्या है?",
+    "rewritten_query": "बिहार में गंगा नदी के जलस्तर का अपडेट क्या है?",
+    "memory_used": false,
+    "turn_number": 1,
+    "plan_type": "direct",
+    "tool_selected": "rag_search",
+    "execution_time": 20.74,
+    "confidence": {
+      "score": 0.6045,
+      "level": "HIGH",
+      "retrieval_support": "STRONG",
+      "context_coverage_pct": 16.75
+    },
+    "provider": "MockLLMAdapter",
+    "model": "mock-rag-synthesizer-v1"
+  },
+  {
+    "timestamp": "2026-08-04T04:55:15.560448+00:00",
+    "session_id": "b390a959b969",
+    "user_query": "बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़",
+    "rewritten_query": "बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़",
+    "memory_used": false,
+    "turn_number": 1,
+    "plan_type": "direct",
+    "tool_selected": "rag_search",
+    "execution_time": 59.84,
+    "confidence": {
+      "score": 0.5558,
+      "level": "MEDIUM",
+      "retrieval_support": "MODERATE",
+      "context_coverage_pct": 58.74
+    },
+    "provider": "MockLLMAdapter",
+    "model": "mock-rag-synthesizer-v1"
+  },
+  {
+    "timestamp": "2026-08-04T04:57:04.828579+00:00",
+    "session_id": "55ae2bc96eb9",
+    "user_query": "Tell me about Bihar floods.",
+    "rewritten_query": "Tell me about Bihar floods.",
+    "memory_used": false,
+    "turn_number": 1,
+    "plan_type": "direct",
+    "tool_selected": "rag_search",
+    "execution_time": 36.67,
+    "confidence": {
+      "score": 0.6324,
+      "level": "HIGH",
+      "retrieval_support": "STRONG",
+      "context_coverage_pct": 23.88
+    },
+    "provider": "MockLLMAdapter",
+    "model": "mock-rag-synthesizer-v1"
+  },
+  {
+    "timestamp": "2026-08-04T04:57:04.852803+00:00",
+    "session_id": "0fd46cc0e427",
+    "user_query": "Tell me about Bihar floods.",
+    "rewritten_query": "Tell me about Bihar floods.",
+    "memory_used": false,
+    "turn_number": 1,
+    "plan_type": "direct",
+    "tool_selected": "rag_search",
+    "execution_time": 14.23,
+    "confidence": {
+      "score": 0.6324,
+      "level": "HIGH",
+      "retrieval_support": "STRONG",
+      "context_coverage_pct": 23.88
+    },
+    "provider": "MockLLMAdapter",
+    "model": "mock-rag-synthesizer-v1"
+  },
+  {
+    "timestamp": "2026-08-04T04:57:04.878467+00:00",
+    "session_id": "0fd46cc0e427",
+    "user_query": "What about Patna?",
+    "rewritten_query": "What is the flood situation in Patna, Bihar floods.?",
+    "memory_used": true,
+    "turn_number": 2,
+    "plan_type": "followup",
+    "tool_selected": "rag_search",
+    "execution_time": 16.0,
+    "confidence": {
+      "score": 0.6467,
+      "level": "HIGH",
+      "retrieval_support": "STRONG",
+      "context_coverage_pct": 36.57
+    },
+    "provider": "MockLLMAdapter",
+    "model": "mock-rag-synthesizer-v1"
+  },
+  {
+    "timestamp": "2026-08-04T04:57:04.902730+00:00",
+    "session_id": "add82e0a7261",
+    "user_query": "Tell me about Rapti river.",
+    "rewritten_query": "Tell me about Rapti river.",
+    "memory_used": false,
+    "turn_number": 1,
+    "plan_type": "direct",
+    "tool_selected": "rag_search",
+    "execution_time": 14.61,
+    "confidence": {
+      "score": 0.592,
+      "level": "MEDIUM",
+      "retrieval_support": "MODERATE",
+      "context_coverage_pct": 47.8
+    },
+    "provider": "MockLLMAdapter",
+    "model": "mock-rag-synthesizer-v1"
+  },
+  {
+    "timestamp": "2026-08-04T04:57:04.928428+00:00",
+    "session_id": "add82e0a7261",
+    "user_query": "What is its current water level?",
+    "rewritten_query": "What is Rapti river. current water level?",
+    "memory_used": true,
+    "turn_number": 2,
+    "plan_type": "followup",
+    "tool_selected": "rag_search",
+    "execution_time": 16.12,
+    "confidence": {
+      "score": 0.6413,
+      "level": "MEDIUM",
+      "retrieval_support": "MODERATE",
+      "context_coverage_pct": 57.08
+    },
+    "provider": "MockLLMAdapter",
+    "model": "mock-rag-synthesizer-v1"
+  },
+  {
+    "timestamp": "2026-08-04T04:57:04.954786+00:00",
+    "session_id": "b9c29ee89a51",
+    "user_query": "Gorakhpur flood situation",
+    "rewritten_query": "Gorakhpur flood situation",
+    "memory_used": false,
+    "turn_number": 1,
+    "plan_type": "direct",
+    "tool_selected": "rag_search",
+    "execution_time": 16.25,
+    "confidence": {
+      "score": 0.6893,
+      "level": "HIGH",
+      "retrieval_support": "STRONG",
+      "context_coverage_pct": 39.65
+    },
+    "provider": "MockLLMAdapter",
+    "model": "mock-rag-synthesizer-v1"
+  },
+  {
+    "timestamp": "2026-08-04T04:57:04.979264+00:00",
+    "session_id": "b9c29ee89a51",
+    "user_query": "Relief measures?",
+    "rewritten_query": "Relief measures? for Gorakhpur flood flood",
+    "memory_used": true,
+    "turn_number": 2,
+    "plan_type": "followup",
+    "tool_selected": "rag_search",
+    "execution_time": 14.97,
+    "confidence": {
+      "score": 0.6786,
+      "level": "HIGH",
+      "retrieval_support": "STRONG",
+      "context_coverage_pct": 50.15
+    },
+    "provider": "MockLLMAdapter",
+    "model": "mock-rag-synthesizer-v1"
+  },
+  {
+    "timestamp": "2026-08-04T04:57:05.003245+00:00",
+    "session_id": "2c775dd1c497",
+    "user_query": "Query turn number 1",
+    "rewritten_query": "Query turn number 1",
+    "memory_used": false,
+    "turn_number": 1,
+    "plan_type": "direct",
+    "tool_selected": "rag_search",
+    "execution_time": 13.74,
+    "confidence": {
+      "score": 0.2585,
+      "level": "INSUFFICIENT",
+      "retrieval_support": "NONE",
+      "context_coverage_pct": 0.0
+    },
+    "provider": "MockLLMAdapter",
+    "model": "mock-rag-synthesizer-v1"
+  },
+  {
+    "timestamp": "2026-08-04T04:57:05.030444+00:00",
+    "session_id": "2c775dd1c497",
+    "user_query": "Query turn number 2",
+    "rewritten_query": "Query turn number 2",
+    "memory_used": false,
+    "turn_number": 2,
+    "plan_type": "direct",
+    "tool_selected": "rag_search",
+    "execution_time": 17.42,
+    "confidence": {
+      "score": 0.2638,
+      "level": "INSUFFICIENT",
+      "retrieval_support": "NONE",
+      "context_coverage_pct": 0.0
+    },
+    "provider": "MockLLMAdapter",
+    "model": "mock-rag-synthesizer-v1"
+  },
+  {
+    "timestamp": "2026-08-04T04:57:05.054327+00:00",
+    "session_id": "2c775dd1c497",
+    "user_query": "Query turn number 3",
+    "rewritten_query": "Query turn number 3",
+    "memory_used": false,
+    "turn_number": 3,
+    "plan_type": "direct",
+    "tool_selected": "rag_search",
+    "execution_time": 13.98,
+    "confidence": {
+      "score": 0.2578,
+      "level": "INSUFFICIENT",
+      "retrieval_support": "NONE",
+      "context_coverage_pct": 0.0
+    },
+    "provider": "MockLLMAdapter",
+    "model": "mock-rag-synthesizer-v1"
+  },
+  {
+    "timestamp": "2026-08-04T04:57:05.077943+00:00",
+    "session_id": "2c775dd1c497",
+    "user_query": "Query turn number 4",
+    "rewritten_query": "Query turn number 4",
+    "memory_used": false,
+    "turn_number": 4,
+    "plan_type": "direct",
+    "tool_selected": "rag_search",
+    "execution_time": 13.74,
+    "confidence": {
+      "score": 0.265,
+      "level": "INSUFFICIENT",
+      "retrieval_support": "NONE",
+      "context_coverage_pct": 0.0
+    },
+    "provider": "MockLLMAdapter",
+    "model": "mock-rag-synthesizer-v1"
+  },
+  {
+    "timestamp": "2026-08-04T04:57:05.104068+00:00",
+    "session_id": "2c775dd1c497",
+    "user_query": "Query turn number 5",
+    "rewritten_query": "Query turn number 5",
+    "memory_used": false,
+    "turn_number": 5,
+    "plan_type": "direct",
+    "tool_selected": "rag_search",
+    "execution_time": 16.03,
+    "confidence": {
+      "score": 0.2898,
+      "level": "INSUFFICIENT",
+      "retrieval_support": "NONE",
+      "context_coverage_pct": 0.0
+    },
+    "provider": "MockLLMAdapter",
+    "model": "mock-rag-synthesizer-v1"
+  },
+  {
+    "timestamp": "2026-08-04T04:57:05.129346+00:00",
+    "session_id": "2c775dd1c497",
+    "user_query": "Query turn number 6",
+    "rewritten_query": "Query turn number 6",
+    "memory_used": false,
+    "turn_number": 6,
+    "plan_type": "direct",
+    "tool_selected": "rag_search",
+    "execution_time": 15.16,
+    "confidence": {
+      "score": 0.2589,
+      "level": "INSUFFICIENT",
+      "retrieval_support": "NONE",
+      "context_coverage_pct": 0.0
+    },
+    "provider": "MockLLMAdapter",
+    "model": "mock-rag-synthesizer-v1"
+  },
+  {
+    "timestamp": "2026-08-04T04:57:05.158001+00:00",
+    "session_id": "2c775dd1c497",
+    "user_query": "Query turn number 7",
+    "rewritten_query": "Query turn number 7",
+    "memory_used": false,
+    "turn_number": 7,
+    "plan_type": "direct",
+    "tool_selected": "rag_search",
+    "execution_time": 17.8,
+    "confidence": {
+      "score": 0.2947,
+      "level": "INSUFFICIENT",
+      "retrieval_support": "NONE",
+      "context_coverage_pct": 0.0
+    },
+    "provider": "MockLLMAdapter",
+    "model": "mock-rag-synthesizer-v1"
+  },
+  {
+    "timestamp": "2026-08-04T04:57:05.182558+00:00",
+    "session_id": "2c775dd1c497",
+    "user_query": "Query turn number 8",
+    "rewritten_query": "Query turn number 8",
+    "memory_used": false,
+    "turn_number": 8,
+    "plan_type": "direct",
+    "tool_selected": "rag_search",
+    "execution_time": 14.14,
+    "confidence": {
+      "score": 0.296,
+      "level": "INSUFFICIENT",
+      "retrieval_support": "NONE",
+      "context_coverage_pct": 0.0
+    },
+    "provider": "MockLLMAdapter",
+    "model": "mock-rag-synthesizer-v1"
+  },
+  {
+    "timestamp": "2026-08-04T04:57:05.208105+00:00",
+    "session_id": "2c775dd1c497",
+    "user_query": "Query turn number 9",
+    "rewritten_query": "Query turn number 9",
+    "memory_used": false,
+    "turn_number": 9,
+    "plan_type": "direct",
+    "tool_selected": "rag_search",
+    "execution_time": 14.26,
+    "confidence": {
+      "score": 0.281,
+      "level": "INSUFFICIENT",
+      "retrieval_support": "NONE",
+      "context_coverage_pct": 0.0
+    },
+    "provider": "MockLLMAdapter",
+    "model": "mock-rag-synthesizer-v1"
+  },
+  {
+    "timestamp": "2026-08-04T04:57:05.235635+00:00",
+    "session_id": "2c775dd1c497",
+    "user_query": "Query turn number 10",
+    "rewritten_query": "Query turn number 10",
+    "memory_used": false,
+    "turn_number": 10,
+    "plan_type": "direct",
+    "tool_selected": "rag_search",
+    "execution_time": 16.93,
+    "confidence": {
+      "score": 0.2737,
+      "level": "INSUFFICIENT",
+      "retrieval_support": "NONE",
+      "context_coverage_pct": 0.0
+    },
+    "provider": "MockLLMAdapter",
+    "model": "mock-rag-synthesizer-v1"
+  },
+  {
+    "timestamp": "2026-08-04T04:57:05.262742+00:00",
+    "session_id": "2c775dd1c497",
+    "user_query": "Query turn number 11",
+    "rewritten_query": "Query turn number 11",
+    "memory_used": false,
+    "turn_number": 11,
+    "plan_type": "direct",
+    "tool_selected": "rag_search",
+    "execution_time": 14.39,
+    "confidence": {
+      "score": 0.3516,
+      "level": "LOW",
+      "retrieval_support": "MODERATE",
+      "context_coverage_pct": 42.33
+    },
+    "provider": "MockLLMAdapter",
+    "model": "mock-rag-synthesizer-v1"
+  },
+  {
+    "timestamp": "2026-08-04T04:57:05.287773+00:00",
+    "session_id": "2c775dd1c497",
+    "user_query": "Query turn number 12",
+    "rewritten_query": "Query turn number 12",
+    "memory_used": false,
+    "turn_number": 12,
+    "plan_type": "direct",
+    "tool_selected": "rag_search",
+    "execution_time": 14.42,
+    "confidence": {
+      "score": 0.3951,
+      "level": "LOW",
+      "retrieval_support": "MODERATE",
+      "context_coverage_pct": 59.03
+    },
+    "provider": "MockLLMAdapter",
+    "model": "mock-rag-synthesizer-v1"
+  },
+  {
+    "timestamp": "2026-08-04T04:57:05.313929+00:00",
+    "session_id": "7f921daef14c",
+    "user_query": "What is the flood status in Bihar?",
+    "rewritten_query": "What is the flood status in Bihar?",
+    "memory_used": false,
+    "turn_number": 1,
+    "plan_type": "direct",
+    "tool_selected": "rag_search",
+    "execution_time": 14.96,
+    "confidence": {
+      "score": 0.6083,
+      "level": "HIGH",
+      "retrieval_support": "STRONG",
+      "context_coverage_pct": 24.17
+    },
+    "provider": "MockLLMAdapter",
+    "model": "mock-rag-synthesizer-v1"
+  },
+  {
+    "timestamp": "2026-08-04T04:57:05.353785+00:00",
+    "session_id": "71a0fe85fdab",
+    "user_query": "गोरखपुर में बाढ़ की क्या स्थिति है?",
+    "rewritten_query": "गोरखपुर में बाढ़ की क्या स्थिति है?",
+    "memory_used": false,
+    "turn_number": 1,
+    "plan_type": "direct",
+    "tool_selected": "rag_search",
+    "execution_time": 22.35,
+    "confidence": {
+      "score": 0.5314,
+      "level": "MEDIUM",
+      "retrieval_support": "MODERATE",
+      "context_coverage_pct": 18.41
+    },
+    "provider": "MockLLMAdapter",
+    "model": "mock-rag-synthesizer-v1"
+  },
+  {
+    "timestamp": "2026-08-04T04:57:05.387227+00:00",
+    "session_id": "71a0fe85fdab",
+    "user_query": "राप्ती नदी का क्या हाल है?",
+    "rewritten_query": "गोरखपुर में बाढ़ की क्या स्थिति है? में राप्ती नदी का क्या हाल है?",
+    "memory_used": true,
+    "turn_number": 2,
+    "plan_type": "followup",
+    "tool_selected": "rag_search",
+    "execution_time": 20.43,
+    "confidence": {
+      "score": 0.5792,
+      "level": "HIGH",
+      "retrieval_support": "STRONG",
+      "context_coverage_pct": 18.65
+    },
+    "provider": "MockLLMAdapter",
+    "model": "mock-rag-synthesizer-v1"
+  },
+  {
+    "timestamp": "2026-08-04T04:57:23.804851+00:00",
+    "session_id": "be0f0fe2a2ff",
+    "user_query": "Compare Bihar and Assam floods.",
+    "rewritten_query": "Compare Bihar and Assam floods.",
+    "memory_used": false,
+    "turn_number": 1,
+    "plan_type": "comparison",
+    "tool_selected": "rag_search",
+    "execution_time": 38.81,
+    "confidence": {
+      "score": 0.7095,
+      "level": "HIGH",
+      "retrieval_support": "STRONG",
+      "context_coverage_pct": 90.0
+    },
+    "provider": "MockLLMAdapter",
+    "model": "mock-rag-synthesizer-v1"
+  },
+  {
+    "timestamp": "2026-08-04T05:02:39.059151+00:00",
+    "session_id": "12aa3bb126bf",
+    "user_query": "What is the flood situation in Bihar?",
+    "rewritten_query": "Latest news and updates on the flood situation in Bihar, India as of August 4, 2026",
+    "memory_used": true,
+    "turn_number": 7,
+    "plan_type": "followup",
+    "tool_selected": "rag_search",
+    "execution_time": 58662.74,
+    "confidence": {
+      "score": 0.6386,
+      "level": "HIGH",
+      "retrieval_support": "STRONG",
+      "context_coverage_pct": 24.32
+    },
+    "provider": "OpenAILLMAdapter",
+    "model": "gpt-5"
+  },
+  {
+    "timestamp": "2026-08-04T05:03:21.046359+00:00",
+    "session_id": "12aa3bb126bf",
+    "user_query": "Tell me about Assam floods.",
+    "rewritten_query": "What is the flood situation in Assam floods, flood situation in Bihar??",
+    "memory_used": true,
+    "turn_number": 8,
+    "plan_type": "followup",
+    "tool_selected": "rag_search",
+    "execution_time": 33863.09,
+    "confidence": {
+      "score": 0.661,
+      "level": "HIGH",
+      "retrieval_support": "STRONG",
+      "context_coverage_pct": 38.04
+    },
+    "provider": "OpenAILLMAdapter",
+    "model": "gpt-5"
+  },
+  {
+    "timestamp": "2026-08-04T05:08:49.650654+00:00",
+    "session_id": "12aa3bb126bf",
+    "user_query": "What about Guwahati?",
+    "rewritten_query": "What is the flood situation in Guwahati, Assam floods.?",
+    "memory_used": true,
+    "turn_number": 9,
+    "plan_type": "followup",
+    "tool_selected": "rag_search",
+    "execution_time": 28522.1,
+    "confidence": {
+      "score": 0.7386,
+      "level": "HIGH",
+      "retrieval_support": "STRONG",
+      "context_coverage_pct": 49.9
+    },
+    "provider": "OpenAILLMAdapter",
+    "model": "gpt-5"
+  },
+  {
+    "timestamp": "2026-08-04T05:09:49.042487+00:00",
+    "session_id": "12aa3bb126bf",
+    "user_query": "Compare Rapti River and Kosi River.",
+    "rewritten_query": "Compare the Rapti River and the Kosi River in Nepal and India: sources, courses, lengths, drainage basins, tributaries, discharge, flood history and patterns, affected regions, and flood-control measures.",
+    "memory_used": true,
+    "turn_number": 10,
+    "plan_type": "comparison",
+    "tool_selected": "rag_search",
+    "execution_time": 50968.71,
+    "confidence": {
+      "score": 0.6516,
+      "level": "HIGH",
+      "retrieval_support": "STRONG",
+      "context_coverage_pct": 50.0
+    },
+    "provider": "OpenAILLMAdapter",
+    "model": "gpt-5"
+  },
+  {
+    "timestamp": "2026-08-04T05:10:03.069000+00:00",
+    "session_id": "12aa3bb126bf",
+    "user_query": "25 * 19",
+    "rewritten_query": "What is 25 multiplied by 19?",
+    "memory_used": true,
+    "turn_number": 11,
+    "plan_type": "calculator",
+    "tool_selected": "calculator",
+    "execution_time": 3838.5,
+    "confidence": {
+      "score": 1.0,
+      "level": "HIGH",
+      "retrieval_support": "EXACT_CALCULATION",
+      "context_coverage_pct": 100.0
+    },
+    "provider": "OpenAILLMAdapter",
+    "model": "gpt-5"
+  },
+  {
+    "timestamp": "2026-08-04T05:10:30.790219+00:00",
+    "session_id": "12aa3bb126bf",
+    "user_query": "What model are you using?",
+    "rewritten_query": "Which AI language model/version are you using to generate responses in this chat session?",
+    "memory_used": true,
+    "turn_number": 12,
+    "plan_type": "system_info",
+    "tool_selected": "system_info",
+    "execution_time": 11070.64,
+    "confidence": {
+      "score": 1.0,
+      "level": "HIGH",
+      "retrieval_support": "SYSTEM_METADATA",
+      "context_coverage_pct": 100.0
+    },
+    "provider": "OpenAILLMAdapter",
+    "model": "gpt-5"
+  },
+  {
+    "timestamp": "2026-08-04T05:11:14.027487+00:00",
+    "session_id": "12aa3bb126bf",
+    "user_query": "Explain quantum computing.",
+    "rewritten_query": "Explain quantum computing for beginners, covering qubits, superposition, entanglement, quantum gates and circuits, measurement, key algorithms (Shor’s, Grover’s), error correction, current hardware, applications, and limitations.",
+    "memory_used": true,
+    "turn_number": 13,
+    "plan_type": "followup",
+    "tool_selected": "rag_search",
+    "execution_time": 39487.53,
+    "confidence": {
+      "score": 0.5496,
+      "level": "MEDIUM",
+      "retrieval_support": "MODERATE",
+      "context_coverage_pct": 65.43
+    },
+    "provider": "OpenAILLMAdapter",
+    "model": "gpt-5"
+  },
+  {
+    "timestamp": "2026-08-04T05:19:17.444556+00:00",
+    "session_id": "33343be46ebb",
+    "user_query": "Compare Bihar and Assam floods.",
+    "rewritten_query": "Compare Bihar and Assam floods.",
+    "memory_used": false,
+    "turn_number": 1,
+    "plan_type": "comparison",
+    "tool_selected": "rag_search",
+    "execution_time": 73.01,
+    "confidence": {
+      "score": 0.7095,
+      "level": "HIGH",
+      "retrieval_support": "STRONG",
+      "context_coverage_pct": 90.0
+    },
+    "provider": "MockLLMAdapter",
+    "model": "mock-rag-synthesizer-v1"
+  },
+  {
+    "timestamp": "2026-08-04T05:19:17.520482+00:00",
+    "session_id": "33343be46ebb",
+    "user_query": "Compare Rapti River and Kosi River.",
+    "rewritten_query": "Compare Rapti River and Kosi River.",
+    "memory_used": false,
+    "turn_number": 2,
+    "plan_type": "comparison",
+    "tool_selected": "rag_search",
+    "execution_time": 63.26,
+    "confidence": {
+      "score": 0.6018,
+      "level": "MEDIUM",
+      "retrieval_support": "MODERATE",
+      "context_coverage_pct": 90.0
+    },
+    "provider": "MockLLMAdapter",
+    "model": "mock-rag-synthesizer-v1"
+  },
+  {
+    "timestamp": "2026-08-04T05:19:42.638831+00:00",
+    "session_id": "d1d7729caa11",
+    "user_query": "Tell me about Bihar floods.",
+    "rewritten_query": "Tell me about Bihar floods.",
+    "memory_used": false,
+    "turn_number": 1,
+    "plan_type": "direct",
+    "tool_selected": "rag_search",
+    "execution_time": 53.31,
+    "confidence": {
+      "score": 0.6324,
+      "level": "HIGH",
+      "retrieval_support": "STRONG",
+      "context_coverage_pct": 23.88
+    },
+    "provider": "MockLLMAdapter",
+    "model": "mock-rag-synthesizer-v1"
+  },
+  {
+    "timestamp": "2026-08-04T05:19:42.672316+00:00",
+    "session_id": "b22b98a53ff0",
+    "user_query": "Tell me about Bihar floods.",
+    "rewritten_query": "Tell me about Bihar floods.",
+    "memory_used": false,
+    "turn_number": 1,
+    "plan_type": "direct",
+    "tool_selected": "rag_search",
+    "execution_time": 15.76,
+    "confidence": {
+      "score": 0.6324,
+      "level": "HIGH",
+      "retrieval_support": "STRONG",
+      "context_coverage_pct": 23.88
+    },
+    "provider": "MockLLMAdapter",
+    "model": "mock-rag-synthesizer-v1"
+  },
+  {
+    "timestamp": "2026-08-04T05:19:42.702499+00:00",
+    "session_id": "b22b98a53ff0",
+    "user_query": "What about Patna?",
+    "rewritten_query": "What is the flood situation in Patna, Bihar floods.?",
+    "memory_used": true,
+    "turn_number": 2,
+    "plan_type": "followup",
+    "tool_selected": "rag_search",
+    "execution_time": 17.37,
+    "confidence": {
+      "score": 0.6467,
+      "level": "HIGH",
+      "retrieval_support": "STRONG",
+      "context_coverage_pct": 36.57
+    },
+    "provider": "MockLLMAdapter",
+    "model": "mock-rag-synthesizer-v1"
+  },
+  {
+    "timestamp": "2026-08-04T05:19:42.730305+00:00",
+    "session_id": "c10dbb1311b8",
+    "user_query": "Tell me about Rapti river.",
+    "rewritten_query": "Tell me about Rapti river.",
+    "memory_used": false,
+    "turn_number": 1,
+    "plan_type": "direct",
+    "tool_selected": "rag_search",
+    "execution_time": 14.71,
+    "confidence": {
+      "score": 0.592,
+      "level": "MEDIUM",
+      "retrieval_support": "MODERATE",
+      "context_coverage_pct": 47.8
+    },
+    "provider": "MockLLMAdapter",
+    "model": "mock-rag-synthesizer-v1"
+  },
+  {
+    "timestamp": "2026-08-04T05:19:42.758704+00:00",
+    "session_id": "c10dbb1311b8",
+    "user_query": "What is its current water level?",
+    "rewritten_query": "What is Rapti river. current water level?",
+    "memory_used": true,
+    "turn_number": 2,
+    "plan_type": "followup",
+    "tool_selected": "rag_search",
+    "execution_time": 15.83,
+    "confidence": {
+      "score": 0.6413,
+      "level": "MEDIUM",
+      "retrieval_support": "MODERATE",
+      "context_coverage_pct": 57.08
+    },
+    "provider": "MockLLMAdapter",
+    "model": "mock-rag-synthesizer-v1"
+  },
+  {
+    "timestamp": "2026-08-04T05:19:42.789193+00:00",
+    "session_id": "3fe811ba72f5",
+    "user_query": "Gorakhpur flood situation",
+    "rewritten_query": "Gorakhpur flood situation",
+    "memory_used": false,
+    "turn_number": 1,
+    "plan_type": "direct",
+    "tool_selected": "rag_search",
+    "execution_time": 16.92,
+    "confidence": {
+      "score": 0.6893,
+      "level": "HIGH",
+      "retrieval_support": "STRONG",
+      "context_coverage_pct": 39.65
+    },
+    "provider": "MockLLMAdapter",
+    "model": "mock-rag-synthesizer-v1"
+  },
+  {
+    "timestamp": "2026-08-04T05:19:42.817798+00:00",
+    "session_id": "3fe811ba72f5",
+    "user_query": "Relief measures?",
+    "rewritten_query": "Relief measures? for Gorakhpur flood flood",
+    "memory_used": true,
+    "turn_number": 2,
+    "plan_type": "followup",
+    "tool_selected": "rag_search",
+    "execution_time": 15.16,
+    "confidence": {
+      "score": 0.6786,
+      "level": "HIGH",
+      "retrieval_support": "STRONG",
+      "context_coverage_pct": 50.15
+    },
+    "provider": "MockLLMAdapter",
+    "model": "mock-rag-synthesizer-v1"
+  },
+  {
+    "timestamp": "2026-08-04T05:19:42.844902+00:00",
+    "session_id": "76650f54282c",
+    "user_query": "Query turn number 1",
+    "rewritten_query": "Query turn number 1",
+    "memory_used": false,
+    "turn_number": 1,
+    "plan_type": "direct",
+    "tool_selected": "rag_search",
+    "execution_time": 14.17,
+    "confidence": {
+      "score": 0.2585,
+      "level": "INSUFFICIENT",
+      "retrieval_support": "NONE",
+      "context_coverage_pct": 0.0
+    },
+    "provider": "MockLLMAdapter",
+    "model": "mock-rag-synthesizer-v1"
+  },
+  {
+    "timestamp": "2026-08-04T05:19:42.871526+00:00",
+    "session_id": "76650f54282c",
+    "user_query": "Query turn number 2",
+    "rewritten_query": "Query turn number 2",
+    "memory_used": false,
+    "turn_number": 2,
+    "plan_type": "direct",
+    "tool_selected": "rag_search",
+    "execution_time": 13.91,
+    "confidence": {
+      "score": 0.2638,
+      "level": "INSUFFICIENT",
+      "retrieval_support": "NONE",
+      "context_coverage_pct": 0.0
+    },
+    "provider": "MockLLMAdapter",
+    "model": "mock-rag-synthesizer-v1"
+  },
+  {
+    "timestamp": "2026-08-04T05:19:42.898044+00:00",
+    "session_id": "76650f54282c",
+    "user_query": "Query turn number 3",
+    "rewritten_query": "Query turn number 3",
+    "memory_used": false,
+    "turn_number": 3,
+    "plan_type": "direct",
+    "tool_selected": "rag_search",
+    "execution_time": 14.2,
+    "confidence": {
+      "score": 0.2578,
+      "level": "INSUFFICIENT",
+      "retrieval_support": "NONE",
+      "context_coverage_pct": 0.0
+    },
+    "provider": "MockLLMAdapter",
+    "model": "mock-rag-synthesizer-v1"
+  },
+  {
+    "timestamp": "2026-08-04T05:19:42.925063+00:00",
+    "session_id": "76650f54282c",
+    "user_query": "Query turn number 4",
+    "rewritten_query": "Query turn number 4",
+    "memory_used": false,
+    "turn_number": 4,
+    "plan_type": "direct",
+    "tool_selected": "rag_search",
+    "execution_time": 14.21,
+    "confidence": {
+      "score": 0.265,
+      "level": "INSUFFICIENT",
+      "retrieval_support": "NONE",
+      "context_coverage_pct": 0.0
+    },
+    "provider": "MockLLMAdapter",
+    "model": "mock-rag-synthesizer-v1"
+  },
+  {
+    "timestamp": "2026-08-04T05:19:42.951747+00:00",
+    "session_id": "76650f54282c",
+    "user_query": "Query turn number 5",
+    "rewritten_query": "Query turn number 5",
+    "memory_used": false,
+    "turn_number": 5,
+    "plan_type": "direct",
+    "tool_selected": "rag_search",
+    "execution_time": 13.78,
+    "confidence": {
+      "score": 0.2898,
+      "level": "INSUFFICIENT",
+      "retrieval_support": "NONE",
+      "context_coverage_pct": 0.0
+    },
+    "provider": "MockLLMAdapter",
+    "model": "mock-rag-synthesizer-v1"
+  },
+  {
+    "timestamp": "2026-08-04T05:19:42.978643+00:00",
+    "session_id": "76650f54282c",
+    "user_query": "Query turn number 6",
+    "rewritten_query": "Query turn number 6",
+    "memory_used": false,
+    "turn_number": 6,
+    "plan_type": "direct",
+    "tool_selected": "rag_search",
+    "execution_time": 13.79,
+    "confidence": {
+      "score": 0.2589,
+      "level": "INSUFFICIENT",
+      "retrieval_support": "NONE",
+      "context_coverage_pct": 0.0
+    },
+    "provider": "MockLLMAdapter",
+    "model": "mock-rag-synthesizer-v1"
+  },
+  {
+    "timestamp": "2026-08-04T05:19:43.005776+00:00",
+    "session_id": "76650f54282c",
+    "user_query": "Query turn number 7",
+    "rewritten_query": "Query turn number 7",
+    "memory_used": false,
+    "turn_number": 7,
+    "plan_type": "direct",
+    "tool_selected": "rag_search",
+    "execution_time": 14.0,
+    "confidence": {
+      "score": 0.2947,
+      "level": "INSUFFICIENT",
+      "retrieval_support": "NONE",
+      "context_coverage_pct": 0.0
+    },
+    "provider": "MockLLMAdapter",
+    "model": "mock-rag-synthesizer-v1"
+  },
+  {
+    "timestamp": "2026-08-04T05:19:43.032396+00:00",
+    "session_id": "76650f54282c",
+    "user_query": "Query turn number 8",
+    "rewritten_query": "Query turn number 8",
+    "memory_used": false,
+    "turn_number": 8,
+    "plan_type": "direct",
+    "tool_selected": "rag_search",
+    "execution_time": 13.68,
+    "confidence": {
+      "score": 0.296,
+      "level": "INSUFFICIENT",
+      "retrieval_support": "NONE",
+      "context_coverage_pct": 0.0
+    },
+    "provider": "MockLLMAdapter",
+    "model": "mock-rag-synthesizer-v1"
+  },
+  {
+    "timestamp": "2026-08-04T05:19:43.060848+00:00",
+    "session_id": "76650f54282c",
+    "user_query": "Query turn number 9",
+    "rewritten_query": "Query turn number 9",
+    "memory_used": false,
+    "turn_number": 9,
+    "plan_type": "direct",
+    "tool_selected": "rag_search",
+    "execution_time": 15.24,
+    "confidence": {
+      "score": 0.281,
+      "level": "INSUFFICIENT",
+      "retrieval_support": "NONE",
+      "context_coverage_pct": 0.0
+    },
+    "provider": "MockLLMAdapter",
+    "model": "mock-rag-synthesizer-v1"
+  },
+  {
+    "timestamp": "2026-08-04T05:19:43.089503+00:00",
+    "session_id": "76650f54282c",
+    "user_query": "Query turn number 10",
+    "rewritten_query": "Query turn number 10",
+    "memory_used": false,
+    "turn_number": 10,
+    "plan_type": "direct",
+    "tool_selected": "rag_search",
+    "execution_time": 14.28,
+    "confidence": {
+      "score": 0.2737,
+      "level": "INSUFFICIENT",
+      "retrieval_support": "NONE",
+      "context_coverage_pct": 0.0
+    },
+    "provider": "MockLLMAdapter",
+    "model": "mock-rag-synthesizer-v1"
+  },
+  {
+    "timestamp": "2026-08-04T05:19:43.116924+00:00",
+    "session_id": "76650f54282c",
+    "user_query": "Query turn number 11",
+    "rewritten_query": "Query turn number 11",
+    "memory_used": false,
+    "turn_number": 11,
+    "plan_type": "direct",
+    "tool_selected": "rag_search",
+    "execution_time": 13.99,
+    "confidence": {
+      "score": 0.3516,
+      "level": "LOW",
+      "retrieval_support": "MODERATE",
+      "context_coverage_pct": 42.33
+    },
+    "provider": "MockLLMAdapter",
+    "model": "mock-rag-synthesizer-v1"
+  },
+  {
+    "timestamp": "2026-08-04T05:19:43.144204+00:00",
+    "session_id": "76650f54282c",
+    "user_query": "Query turn number 12",
+    "rewritten_query": "Query turn number 12",
+    "memory_used": false,
+    "turn_number": 12,
+    "plan_type": "direct",
+    "tool_selected": "rag_search",
+    "execution_time": 14.11,
+    "confidence": {
+      "score": 0.3951,
+      "level": "LOW",
+      "retrieval_support": "MODERATE",
+      "context_coverage_pct": 59.03
+    },
+    "provider": "MockLLMAdapter",
+    "model": "mock-rag-synthesizer-v1"
+  },
+  {
+    "timestamp": "2026-08-04T05:19:43.172751+00:00",
+    "session_id": "c2b80ed3b1ad",
+    "user_query": "What is the flood status in Bihar?",
+    "rewritten_query": "What is the flood status in Bihar?",
+    "memory_used": false,
+    "turn_number": 1,
+    "plan_type": "direct",
+    "tool_selected": "rag_search",
+    "execution_time": 14.74,
+    "confidence": {
+      "score": 0.6083,
+      "level": "HIGH",
+      "retrieval_support": "STRONG",
+      "context_coverage_pct": 24.17
+    },
+    "provider": "MockLLMAdapter",
+    "model": "mock-rag-synthesizer-v1"
+  },
+  {
+    "timestamp": "2026-08-04T05:19:43.203655+00:00",
+    "session_id": "0619009eb41d",
+    "user_query": "गोरखपुर में बाढ़ की क्या स्थिति है?",
+    "rewritten_query": "गोरखपुर में बाढ़ की क्या स्थिति है?",
+    "memory_used": false,
+    "turn_number": 1,
+    "plan_type": "direct",
+    "tool_selected": "rag_search",
+    "execution_time": 16.39,
+    "confidence": {
+      "score": 0.5314,
+      "level": "MEDIUM",
+      "retrieval_support": "MODERATE",
+      "context_coverage_pct": 18.41
+    },
+    "provider": "MockLLMAdapter",
+    "model": "mock-rag-synthesizer-v1"
+  },
+  {
+    "timestamp": "2026-08-04T05:19:43.235211+00:00",
+    "session_id": "0619009eb41d",
+    "user_query": "राप्ती नदी का क्या हाल है?",
+    "rewritten_query": "गोरखपुर में बाढ़ की क्या स्थिति है? में राप्ती नदी का क्या हाल है?",
+    "memory_used": true,
+    "turn_number": 2,
+    "plan_type": "followup",
+    "tool_selected": "rag_search",
+    "execution_time": 18.07,
+    "confidence": {
+      "score": 0.5792,
+      "level": "HIGH",
+      "retrieval_support": "STRONG",
+      "context_coverage_pct": 18.65
+    },
+    "provider": "MockLLMAdapter",
+    "model": "mock-rag-synthesizer-v1"
+  },
+  {
+    "timestamp": "2026-08-04T05:23:29.764206+00:00",
+    "session_id": "b51840af7310",
+    "user_query": "Tell me about Assam floods.",
+    "rewritten_query": "Tell me about Assam floods.",
+    "memory_used": false,
+    "turn_number": 1,
+    "plan_type": "direct",
+    "tool_selected": "rag_search",
+    "execution_time": 45040.56,
+    "confidence": {
+      "score": 0.7245,
+      "level": "HIGH",
+      "retrieval_support": "STRONG",
+      "context_coverage_pct": 49.9
+    },
+    "provider": "OpenAILLMAdapter",
+    "model": "gpt-5"
+  },
+  {
+    "timestamp": "2026-08-04T05:24:19.164377+00:00",
+    "session_id": "b51840af7310",
+    "user_query": "Tell me about Bihar floods.",
+    "rewritten_query": "Tell me about Bihar floods.",
+    "memory_used": false,
+    "turn_number": 2,
+    "plan_type": "direct",
+    "tool_selected": "rag_search",
+    "execution_time": 32765.91,
+    "confidence": {
+      "score": 0.6324,
+      "level": "HIGH",
+      "retrieval_support": "STRONG",
+      "context_coverage_pct": 23.88
+    },
+    "provider": "OpenAILLMAdapter",
+    "model": "gpt-5"
+  },
+  {
+    "timestamp": "2026-08-04T05:25:30.505796+00:00",
+    "session_id": "b51840af7310",
+    "user_query": "What about Patna?",
+    "rewritten_query": "What is the flood situation in Patna, Bihar floods.?",
+    "memory_used": true,
+    "turn_number": 3,
+    "plan_type": "followup",
+    "tool_selected": "rag_search",
+    "execution_time": 24279.3,
+    "confidence": {
+      "score": 0.6467,
+      "level": "HIGH",
+      "retrieval_support": "STRONG",
+      "context_coverage_pct": 36.57
+    },
+    "provider": "OpenAILLMAdapter",
+    "model": "gpt-5"
+  },
+  {
+    "timestamp": "2026-08-04T05:26:52.434459+00:00",
+    "session_id": "b51840af7310",
+    "user_query": "Compare Bihar and Assam floods.",
+    "rewritten_query": "Compare Bihar and Assam floods.",
+    "memory_used": false,
+    "turn_number": 4,
+    "plan_type": "comparison",
+    "tool_selected": "rag_search",
+    "execution_time": 69513.09,
+    "confidence": {
+      "score": 0.7095,
+      "level": "HIGH",
+      "retrieval_support": "STRONG",
+      "context_coverage_pct": 90.0
+    },
+    "provider": "OpenAILLMAdapter",
+    "model": "gpt-5"
+  },
+  {
+    "timestamp": "2026-08-04T05:28:42.913560+00:00",
+    "session_id": "b51840af7310",
+    "user_query": "Compare Rapti River and Kosi River.",
+    "rewritten_query": "Compare Rapti River and Kosi River.",
+    "memory_used": false,
+    "turn_number": 5,
+    "plan_type": "comparison",
+    "tool_selected": "rag_search",
+    "execution_time": 49082.48,
+    "confidence": {
+      "score": 0.6018,
+      "level": "MEDIUM",
+      "retrieval_support": "MODERATE",
+      "context_coverage_pct": 90.0
+    },
+    "provider": "OpenAILLMAdapter",
+    "model": "gpt-5"
   }
 ]

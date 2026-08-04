@@ -16,7 +16,7 @@
 | **Session Reset & Memory Clearing** | Standardized Requirement | Session termination successfully cleared in-memory history. | 🟢 PASS |
 | **Empty History Handling** | Standardized Requirement | Empty memory operations execute safely without errors. | 🟢 PASS |
 | **Multilingual/Hindi Support** | Standardized Requirement | Resolved Devanagari query to 'गोरखपुर में बाढ़ की क्या स्थिति है? में राप्ती नदी का क्या हाल है?' | 🟢 PASS |
-| **Extended Session Log Schema** | Standardized Requirement | Verified extended log schema (60 total log entries). Context excluded. | 🟢 PASS |
+| **Extended Session Log Schema** | Standardized Requirement | Verified extended log schema (153 total log entries). Context excluded. | 🟢 PASS |
 
 ## 3. Architectural Verification
 - **Hybrid Resolution Strategy**: Simple pronouns and entity carry-overs are resolved deterministically via local rules (0 token cost). Ambiguous multi-turn cases fallback to LLM rewriting.

@@ -34,5 +34,851 @@
     "execution_time_ms": 67.9,
     "status": "success",
     "planner_decision": "comparison"
+  },
+  {
+    "timestamp": "2026-08-04T04:34:05.494438+00:00",
+    "session_id": "12aa3bb126bf",
+    "user_query": "Tell me about bihar floods",
+    "tool_selected": "rag_search",
+    "execution_time_ms": 23167.15,
+    "status": "success",
+    "planner_decision": "direct"
+  },
+  {
+    "timestamp": "2026-08-04T04:34:49.967416+00:00",
+    "session_id": "12aa3bb126bf",
+    "user_query": "What about Patna?",
+    "tool_selected": "rag_search",
+    "execution_time_ms": 14066.03,
+    "status": "success",
+    "planner_decision": "followup"
+  },
+  {
+    "timestamp": "2026-08-04T04:36:01.120273+00:00",
+    "session_id": "12aa3bb126bf",
+    "user_query": "गोरखपुर में बाढ़ की स्थिति?",
+    "tool_selected": "rag_search",
+    "execution_time_ms": 13203.54,
+    "status": "success",
+    "planner_decision": "followup"
+  },
+  {
+    "timestamp": "2026-08-04T04:37:06.333623+00:00",
+    "session_id": "12aa3bb126bf",
+    "user_query": "Compare Bihar and Assam floods.",
+    "tool_selected": "rag_search",
+    "execution_time_ms": 50175.17,
+    "status": "success",
+    "planner_decision": "comparison"
+  },
+  {
+    "timestamp": "2026-08-04T04:37:26.947452+00:00",
+    "session_id": "12aa3bb126bf",
+    "user_query": "25 * 19",
+    "tool_selected": "calculator",
+    "execution_time_ms": 1.05,
+    "status": "success",
+    "planner_decision": "calculator"
+  },
+  {
+    "timestamp": "2026-08-04T04:37:59.500896+00:00",
+    "session_id": "12aa3bb126bf",
+    "user_query": "What model are you using?",
+    "tool_selected": "system_info",
+    "execution_time_ms": 11448.03,
+    "status": "success",
+    "planner_decision": "system_info"
+  },
+  {
+    "timestamp": "2026-08-04T04:53:25.069182+00:00",
+    "session_id": "982773fd191a",
+    "user_query": "Compare Bihar and Assam floods.",
+    "tool_selected": "rag_search",
+    "execution_time_ms": 32.32,
+    "status": "success",
+    "planner_decision": "comparison"
+  },
+  {
+    "timestamp": "2026-08-04T04:54:34.893491+00:00",
+    "session_id": "5c5961768acb",
+    "user_query": "calculate 25 * 19",
+    "tool_selected": "calculator",
+    "execution_time_ms": 0.38,
+    "status": "success",
+    "planner_decision": "calculator"
+  },
+  {
+    "timestamp": "2026-08-04T04:54:52.695922+00:00",
+    "session_id": "f49c6421063c",
+    "user_query": "Tell me about Bihar floods.",
+    "tool_selected": "rag_search",
+    "execution_time_ms": 55.1,
+    "status": "success",
+    "planner_decision": "direct"
+  },
+  {
+    "timestamp": "2026-08-04T04:54:52.728596+00:00",
+    "session_id": "cdd50f064358",
+    "user_query": "Tell me about Bihar floods.",
+    "tool_selected": "rag_search",
+    "execution_time_ms": 22.37,
+    "status": "success",
+    "planner_decision": "direct"
+  },
+  {
+    "timestamp": "2026-08-04T04:54:52.755363+00:00",
+    "session_id": "cdd50f064358",
+    "user_query": "What about Patna?",
+    "tool_selected": "rag_search",
+    "execution_time_ms": 19.27,
+    "status": "success",
+    "planner_decision": "followup"
+  },
+  {
+    "timestamp": "2026-08-04T04:54:52.783595+00:00",
+    "session_id": "b350358b6ca1",
+    "user_query": "Tell me about Rapti river.",
+    "tool_selected": "rag_search",
+    "execution_time_ms": 20.61,
+    "status": "success",
+    "planner_decision": "direct"
+  },
+  {
+    "timestamp": "2026-08-04T04:54:52.808208+00:00",
+    "session_id": "b350358b6ca1",
+    "user_query": "What is its current water level?",
+    "tool_selected": "rag_search",
+    "execution_time_ms": 17.26,
+    "status": "success",
+    "planner_decision": "followup"
+  },
+  {
+    "timestamp": "2026-08-04T04:54:52.834948+00:00",
+    "session_id": "9d2bbab0d529",
+    "user_query": "Gorakhpur flood situation",
+    "tool_selected": "rag_search",
+    "execution_time_ms": 19.02,
+    "status": "success",
+    "planner_decision": "direct"
+  },
+  {
+    "timestamp": "2026-08-04T04:54:52.860401+00:00",
+    "session_id": "9d2bbab0d529",
+    "user_query": "Relief measures?",
+    "tool_selected": "rag_search",
+    "execution_time_ms": 17.61,
+    "status": "success",
+    "planner_decision": "followup"
+  },
+  {
+    "timestamp": "2026-08-04T04:54:52.885894+00:00",
+    "session_id": "4c23f463dfe6",
+    "user_query": "Query turn number 1",
+    "tool_selected": "rag_search",
+    "execution_time_ms": 17.35,
+    "status": "success",
+    "planner_decision": "direct"
+  },
+  {
+    "timestamp": "2026-08-04T04:54:52.908566+00:00",
+    "session_id": "4c23f463dfe6",
+    "user_query": "Query turn number 2",
+    "tool_selected": "rag_search",
+    "execution_time_ms": 15.01,
+    "status": "success",
+    "planner_decision": "direct"
+  },
+  {
+    "timestamp": "2026-08-04T04:54:52.931538+00:00",
+    "session_id": "4c23f463dfe6",
+    "user_query": "Query turn number 3",
+    "tool_selected": "rag_search",
+    "execution_time_ms": 14.81,
+    "status": "success",
+    "planner_decision": "direct"
+  },
+  {
+    "timestamp": "2026-08-04T04:54:52.953858+00:00",
+    "session_id": "4c23f463dfe6",
+    "user_query": "Query turn number 4",
+    "tool_selected": "rag_search",
+    "execution_time_ms": 14.71,
+    "status": "success",
+    "planner_decision": "direct"
+  },
+  {
+    "timestamp": "2026-08-04T04:54:52.978042+00:00",
+    "session_id": "4c23f463dfe6",
+    "user_query": "Query turn number 5",
+    "tool_selected": "rag_search",
+    "execution_time_ms": 16.44,
+    "status": "success",
+    "planner_decision": "direct"
+  },
+  {
+    "timestamp": "2026-08-04T04:54:53.002663+00:00",
+    "session_id": "4c23f463dfe6",
+    "user_query": "Query turn number 6",
+    "tool_selected": "rag_search",
+    "execution_time_ms": 16.17,
+    "status": "success",
+    "planner_decision": "direct"
+  },
+  {
+    "timestamp": "2026-08-04T04:54:53.027877+00:00",
+    "session_id": "4c23f463dfe6",
+    "user_query": "Query turn number 7",
+    "tool_selected": "rag_search",
+    "execution_time_ms": 17.05,
+    "status": "success",
+    "planner_decision": "direct"
+  },
+  {
+    "timestamp": "2026-08-04T04:54:53.053755+00:00",
+    "session_id": "4c23f463dfe6",
+    "user_query": "Query turn number 8",
+    "tool_selected": "rag_search",
+    "execution_time_ms": 16.75,
+    "status": "success",
+    "planner_decision": "direct"
+  },
+  {
+    "timestamp": "2026-08-04T04:54:53.077602+00:00",
+    "session_id": "4c23f463dfe6",
+    "user_query": "Query turn number 9",
+    "tool_selected": "rag_search",
+    "execution_time_ms": 15.77,
+    "status": "success",
+    "planner_decision": "direct"
+  },
+  {
+    "timestamp": "2026-08-04T04:54:53.104570+00:00",
+    "session_id": "4c23f463dfe6",
+    "user_query": "Query turn number 10",
+    "tool_selected": "rag_search",
+    "execution_time_ms": 18.0,
+    "status": "success",
+    "planner_decision": "direct"
+  },
+  {
+    "timestamp": "2026-08-04T04:54:53.129472+00:00",
+    "session_id": "4c23f463dfe6",
+    "user_query": "Query turn number 11",
+    "tool_selected": "rag_search",
+    "execution_time_ms": 16.78,
+    "status": "success",
+    "planner_decision": "direct"
+  },
+  {
+    "timestamp": "2026-08-04T04:54:53.156476+00:00",
+    "session_id": "4c23f463dfe6",
+    "user_query": "Query turn number 12",
+    "tool_selected": "rag_search",
+    "execution_time_ms": 17.81,
+    "status": "success",
+    "planner_decision": "direct"
+  },
+  {
+    "timestamp": "2026-08-04T04:54:53.185566+00:00",
+    "session_id": "b5d2a0fd4580",
+    "user_query": "What is the flood status in Bihar?",
+    "tool_selected": "rag_search",
+    "execution_time_ms": 18.93,
+    "status": "success",
+    "planner_decision": "direct"
+  },
+  {
+    "timestamp": "2026-08-04T04:54:53.213849+00:00",
+    "session_id": "296cac0a5e3e",
+    "user_query": "गोरखपुर में बाढ़ की क्या स्थिति है?",
+    "tool_selected": "rag_search",
+    "execution_time_ms": 18.54,
+    "status": "success",
+    "planner_decision": "direct"
+  },
+  {
+    "timestamp": "2026-08-04T04:54:53.246356+00:00",
+    "session_id": "296cac0a5e3e",
+    "user_query": "राप्ती नदी का क्या हाल है?",
+    "tool_selected": "rag_search",
+    "execution_time_ms": 21.21,
+    "status": "success",
+    "planner_decision": "direct"
+  },
+  {
+    "timestamp": "2026-08-04T04:55:15.429407+00:00",
+    "session_id": "417f065efc5a",
+    "user_query": "What is the flood status in Patna?",
+    "tool_selected": "rag_search",
+    "execution_time_ms": 54.48,
+    "status": "success",
+    "planner_decision": "direct"
+  },
+  {
+    "timestamp": "2026-08-04T04:55:15.458360+00:00",
+    "session_id": "417f065efc5a",
+    "user_query": "Tell me about relief efforts.",
+    "tool_selected": "rag_search",
+    "execution_time_ms": 19.83,
+    "status": "success",
+    "planner_decision": "followup"
+  },
+  {
+    "timestamp": "2026-08-04T04:55:15.468090+00:00",
+    "session_id": "cd12d1af34e9",
+    "user_query": "",
+    "tool_selected": "rag_search",
+    "execution_time_ms": 0.05,
+    "status": "success",
+    "planner_decision": "clarification"
+  },
+  {
+    "timestamp": "2026-08-04T04:55:15.498987+00:00",
+    "session_id": "fc22fa9d6547",
+    "user_query": "बिहार में गंगा नदी के जलस्तर का अपडेट क्या है?",
+    "tool_selected": "rag_search",
+    "execution_time_ms": 20.74,
+    "status": "success",
+    "planner_decision": "direct"
+  },
+  {
+    "timestamp": "2026-08-04T04:55:15.568372+00:00",
+    "session_id": "b390a959b969",
+    "user_query": "बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़ बाढ़",
+    "tool_selected": "rag_search",
+    "execution_time_ms": 59.84,
+    "status": "success",
+    "planner_decision": "direct"
+  },
+  {
+    "timestamp": "2026-08-04T04:57:04.836752+00:00",
+    "session_id": "55ae2bc96eb9",
+    "user_query": "Tell me about Bihar floods.",
+    "tool_selected": "rag_search",
+    "execution_time_ms": 36.67,
+    "status": "success",
+    "planner_decision": "direct"
+  },
+  {
+    "timestamp": "2026-08-04T04:57:04.861064+00:00",
+    "session_id": "0fd46cc0e427",
+    "user_query": "Tell me about Bihar floods.",
+    "tool_selected": "rag_search",
+    "execution_time_ms": 14.23,
+    "status": "success",
+    "planner_decision": "direct"
+  },
+  {
+    "timestamp": "2026-08-04T04:57:04.886398+00:00",
+    "session_id": "0fd46cc0e427",
+    "user_query": "What about Patna?",
+    "tool_selected": "rag_search",
+    "execution_time_ms": 16.0,
+    "status": "success",
+    "planner_decision": "followup"
+  },
+  {
+    "timestamp": "2026-08-04T04:57:04.910855+00:00",
+    "session_id": "add82e0a7261",
+    "user_query": "Tell me about Rapti river.",
+    "tool_selected": "rag_search",
+    "execution_time_ms": 14.61,
+    "status": "success",
+    "planner_decision": "direct"
+  },
+  {
+    "timestamp": "2026-08-04T04:57:04.936585+00:00",
+    "session_id": "add82e0a7261",
+    "user_query": "What is its current water level?",
+    "tool_selected": "rag_search",
+    "execution_time_ms": 16.12,
+    "status": "success",
+    "planner_decision": "followup"
+  },
+  {
+    "timestamp": "2026-08-04T04:57:04.962888+00:00",
+    "session_id": "b9c29ee89a51",
+    "user_query": "Gorakhpur flood situation",
+    "tool_selected": "rag_search",
+    "execution_time_ms": 16.25,
+    "status": "success",
+    "planner_decision": "direct"
+  },
+  {
+    "timestamp": "2026-08-04T04:57:04.987669+00:00",
+    "session_id": "b9c29ee89a51",
+    "user_query": "Relief measures?",
+    "tool_selected": "rag_search",
+    "execution_time_ms": 14.97,
+    "status": "success",
+    "planner_decision": "followup"
+  },
+  {
+    "timestamp": "2026-08-04T04:57:05.011577+00:00",
+    "session_id": "2c775dd1c497",
+    "user_query": "Query turn number 1",
+    "tool_selected": "rag_search",
+    "execution_time_ms": 13.74,
+    "status": "success",
+    "planner_decision": "direct"
+  },
+  {
+    "timestamp": "2026-08-04T04:57:05.038891+00:00",
+    "session_id": "2c775dd1c497",
+    "user_query": "Query turn number 2",
+    "tool_selected": "rag_search",
+    "execution_time_ms": 17.42,
+    "status": "success",
+    "planner_decision": "direct"
+  },
+  {
+    "timestamp": "2026-08-04T04:57:05.062688+00:00",
+    "session_id": "2c775dd1c497",
+    "user_query": "Query turn number 3",
+    "tool_selected": "rag_search",
+    "execution_time_ms": 13.98,
+    "status": "success",
+    "planner_decision": "direct"
+  },
+  {
+    "timestamp": "2026-08-04T04:57:05.086506+00:00",
+    "session_id": "2c775dd1c497",
+    "user_query": "Query turn number 4",
+    "tool_selected": "rag_search",
+    "execution_time_ms": 13.74,
+    "status": "success",
+    "planner_decision": "direct"
+  },
+  {
+    "timestamp": "2026-08-04T04:57:05.112628+00:00",
+    "session_id": "2c775dd1c497",
+    "user_query": "Query turn number 5",
+    "tool_selected": "rag_search",
+    "execution_time_ms": 16.03,
+    "status": "success",
+    "planner_decision": "direct"
+  },
+  {
+    "timestamp": "2026-08-04T04:57:05.138675+00:00",
+    "session_id": "2c775dd1c497",
+    "user_query": "Query turn number 6",
+    "tool_selected": "rag_search",
+    "execution_time_ms": 15.16,
+    "status": "success",
+    "planner_decision": "direct"
+  },
+  {
+    "timestamp": "2026-08-04T04:57:05.166814+00:00",
+    "session_id": "2c775dd1c497",
+    "user_query": "Query turn number 7",
+    "tool_selected": "rag_search",
+    "execution_time_ms": 17.8,
+    "status": "success",
+    "planner_decision": "direct"
+  },
+  {
+    "timestamp": "2026-08-04T04:57:05.192216+00:00",
+    "session_id": "2c775dd1c497",
+    "user_query": "Query turn number 8",
+    "tool_selected": "rag_search",
+    "execution_time_ms": 14.14,
+    "status": "success",
+    "planner_decision": "direct"
+  },
+  {
+    "timestamp": "2026-08-04T04:57:05.216945+00:00",
+    "session_id": "2c775dd1c497",
+    "user_query": "Query turn number 9",
+    "tool_selected": "rag_search",
+    "execution_time_ms": 14.26,
+    "status": "success",
+    "planner_decision": "direct"
+  },
+  {
+    "timestamp": "2026-08-04T04:57:05.246578+00:00",
+    "session_id": "2c775dd1c497",
+    "user_query": "Query turn number 10",
+    "tool_selected": "rag_search",
+    "execution_time_ms": 16.93,
+    "status": "success",
+    "planner_decision": "direct"
+  },
+  {
+    "timestamp": "2026-08-04T04:57:05.271748+00:00",
+    "session_id": "2c775dd1c497",
+    "user_query": "Query turn number 11",
+    "tool_selected": "rag_search",
+    "execution_time_ms": 14.39,
+    "status": "success",
+    "planner_decision": "direct"
+  },
+  {
+    "timestamp": "2026-08-04T04:57:05.296978+00:00",
+    "session_id": "2c775dd1c497",
+    "user_query": "Query turn number 12",
+    "tool_selected": "rag_search",
+    "execution_time_ms": 14.42,
+    "status": "success",
+    "planner_decision": "direct"
+  },
+  {
+    "timestamp": "2026-08-04T04:57:05.328161+00:00",
+    "session_id": "7f921daef14c",
+    "user_query": "What is the flood status in Bihar?",
+    "tool_selected": "rag_search",
+    "execution_time_ms": 14.96,
+    "status": "success",
+    "planner_decision": "direct"
+  },
+  {
+    "timestamp": "2026-08-04T04:57:05.365051+00:00",
+    "session_id": "71a0fe85fdab",
+    "user_query": "गोरखपुर में बाढ़ की क्या स्थिति है?",
+    "tool_selected": "rag_search",
+    "execution_time_ms": 22.35,
+    "status": "success",
+    "planner_decision": "direct"
+  },
+  {
+    "timestamp": "2026-08-04T04:57:05.398743+00:00",
+    "session_id": "71a0fe85fdab",
+    "user_query": "राप्ती नदी का क्या हाल है?",
+    "tool_selected": "rag_search",
+    "execution_time_ms": 20.43,
+    "status": "success",
+    "planner_decision": "followup"
+  },
+  {
+    "timestamp": "2026-08-04T04:57:23.814890+00:00",
+    "session_id": "be0f0fe2a2ff",
+    "user_query": "Compare Bihar and Assam floods.",
+    "tool_selected": "rag_search",
+    "execution_time_ms": 38.81,
+    "status": "success",
+    "planner_decision": "comparison"
+  },
+  {
+    "timestamp": "2026-08-04T05:02:39.071703+00:00",
+    "session_id": "12aa3bb126bf",
+    "user_query": "What is the flood situation in Bihar?",
+    "tool_selected": "rag_search",
+    "execution_time_ms": 58662.74,
+    "status": "success",
+    "planner_decision": "followup"
+  },
+  {
+    "timestamp": "2026-08-04T05:03:21.058350+00:00",
+    "session_id": "12aa3bb126bf",
+    "user_query": "Tell me about Assam floods.",
+    "tool_selected": "rag_search",
+    "execution_time_ms": 33863.09,
+    "status": "success",
+    "planner_decision": "followup"
+  },
+  {
+    "timestamp": "2026-08-04T05:08:49.671108+00:00",
+    "session_id": "12aa3bb126bf",
+    "user_query": "What about Guwahati?",
+    "tool_selected": "rag_search",
+    "execution_time_ms": 28522.1,
+    "status": "success",
+    "planner_decision": "followup"
+  },
+  {
+    "timestamp": "2026-08-04T05:09:49.059735+00:00",
+    "session_id": "12aa3bb126bf",
+    "user_query": "Compare Rapti River and Kosi River.",
+    "tool_selected": "rag_search",
+    "execution_time_ms": 50968.71,
+    "status": "success",
+    "planner_decision": "comparison"
+  },
+  {
+    "timestamp": "2026-08-04T05:10:03.077224+00:00",
+    "session_id": "12aa3bb126bf",
+    "user_query": "25 * 19",
+    "tool_selected": "calculator",
+    "execution_time_ms": 3838.5,
+    "status": "success",
+    "planner_decision": "calculator"
+  },
+  {
+    "timestamp": "2026-08-04T05:10:30.814961+00:00",
+    "session_id": "12aa3bb126bf",
+    "user_query": "What model are you using?",
+    "tool_selected": "system_info",
+    "execution_time_ms": 11070.64,
+    "status": "success",
+    "planner_decision": "system_info"
+  },
+  {
+    "timestamp": "2026-08-04T05:11:14.039694+00:00",
+    "session_id": "12aa3bb126bf",
+    "user_query": "Explain quantum computing.",
+    "tool_selected": "rag_search",
+    "execution_time_ms": 39487.53,
+    "status": "success",
+    "planner_decision": "followup"
+  },
+  {
+    "timestamp": "2026-08-04T05:19:17.455299+00:00",
+    "session_id": "33343be46ebb",
+    "user_query": "Compare Bihar and Assam floods.",
+    "tool_selected": "rag_search",
+    "execution_time_ms": 73.01,
+    "status": "success",
+    "planner_decision": "comparison"
+  },
+  {
+    "timestamp": "2026-08-04T05:19:17.532508+00:00",
+    "session_id": "33343be46ebb",
+    "user_query": "Compare Rapti River and Kosi River.",
+    "tool_selected": "rag_search",
+    "execution_time_ms": 63.26,
+    "status": "success",
+    "planner_decision": "comparison"
+  },
+  {
+    "timestamp": "2026-08-04T05:19:42.653657+00:00",
+    "session_id": "d1d7729caa11",
+    "user_query": "Tell me about Bihar floods.",
+    "tool_selected": "rag_search",
+    "execution_time_ms": 53.31,
+    "status": "success",
+    "planner_decision": "direct"
+  },
+  {
+    "timestamp": "2026-08-04T05:19:42.682852+00:00",
+    "session_id": "b22b98a53ff0",
+    "user_query": "Tell me about Bihar floods.",
+    "tool_selected": "rag_search",
+    "execution_time_ms": 15.76,
+    "status": "success",
+    "planner_decision": "direct"
+  },
+  {
+    "timestamp": "2026-08-04T05:19:42.713355+00:00",
+    "session_id": "b22b98a53ff0",
+    "user_query": "What about Patna?",
+    "tool_selected": "rag_search",
+    "execution_time_ms": 17.37,
+    "status": "success",
+    "planner_decision": "followup"
+  },
+  {
+    "timestamp": "2026-08-04T05:19:42.740791+00:00",
+    "session_id": "c10dbb1311b8",
+    "user_query": "Tell me about Rapti river.",
+    "tool_selected": "rag_search",
+    "execution_time_ms": 14.71,
+    "status": "success",
+    "planner_decision": "direct"
+  },
+  {
+    "timestamp": "2026-08-04T05:19:42.769902+00:00",
+    "session_id": "c10dbb1311b8",
+    "user_query": "What is its current water level?",
+    "tool_selected": "rag_search",
+    "execution_time_ms": 15.83,
+    "status": "success",
+    "planner_decision": "followup"
+  },
+  {
+    "timestamp": "2026-08-04T05:19:42.800603+00:00",
+    "session_id": "3fe811ba72f5",
+    "user_query": "Gorakhpur flood situation",
+    "tool_selected": "rag_search",
+    "execution_time_ms": 16.92,
+    "status": "success",
+    "planner_decision": "direct"
+  },
+  {
+    "timestamp": "2026-08-04T05:19:42.828311+00:00",
+    "session_id": "3fe811ba72f5",
+    "user_query": "Relief measures?",
+    "tool_selected": "rag_search",
+    "execution_time_ms": 15.16,
+    "status": "success",
+    "planner_decision": "followup"
+  },
+  {
+    "timestamp": "2026-08-04T05:19:42.855639+00:00",
+    "session_id": "76650f54282c",
+    "user_query": "Query turn number 1",
+    "tool_selected": "rag_search",
+    "execution_time_ms": 14.17,
+    "status": "success",
+    "planner_decision": "direct"
+  },
+  {
+    "timestamp": "2026-08-04T05:19:42.881869+00:00",
+    "session_id": "76650f54282c",
+    "user_query": "Query turn number 2",
+    "tool_selected": "rag_search",
+    "execution_time_ms": 13.91,
+    "status": "success",
+    "planner_decision": "direct"
+  },
+  {
+    "timestamp": "2026-08-04T05:19:42.908869+00:00",
+    "session_id": "76650f54282c",
+    "user_query": "Query turn number 3",
+    "tool_selected": "rag_search",
+    "execution_time_ms": 14.2,
+    "status": "success",
+    "planner_decision": "direct"
+  },
+  {
+    "timestamp": "2026-08-04T05:19:42.935852+00:00",
+    "session_id": "76650f54282c",
+    "user_query": "Query turn number 4",
+    "tool_selected": "rag_search",
+    "execution_time_ms": 14.21,
+    "status": "success",
+    "planner_decision": "direct"
+  },
+  {
+    "timestamp": "2026-08-04T05:19:42.962777+00:00",
+    "session_id": "76650f54282c",
+    "user_query": "Query turn number 5",
+    "tool_selected": "rag_search",
+    "execution_time_ms": 13.78,
+    "status": "success",
+    "planner_decision": "direct"
+  },
+  {
+    "timestamp": "2026-08-04T05:19:42.989679+00:00",
+    "session_id": "76650f54282c",
+    "user_query": "Query turn number 6",
+    "tool_selected": "rag_search",
+    "execution_time_ms": 13.79,
+    "status": "success",
+    "planner_decision": "direct"
+  },
+  {
+    "timestamp": "2026-08-04T05:19:43.016537+00:00",
+    "session_id": "76650f54282c",
+    "user_query": "Query turn number 7",
+    "tool_selected": "rag_search",
+    "execution_time_ms": 14.0,
+    "status": "success",
+    "planner_decision": "direct"
+  },
+  {
+    "timestamp": "2026-08-04T05:19:43.043523+00:00",
+    "session_id": "76650f54282c",
+    "user_query": "Query turn number 8",
+    "tool_selected": "rag_search",
+    "execution_time_ms": 13.68,
+    "status": "success",
+    "planner_decision": "direct"
+  },
+  {
+    "timestamp": "2026-08-04T05:19:43.073128+00:00",
+    "session_id": "76650f54282c",
+    "user_query": "Query turn number 9",
+    "tool_selected": "rag_search",
+    "execution_time_ms": 15.24,
+    "status": "success",
+    "planner_decision": "direct"
+  },
+  {
+    "timestamp": "2026-08-04T05:19:43.100721+00:00",
+    "session_id": "76650f54282c",
+    "user_query": "Query turn number 10",
+    "tool_selected": "rag_search",
+    "execution_time_ms": 14.28,
+    "status": "success",
+    "planner_decision": "direct"
+  },
+  {
+    "timestamp": "2026-08-04T05:19:43.127982+00:00",
+    "session_id": "76650f54282c",
+    "user_query": "Query turn number 11",
+    "tool_selected": "rag_search",
+    "execution_time_ms": 13.99,
+    "status": "success",
+    "planner_decision": "direct"
+  },
+  {
+    "timestamp": "2026-08-04T05:19:43.155487+00:00",
+    "session_id": "76650f54282c",
+    "user_query": "Query turn number 12",
+    "tool_selected": "rag_search",
+    "execution_time_ms": 14.11,
+    "status": "success",
+    "planner_decision": "direct"
+  },
+  {
+    "timestamp": "2026-08-04T05:19:43.184605+00:00",
+    "session_id": "c2b80ed3b1ad",
+    "user_query": "What is the flood status in Bihar?",
+    "tool_selected": "rag_search",
+    "execution_time_ms": 14.74,
+    "status": "success",
+    "planner_decision": "direct"
+  },
+  {
+    "timestamp": "2026-08-04T05:19:43.214938+00:00",
+    "session_id": "0619009eb41d",
+    "user_query": "गोरखपुर में बाढ़ की क्या स्थिति है?",
+    "tool_selected": "rag_search",
+    "execution_time_ms": 16.39,
+    "status": "success",
+    "planner_decision": "direct"
+  },
+  {
+    "timestamp": "2026-08-04T05:19:43.246876+00:00",
+    "session_id": "0619009eb41d",
+    "user_query": "राप्ती नदी का क्या हाल है?",
+    "tool_selected": "rag_search",
+    "execution_time_ms": 18.07,
+    "status": "success",
+    "planner_decision": "followup"
+  },
+  {
+    "timestamp": "2026-08-04T05:23:29.773280+00:00",
+    "session_id": "b51840af7310",
+    "user_query": "Tell me about Assam floods.",
+    "tool_selected": "rag_search",
+    "execution_time_ms": 45040.56,
+    "status": "success",
+    "planner_decision": "direct"
+  },
+  {
+    "timestamp": "2026-08-04T05:24:19.178799+00:00",
+    "session_id": "b51840af7310",
+    "user_query": "Tell me about Bihar floods.",
+    "tool_selected": "rag_search",
+    "execution_time_ms": 32765.91,
+    "status": "success",
+    "planner_decision": "direct"
+  },
+  {
+    "timestamp": "2026-08-04T05:25:30.527037+00:00",
+    "session_id": "b51840af7310",
+    "user_query": "What about Patna?",
+    "tool_selected": "rag_search",
+    "execution_time_ms": 24279.3,
+    "status": "success",
+    "planner_decision": "followup"
+  },
+  {
+    "timestamp": "2026-08-04T05:26:52.448443+00:00",
+    "session_id": "b51840af7310",
+    "user_query": "Compare Bihar and Assam floods.",
+    "tool_selected": "rag_search",
+    "execution_time_ms": 69513.09,
+    "status": "success",
+    "planner_decision": "comparison"
+  },
+  {
+    "timestamp": "2026-08-04T05:28:42.928683+00:00",
+    "session_id": "b51840af7310",
+    "user_query": "Compare Rapti River and Kosi River.",
+    "tool_selected": "rag_search",
+    "execution_time_ms": 49082.48,
+    "status": "success",
+    "planner_decision": "comparison"
   }
 ]
