@@ -1,0 +1,494 @@
+[
+  {
+    "timestamp": "2026-08-03T15:35:00.835803+00:00",
+    "session_id": "7aae396e8ade",
+    "user_query": "Compare Bihar and Assam floods.",
+    "rewritten_query": "Compare Bihar and Assam floods.",
+    "plan_type": "comparison",
+    "steps_count": 3,
+    "execution_path": [
+      "retrieve",
+      "retrieve",
+      "compare"
+    ],
+    "total_latency": 114.19,
+    "confidence": {
+      "score": 0.7095,
+      "level": "HIGH",
+      "retrieval_support": "STRONG",
+      "context_coverage_pct": 50.0
+    }
+  },
+  {
+    "timestamp": "2026-08-03T15:35:35.461761+00:00",
+    "session_id": "3ba4ad8e6148",
+    "user_query": "Tell me about Bihar floods.",
+    "rewritten_query": "Tell me about Bihar floods.",
+    "plan_type": "direct",
+    "steps_count": 1,
+    "execution_path": [
+      "retrieve"
+    ],
+    "total_latency": 43.35,
+    "confidence": {
+      "score": 0.6324,
+      "level": "HIGH",
+      "retrieval_support": "STRONG",
+      "context_coverage_pct": 23.88
+    }
+  },
+  {
+    "timestamp": "2026-08-03T15:35:35.484963+00:00",
+    "session_id": "9582e3938f91",
+    "user_query": "Tell me about Bihar floods.",
+    "rewritten_query": "Tell me about Bihar floods.",
+    "plan_type": "direct",
+    "steps_count": 1,
+    "execution_path": [
+      "retrieve"
+    ],
+    "total_latency": 18.68,
+    "confidence": {
+      "score": 0.6324,
+      "level": "HIGH",
+      "retrieval_support": "STRONG",
+      "context_coverage_pct": 23.88
+    }
+  },
+  {
+    "timestamp": "2026-08-03T15:35:35.512478+00:00",
+    "session_id": "9582e3938f91",
+    "user_query": "What about Patna?",
+    "rewritten_query": "What is the flood situation in Patna, Bihar floods.?",
+    "plan_type": "followup",
+    "steps_count": 1,
+    "execution_path": [
+      "retrieve"
+    ],
+    "total_latency": 23.72,
+    "confidence": {
+      "score": 0.6467,
+      "level": "HIGH",
+      "retrieval_support": "STRONG",
+      "context_coverage_pct": 36.57
+    }
+  },
+  {
+    "timestamp": "2026-08-03T15:35:35.538557+00:00",
+    "session_id": "89de6f0f1fcb",
+    "user_query": "Tell me about Rapti river.",
+    "rewritten_query": "Tell me about Rapti river.",
+    "plan_type": "direct",
+    "steps_count": 1,
+    "execution_path": [
+      "retrieve"
+    ],
+    "total_latency": 21.4,
+    "confidence": {
+      "score": 0.592,
+      "level": "MEDIUM",
+      "retrieval_support": "MODERATE",
+      "context_coverage_pct": 47.8
+    }
+  },
+  {
+    "timestamp": "2026-08-03T15:35:35.561231+00:00",
+    "session_id": "89de6f0f1fcb",
+    "user_query": "What is its current water level?",
+    "rewritten_query": "What is Rapti river. current water level?",
+    "plan_type": "followup",
+    "steps_count": 1,
+    "execution_path": [
+      "retrieve"
+    ],
+    "total_latency": 18.24,
+    "confidence": {
+      "score": 0.6413,
+      "level": "MEDIUM",
+      "retrieval_support": "MODERATE",
+      "context_coverage_pct": 57.08
+    }
+  },
+  {
+    "timestamp": "2026-08-03T15:35:35.585705+00:00",
+    "session_id": "23ee370db2e6",
+    "user_query": "Gorakhpur flood situation",
+    "rewritten_query": "Gorakhpur flood situation",
+    "plan_type": "direct",
+    "steps_count": 1,
+    "execution_path": [
+      "retrieve"
+    ],
+    "total_latency": 20.37,
+    "confidence": {
+      "score": 0.6893,
+      "level": "HIGH",
+      "retrieval_support": "STRONG",
+      "context_coverage_pct": 39.65
+    }
+  },
+  {
+    "timestamp": "2026-08-03T15:35:35.610988+00:00",
+    "session_id": "23ee370db2e6",
+    "user_query": "Relief measures?",
+    "rewritten_query": "Relief measures? for Gorakhpur flood flood",
+    "plan_type": "followup",
+    "steps_count": 1,
+    "execution_path": [
+      "retrieve"
+    ],
+    "total_latency": 20.9,
+    "confidence": {
+      "score": 0.6786,
+      "level": "HIGH",
+      "retrieval_support": "STRONG",
+      "context_coverage_pct": 50.15
+    }
+  },
+  {
+    "timestamp": "2026-08-03T15:35:35.634781+00:00",
+    "session_id": "b5472ab536a1",
+    "user_query": "Query turn number 1",
+    "rewritten_query": "Query turn number 1",
+    "plan_type": "direct",
+    "steps_count": 1,
+    "execution_path": [
+      "retrieve"
+    ],
+    "total_latency": 19.38,
+    "confidence": {
+      "score": 0.2585,
+      "level": "INSUFFICIENT",
+      "retrieval_support": "NONE",
+      "context_coverage_pct": 0.0
+    }
+  },
+  {
+    "timestamp": "2026-08-03T15:35:35.669152+00:00",
+    "session_id": "b5472ab536a1",
+    "user_query": "Query turn number 2",
+    "rewritten_query": "प्राप्त जानकारी और दस्तावेजों के अनुसार, 'query' के संबंध में विस्तृत रिपोर्ट एवं राहत कार्य उपलब्ध हैं [Doc 1]।",
+    "plan_type": "followup",
+    "steps_count": 1,
+    "execution_path": [
+      "retrieve"
+    ],
+    "total_latency": 30.03,
+    "confidence": {
+      "score": 0.5553,
+      "level": "HIGH",
+      "retrieval_support": "STRONG",
+      "context_coverage_pct": 17.92
+    }
+  },
+  {
+    "timestamp": "2026-08-03T15:35:35.700531+00:00",
+    "session_id": "b5472ab536a1",
+    "user_query": "Query turn number 3",
+    "rewritten_query": "प्राप्त जानकारी और दस्तावेजों के अनुसार, 'query' के संबंध में विस्तृत रिपोर्ट एवं राहत कार्य उपलब्ध हैं [Doc 1]।",
+    "plan_type": "followup",
+    "steps_count": 1,
+    "execution_path": [
+      "retrieve"
+    ],
+    "total_latency": 26.82,
+    "confidence": {
+      "score": 0.5553,
+      "level": "HIGH",
+      "retrieval_support": "STRONG",
+      "context_coverage_pct": 17.92
+    }
+  },
+  {
+    "timestamp": "2026-08-03T15:35:35.733673+00:00",
+    "session_id": "b5472ab536a1",
+    "user_query": "Query turn number 4",
+    "rewritten_query": "प्राप्त जानकारी और दस्तावेजों के अनुसार, 'query' के संबंध में विस्तृत रिपोर्ट एवं राहत कार्य उपलब्ध हैं [Doc 1]।",
+    "plan_type": "followup",
+    "steps_count": 1,
+    "execution_path": [
+      "retrieve"
+    ],
+    "total_latency": 28.34,
+    "confidence": {
+      "score": 0.5553,
+      "level": "HIGH",
+      "retrieval_support": "STRONG",
+      "context_coverage_pct": 17.92
+    }
+  },
+  {
+    "timestamp": "2026-08-03T15:35:35.779933+00:00",
+    "session_id": "b5472ab536a1",
+    "user_query": "Query turn number 5",
+    "rewritten_query": "प्राप्त जानकारी और दस्तावेजों के अनुसार, 'query' के संबंध में विस्तृत रिपोर्ट एवं राहत कार्य उपलब्ध हैं [Doc 1]।",
+    "plan_type": "followup",
+    "steps_count": 1,
+    "execution_path": [
+      "retrieve"
+    ],
+    "total_latency": 41.76,
+    "confidence": {
+      "score": 0.5553,
+      "level": "HIGH",
+      "retrieval_support": "STRONG",
+      "context_coverage_pct": 17.92
+    }
+  },
+  {
+    "timestamp": "2026-08-03T15:35:35.811161+00:00",
+    "session_id": "b5472ab536a1",
+    "user_query": "Query turn number 6",
+    "rewritten_query": "प्राप्त जानकारी और दस्तावेजों के अनुसार, 'query' के संबंध में विस्तृत रिपोर्ट एवं राहत कार्य उपलब्ध हैं [Doc 1]।",
+    "plan_type": "followup",
+    "steps_count": 1,
+    "execution_path": [
+      "retrieve"
+    ],
+    "total_latency": 26.68,
+    "confidence": {
+      "score": 0.5553,
+      "level": "HIGH",
+      "retrieval_support": "STRONG",
+      "context_coverage_pct": 17.92
+    }
+  },
+  {
+    "timestamp": "2026-08-03T15:35:35.840046+00:00",
+    "session_id": "b5472ab536a1",
+    "user_query": "Query turn number 7",
+    "rewritten_query": "प्राप्त जानकारी और दस्तावेजों के अनुसार, 'query' के संबंध में विस्तृत रिपोर्ट एवं राहत कार्य उपलब्ध हैं [Doc 1]।",
+    "plan_type": "followup",
+    "steps_count": 1,
+    "execution_path": [
+      "retrieve"
+    ],
+    "total_latency": 24.42,
+    "confidence": {
+      "score": 0.5553,
+      "level": "HIGH",
+      "retrieval_support": "STRONG",
+      "context_coverage_pct": 17.92
+    }
+  },
+  {
+    "timestamp": "2026-08-03T15:35:35.865391+00:00",
+    "session_id": "b5472ab536a1",
+    "user_query": "Query turn number 8",
+    "rewritten_query": "प्राप्त जानकारी और दस्तावेजों के अनुसार, 'query' के संबंध में विस्तृत रिपोर्ट एवं राहत कार्य उपलब्ध हैं [Doc 1]।",
+    "plan_type": "followup",
+    "steps_count": 1,
+    "execution_path": [
+      "retrieve"
+    ],
+    "total_latency": 20.94,
+    "confidence": {
+      "score": 0.5553,
+      "level": "HIGH",
+      "retrieval_support": "STRONG",
+      "context_coverage_pct": 17.92
+    }
+  },
+  {
+    "timestamp": "2026-08-03T15:35:35.890192+00:00",
+    "session_id": "b5472ab536a1",
+    "user_query": "Query turn number 9",
+    "rewritten_query": "प्राप्त जानकारी और दस्तावेजों के अनुसार, 'query' के संबंध में विस्तृत रिपोर्ट एवं राहत कार्य उपलब्ध हैं [Doc 1]।",
+    "plan_type": "followup",
+    "steps_count": 1,
+    "execution_path": [
+      "retrieve"
+    ],
+    "total_latency": 19.96,
+    "confidence": {
+      "score": 0.5553,
+      "level": "HIGH",
+      "retrieval_support": "STRONG",
+      "context_coverage_pct": 17.92
+    }
+  },
+  {
+    "timestamp": "2026-08-03T15:35:35.914987+00:00",
+    "session_id": "b5472ab536a1",
+    "user_query": "Query turn number 10",
+    "rewritten_query": "प्राप्त जानकारी और दस्तावेजों के अनुसार, 'query' के संबंध में विस्तृत रिपोर्ट एवं राहत कार्य उपलब्ध हैं [Doc 1]।",
+    "plan_type": "followup",
+    "steps_count": 1,
+    "execution_path": [
+      "retrieve"
+    ],
+    "total_latency": 20.0,
+    "confidence": {
+      "score": 0.5553,
+      "level": "HIGH",
+      "retrieval_support": "STRONG",
+      "context_coverage_pct": 17.92
+    }
+  },
+  {
+    "timestamp": "2026-08-03T15:35:35.944062+00:00",
+    "session_id": "b5472ab536a1",
+    "user_query": "Query turn number 11",
+    "rewritten_query": "प्राप्त जानकारी और दस्तावेजों के अनुसार, 'query' के संबंध में विस्तृत रिपोर्ट एवं राहत कार्य उपलब्ध हैं [Doc 1]।",
+    "plan_type": "followup",
+    "steps_count": 1,
+    "execution_path": [
+      "retrieve"
+    ],
+    "total_latency": 24.36,
+    "confidence": {
+      "score": 0.5553,
+      "level": "HIGH",
+      "retrieval_support": "STRONG",
+      "context_coverage_pct": 17.92
+    }
+  },
+  {
+    "timestamp": "2026-08-03T15:35:35.968449+00:00",
+    "session_id": "b5472ab536a1",
+    "user_query": "Query turn number 12",
+    "rewritten_query": "प्राप्त जानकारी और दस्तावेजों के अनुसार, 'query' के संबंध में विस्तृत रिपोर्ट एवं राहत कार्य उपलब्ध हैं [Doc 1]।",
+    "plan_type": "followup",
+    "steps_count": 1,
+    "execution_path": [
+      "retrieve"
+    ],
+    "total_latency": 19.8,
+    "confidence": {
+      "score": 0.5553,
+      "level": "HIGH",
+      "retrieval_support": "STRONG",
+      "context_coverage_pct": 17.92
+    }
+  },
+  {
+    "timestamp": "2026-08-03T15:35:35.993027+00:00",
+    "session_id": "f18bd9022378",
+    "user_query": "What is the flood status in Bihar?",
+    "rewritten_query": "What is the flood status in Bihar?",
+    "plan_type": "direct",
+    "steps_count": 1,
+    "execution_path": [
+      "retrieve"
+    ],
+    "total_latency": 19.03,
+    "confidence": {
+      "score": 0.6083,
+      "level": "HIGH",
+      "retrieval_support": "STRONG",
+      "context_coverage_pct": 24.17
+    }
+  },
+  {
+    "timestamp": "2026-08-03T15:35:36.018533+00:00",
+    "session_id": "7c6cd11b2797",
+    "user_query": "गोरखपुर में बाढ़ की क्या स्थिति है?",
+    "rewritten_query": "गोरखपुर में बाढ़ की क्या स्थिति है?",
+    "plan_type": "direct",
+    "steps_count": 1,
+    "execution_path": [
+      "retrieve"
+    ],
+    "total_latency": 20.36,
+    "confidence": {
+      "score": 0.5314,
+      "level": "MEDIUM",
+      "retrieval_support": "MODERATE",
+      "context_coverage_pct": 18.41
+    }
+  },
+  {
+    "timestamp": "2026-08-03T15:35:36.042898+00:00",
+    "session_id": "7c6cd11b2797",
+    "user_query": "राप्ती नदी का क्या हाल है?",
+    "rewritten_query": "गोरखपुर में बाढ़ की क्या स्थिति है? में राप्ती नदी का क्या हाल है?",
+    "plan_type": "followup",
+    "steps_count": 1,
+    "execution_path": [
+      "retrieve"
+    ],
+    "total_latency": 18.8,
+    "confidence": {
+      "score": 0.5792,
+      "level": "HIGH",
+      "retrieval_support": "STRONG",
+      "context_coverage_pct": 18.65
+    }
+  },
+  {
+    "timestamp": "2026-08-03T15:43:53.792305+00:00",
+    "session_id": "e0e31db3795e",
+    "user_query": "calculate 25 * 19",
+    "rewritten_query": "calculate 25 * 19",
+    "plan_type": "calculator",
+    "steps_count": 1,
+    "execution_path": [
+      "tool_call"
+    ],
+    "total_latency": 1.4,
+    "confidence": {
+      "score": 1.0,
+      "level": "HIGH",
+      "retrieval_support": "EXACT_TOOL_EXECUTION",
+      "context_coverage_pct": 100.0
+    }
+  },
+  {
+    "timestamp": "2026-08-03T15:44:25.810780+00:00",
+    "session_id": "d5c4f991c42a",
+    "user_query": "Compare Bihar and Assam floods.",
+    "rewritten_query": "Compare Bihar and Assam floods.",
+    "plan_type": "comparison",
+    "steps_count": 3,
+    "execution_path": [
+      "retrieve",
+      "retrieve",
+      "compare"
+    ],
+    "total_latency": 142.34,
+    "confidence": {
+      "score": 0.7095,
+      "level": "HIGH",
+      "retrieval_support": "STRONG",
+      "context_coverage_pct": 50.0
+    }
+  },
+  {
+    "timestamp": "2026-08-03T15:50:23.882473+00:00",
+    "session_id": "b54b0aee30dc",
+    "user_query": "calculate 25 * 19",
+    "rewritten_query": "calculate 25 * 19",
+    "plan_type": "calculator",
+    "steps_count": 1,
+    "execution_path": [
+      "tool_call"
+    ],
+    "total_latency": 0.46,
+    "confidence": {
+      "score": 1.0,
+      "level": "HIGH",
+      "retrieval_support": "EXACT_CALCULATION",
+      "context_coverage_pct": 100.0
+    }
+  },
+  {
+    "timestamp": "2026-08-03T15:51:08.779243+00:00",
+    "session_id": "108723f3c404",
+    "user_query": "Compare Bihar and Assam floods.",
+    "rewritten_query": "Compare Bihar and Assam floods.",
+    "plan_type": "comparison",
+    "steps_count": 3,
+    "execution_path": [
+      "retrieve",
+      "retrieve",
+      "compare"
+    ],
+    "total_latency": 67.9,
+    "confidence": {
+      "score": 0.7095,
+      "level": "HIGH",
+      "retrieval_support": "STRONG",
+      "context_coverage_pct": 50.0
+    }
+  }
+]

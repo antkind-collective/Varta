@@ -1,0 +1,38 @@
+[
+  {
+    "timestamp": "2026-08-03T15:43:53.797326+00:00",
+    "session_id": "e0e31db3795e",
+    "user_query": "calculate 25 * 19",
+    "tool_selected": "calculator",
+    "execution_time_ms": 1.4,
+    "status": "failure",
+    "planner_decision": "calculator"
+  },
+  {
+    "timestamp": "2026-08-03T15:44:25.815976+00:00",
+    "session_id": "d5c4f991c42a",
+    "user_query": "Compare Bihar and Assam floods.",
+    "tool_selected": "rag_search",
+    "execution_time_ms": 142.34,
+    "status": "success",
+    "planner_decision": "comparison"
+  },
+  {
+    "timestamp": "2026-08-03T15:50:23.884015+00:00",
+    "session_id": "b54b0aee30dc",
+    "user_query": "calculate 25 * 19",
+    "tool_selected": "calculator",
+    "execution_time_ms": 0.46,
+    "status": "success",
+    "planner_decision": "calculator"
+  },
+  {
+    "timestamp": "2026-08-03T15:51:08.781700+00:00",
+    "session_id": "108723f3c404",
+    "user_query": "Compare Bihar and Assam floods.",
+    "tool_selected": "rag_search",
+    "execution_time_ms": 67.9,
+    "status": "success",
+    "planner_decision": "comparison"
+  }
+]
