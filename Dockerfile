@@ -26,26 +26,23 @@ WORKDIR /app
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy application source code and assets
+# Copy application source code, assets, and seed data
 COPY api/ ./api/
 COPY src/ ./src/
 COPY config/ ./config/
 COPY static/ ./static/
 COPY scripts/ ./scripts/
+COPY data/ ./data/
 
-# Copy indexed vector database & data manifests
-COPY data/vector_db/ ./data/vector_db/
-COPY data/embeddings/ ./data/embeddings/
-
-# Create data directories for conversations & session logs
-RUN mkdir -p data/conversations reports
+# Create runtime directories safely for databases, conversations, uploads & reports
+RUN mkdir -p data/vector_db data/embeddings data/conversations data/uploads reports
 
 # Expose API and Web UI port
 EXPOSE 8000
 
 # Health check configuration
 HEALTHCHECK --interval=30s --timeout=5s --start-period=30s --retries=3 \
-  CMD curl -f http://localhost:8000/health || exit 1
+  CMD curl -f http://localhost:${PORT:-8000}/health || exit 1
 
-# Launch production server
-CMD ["uvicorn", "api.app:app", "--host", "0.0.0.0", "--port", "8000", "--workers", "1"]
+# Launch production server binding to 0.0.0.0 and supporting cloud provider PORT
+CMD ["sh", "-c", "uvicorn api.app:app --host 0.0.0.0 --port ${PORT:-${VARTA_PORT:-8000}} --workers 1"]

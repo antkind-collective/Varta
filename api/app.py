@@ -88,7 +88,7 @@ async def global_exception_handler(request: Request, exc: Exception):
 def main():
     import uvicorn
     host = os.getenv("VARTA_HOST", "0.0.0.0")
-    port = int(os.getenv("VARTA_PORT", "8000"))
+    port = int(os.getenv("PORT", os.getenv("VARTA_PORT", "8000")))
     reload = not IS_PRODUCTION and os.getenv("VARTA_RELOAD", "true").lower() in ("true", "1")
     uvicorn.run("api.app:app", host=host, port=port, reload=reload)
 
