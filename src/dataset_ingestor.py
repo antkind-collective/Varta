@@ -174,25 +174,33 @@ class DatasetIngestor:
         if not FAISS_AVAILABLE:
             raise RuntimeError("FAISS library is required for vector database indexing.")
 
-        if not faiss_path.exists() or not sqlite_path.exists():
-            raise FileNotFoundError("Base vector database not found. Please build base database first.")
+        if faiss_path.exists() and sqlite_path.exists():
+            # Read existing FAISS index & append
+            faiss_index = faiss.read_index(str(faiss_path))
+            start_vector_id = int(faiss_index.ntotal)
 
-        # Read existing FAISS index
-        faiss_index = faiss.read_index(str(faiss_path))
-        start_vector_id = int(faiss_index.ntotal)
+            # Normalize new embeddings and add to FAISS
+            faiss.normalize_L2(new_embeddings)
+            faiss_index.add(new_embeddings)
+            total_vectors_after = int(faiss_index.ntotal)
 
-        # Normalize new embeddings and add to FAISS
-        faiss.normalize_L2(new_embeddings)
-        faiss_index.add(new_embeddings)
-        total_vectors_after = int(faiss_index.ntotal)
+            # Save updated FAISS index
+            faiss.write_index(faiss_index, str(faiss_path))
 
-        # Save updated FAISS index
-        faiss.write_index(faiss_index, str(faiss_path))
+            # Append chunk metadata to SQLite
+            meta_store = MetadataStore(str(sqlite_path))
+            records_added = meta_store.append_chunks(chunks, start_vector_id=start_vector_id)
+            total_sqlite_records = meta_store.get_total_records_count()
+        else:
+            # Build new FAISS index & initialize SQLite metadata store from scratch
+            from src.index_builder import FAISSIndexBuilder
+            builder = FAISSIndexBuilder()
+            build_res = builder.build_and_save_index(new_embeddings, str(faiss_path))
+            total_vectors_after = build_res.get("num_vectors", len(chunks))
 
-        # Append chunk metadata to SQLite
-        meta_store = MetadataStore(str(sqlite_path))
-        records_added = meta_store.append_chunks(chunks, start_vector_id=start_vector_id)
-        total_sqlite_records = meta_store.get_total_records_count()
+            meta_store = MetadataStore(str(sqlite_path))
+            meta_store.append_chunks(chunks, start_vector_id=0)
+            total_sqlite_records = meta_store.get_total_records_count()
 
         # Update db_manifest.json
         manifest = {}
