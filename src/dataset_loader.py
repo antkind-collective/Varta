@@ -1,6 +1,6 @@
 import os
 import pandas as pd
-from typing import Tuple, Dict, Any
+from typing import Tuple, Dict, Any, Optional, List, Generator
 
 class DatasetLoader:
     """
@@ -55,3 +55,42 @@ class DatasetLoader:
         }
 
         return df, metrics
+
+    def stream_dataset_chunks(self, batch_size: int = 2000, columns_to_drop: Optional[List[str]] = None) -> Generator[pd.DataFrame, None, None]:
+        """
+        Streams dataset in DataFrame chunks of specified batch_size.
+        For CSVs, uses pd.read_csv(..., chunksize=batch_size, usecols=...) for true low-memory streaming.
+        For JSON/JSONL, streams in batch slices preserving identical row semantics.
+        """
+        ext = os.path.splitext(self.file_path)[1].lower()
+
+        if ext in [".jsonl", ".json"]:
+            try:
+                df_reader = pd.read_json(self.file_path, lines=(ext == ".jsonl"), chunksize=batch_size)
+                if hasattr(df_reader, "__iter__"):
+                    for chunk_df in df_reader:
+                        yield chunk_df
+                    return
+            except Exception:
+                pass
+
+            # Fallback for standard JSON arrays
+            try:
+                df_full = pd.read_json(self.file_path)
+            except ValueError:
+                df_full = pd.read_json(self.file_path, lines=True)
+
+            if isinstance(df_full, pd.DataFrame):
+                for i in range(0, len(df_full), batch_size):
+                    yield df_full.iloc[i : i + batch_size].copy()
+        else:
+            # True streaming CSV reader
+            if columns_to_drop:
+                head_cols = list(pd.read_csv(self.file_path, nrows=0).columns)
+                drop_set = set(columns_to_drop)
+                use_cols = [c for c in head_cols if c not in drop_set]
+                for chunk_df in pd.read_csv(self.file_path, usecols=use_cols, chunksize=batch_size, low_memory=False):
+                    yield chunk_df
+            else:
+                for chunk_df in pd.read_csv(self.file_path, chunksize=batch_size, low_memory=False):
+                    yield chunk_df
