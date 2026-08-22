@@ -3,7 +3,7 @@ import json
 import time
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Dict, Any, Optional
+from typing import Dict, Any, Optional, List
 
 from src.conversation_manager import ConversationManager
 from src.rag_orchestrator import RAGOrchestrator

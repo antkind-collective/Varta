@@ -18,7 +18,7 @@ import os
 import sys
 import json
 from pathlib import Path
-from typing import Dict, Any, List
+from typing import Dict, Any, List, Optional
 
 project_root = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(project_root))
