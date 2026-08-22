@@ -108,3 +108,17 @@ class ChunkBuilder:
             chunk_objects.append(chunk_obj)
 
         return chunk_objects
+
+    def build_chunks_from_documents(self, documents: List[Dict[str, Any]]) -> Tuple[List[Dict[str, Any]], Dict[str, Any]]:
+        """Batch processes a list of documents into standardized chunk objects."""
+        all_chunks = []
+        for doc in documents:
+            chunks = self.build_chunks_from_document(doc)
+            all_chunks.extend(chunks)
+
+        stats = {
+            "total_documents": len(documents),
+            "total_chunks": len(all_chunks),
+            "avg_chunks_per_doc": round(len(all_chunks) / len(documents), 2) if documents else 0.0
+        }
+        return all_chunks, stats

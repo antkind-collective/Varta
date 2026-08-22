@@ -1,0 +1,33 @@
+# Ignore Git and Agent config
+.git/
+.gitignore
+.gemini/
+.agents/
+.vscode/
+.idea/
+
+# Ignore local virtual environments
+.venv/
+venv/
+env/
+ENV/
+
+# Ignore Python caches and bytecode
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Ignore environment secrets
+.env
+.env.local
+.env.*.local
+
+# Ignore raw data files not needed in production container
+data/raw/
+*.log
+tmp/
+temp/

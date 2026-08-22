@@ -74,3 +74,16 @@ class SemanticRetriever:
             "metadata_filters_applied": metadata_filters,
             "results": ranked_results
         }
+
+    def get_dataset_representative_chunks(self, max_documents: int = 15) -> List[Dict[str, Any]]:
+        """Retrieves representative chunks across the dataset from the underlying vector database."""
+        if hasattr(self.vector_db, "get_dataset_representative_chunks"):
+            return self.vector_db.get_dataset_representative_chunks(max_documents=max_documents)
+        return []
+
+    def get_dataset_topic_breakdown(self) -> Dict[str, Any]:
+        """Retrieves dataset statistics and topic breakdown from the underlying vector database."""
+        if hasattr(self.vector_db, "get_dataset_topic_breakdown"):
+            return self.vector_db.get_dataset_topic_breakdown()
+        return {"total_chunks": 0, "total_documents": 0, "categories": {}, "source_types": {}}
+

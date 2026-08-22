@@ -5,7 +5,7 @@
 - **SQLite Metadata Records**: `39,172`
 - **Expected Corpus Chunks**: `39,172`
 - **Vector Dimension**: `384 dims`
-- **Database Reload Duration**: `0.0544 seconds`
+- **Database Reload Duration**: `0.0361 seconds`
 - **Validation Status**: **🟢 PASSED (100% Compliance)**
 
 ## 2. Quality Assurance Audit Results

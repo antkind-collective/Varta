@@ -14,7 +14,20 @@ class AgentPlanner:
 
     COMPARISON_KEYWORDS = {"compare", "comparison", "versus", "vs", "difference", "तुलना", "अंतर"}
     SUMMARIZATION_KEYWORDS = {"summarize", "summary", "overview", "overall status", "सारंश", "संक्षेप", "विवरण"}
-    SYSTEM_INFO_KEYWORDS = {"system status", "system info", "active model", "what model", "system information", "token budget", "runtime environment"}
+    SYSTEM_INFO_KEYWORDS = {
+        "system status", "system info", "active model", "what model", "system information",
+        "token budget", "runtime environment"
+    }
+    META_CITATION_PATTERNS = [
+        r"why\b.*\b(?:not\s+giving|no|missing|without|don't\s+give|didn't\s+give|not\s+showing|not\s+providing)\b.*\b(?:urls?|links?|sources?|citations?|references?)\b",
+        r"why\b.*\b(?:doc\s*ids?|document\s*ids?)\b.*\b(?:instead|no\s+urls?|without\s+urls?|only)\b",
+        r"why\b.*\b(?:only|showing|displaying)\b.*\b(?:doc\s*ids?|document\s*ids?)\b",
+        r"why\b.*\b(?:some|any)\b.*\b(?:references?|citations?|sources?)\b.*\b(?:no|without|missing|have\s+no)\b.*\b(?:urls?|links?)\b",
+        r"why\s+are\s+there\s+no\s+urls?\b",
+        r"how\b.*\b(?:citations?|references?|sources?)\b.*\b(?:work|handled|generated|managed)\b",
+        r"where\b.*\b(?:source\s+urls?|citations?|references?)\b",
+        r"\b(?:what\s+is\s+varta|what\s+can\s+you\s+do|who\s+are\s+you|help\s+with\s+varta)\b"
+    ]
     MEMORY_TOOL_KEYWORDS = {"conversation history", "previous questions", "what was my first question", "show history", "chat history"}
     DOC_SEARCH_KEYWORDS = {"search document metadata", "find documents about", "list document titles", "document search"}
 
@@ -57,14 +70,16 @@ class AgentPlanner:
                 reasoning="Mathematical calculation query detected requiring CalculatorTool."
             )
 
-        # 3. Check System Info Intent
-        if any(kw in combined_text for kw in self.SYSTEM_INFO_KEYWORDS):
+        # 3. Check System Info & Meta Explanation Intent (Citations / URLs / VARTA identity)
+        is_sys_info = any(kw in combined_text for kw in self.SYSTEM_INFO_KEYWORDS)
+        is_meta_query = any(re.search(pat, combined_text, re.IGNORECASE) for pat in self.META_CITATION_PATTERNS)
+        if is_sys_info or is_meta_query:
             return ExecutionPlan(
                 plan_type="system_info",
-                steps=[{"type": "tool_call", "tool": "system_info"}],
+                steps=[{"type": "tool_call", "tool": "system_info", "query": clean_q}],
                 original_query=clean_q,
                 rewritten_query=clean_rw,
-                reasoning="System status query detected requiring SystemInfoTool."
+                reasoning="System status or meta-explanation query detected requiring SystemInfoTool."
             )
 
         # 4. Check Conversation Memory Intent

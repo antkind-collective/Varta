@@ -10,6 +10,7 @@ from src.data_cleaner import DataCleaner
 from src.text_normalizer import TextNormalizer
 from src.metadata_processor import MetadataProcessor
 from src.duplicate_handler import DuplicateHandler
+from src.context_relevance_engine import ContextRelevanceEngine, ResearchContext
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
 logger = logging.getLogger("PreprocessingPipeline")
@@ -82,8 +83,16 @@ class PreprocessingPipeline:
             id_column=self.config.get("identifier_column", "post_id"),
             payload_columns=self.config.get("core_payload_columns", ["title", "text_content"])
         )
-        df_processed, dedup_stats = dup_handler.deduplicate(df_meta_clean)
+        df_dedup, dedup_stats = dup_handler.deduplicate(df_meta_clean)
         logger.info(f"Deduplication completed: {dedup_stats['total_duplicates_removed']:,} duplicates removed")
+
+        # 6.5. Context Relevance Filtering
+        rel_engine = ContextRelevanceEngine()
+        context = ResearchContext()
+        records = df_dedup.to_dict("records")
+        filtered_records, filtering_stats = rel_engine.filter_dataset(records, context=context, allowed_decisions=("KEEP", "REVIEW"))
+        df_processed = pd.DataFrame(filtered_records)
+        logger.info(f"Context Filtering completed: {filtering_stats['total_passed']:,} passed ({filtering_stats['decision_counts'].get('KEEP', 0)} KEEP, {filtering_stats['decision_counts'].get('REVIEW', 0)} REVIEW), {filtering_stats['total_excluded']:,} EXCLUDED")
 
         # 7. Export Processed Dataset
         output_csv_path = os.path.join(self.output_dir, "processed_dataset.csv")

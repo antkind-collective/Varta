@@ -46,3 +46,16 @@ temp/
 *.db
 *.npy
 *.bin
+
+# Local Backups, Scratch & Profiling JSONs
+*.bak
+scratch/
+data/uploads/
+reports/*.json
+
+# Local Session Logs & Generated DB JSONs
+data/conversations/*.json
+data/planner/*.json
+data/tools/*.json
+data/embeddings/*.json
+data/vector_db/*.json

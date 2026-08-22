@@ -16,7 +16,7 @@
 | **Hindi Language Planning** | Standardized Requirement | Decomposed Devanagari comparative query: 'बिहार में बाढ़ की स्थिति' & 'असम की बाढ़ में बाढ़ की स्थिति' | 🟢 PASS |
 | **Clarification Required Handling** | Standardized Requirement | Empty input created clarification plan cleanly | 🟢 PASS |
 | **Plan Serialization & Deserialization** | Standardized Requirement | Successfully serialized and deserialized ExecutionPlan object. | 🟢 PASS |
-| **Planner Log Telemetry Audit** | Standardized Requirement | Verified planner_log.json (94 entries). Schema compliant & context excluded. | 🟢 PASS |
+| **Planner Log Telemetry Audit** | Standardized Requirement | Verified planner_log.json (324 entries). Schema compliant & context excluded. | 🟢 PASS |
 
 ## 3. Bug Fix Pass Summary & Verified Scenarios
 - **Bug 1 Fix (Topic Switching Guard)**: Explicit topic changes ('Tell me about Assam floods.', 'Tell me about Gorakhpur.', 'Explain quantum computing.') reset context inheritance cleanly with zero previous topic leakage.

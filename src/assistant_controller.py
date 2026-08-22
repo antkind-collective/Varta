@@ -179,6 +179,33 @@ class AssistantController:
 
         return response
 
+    def _append_json_log(self, file_path: Path, log_entry: Dict[str, Any]) -> None:
+        """Helper to append a log entry to a JSON array file efficiently with cached in-memory tracking."""
+        try:
+            file_path.parent.mkdir(parents=True, exist_ok=True)
+            if not hasattr(self, "_log_cache"):
+                self._log_cache: Dict[str, List[Dict[str, Any]]] = {}
+
+            path_key = str(file_path.resolve())
+            if path_key not in self._log_cache:
+                logs = []
+                if file_path.exists():
+                    try:
+                        with open(file_path, "r", encoding="utf-8") as f:
+                            loaded = json.load(f)
+                            if isinstance(loaded, list):
+                                logs = loaded
+                    except Exception:
+                        logs = []
+                self._log_cache[path_key] = logs
+
+            self._log_cache[path_key].append(log_entry)
+
+            with open(file_path, "w", encoding="utf-8") as f:
+                json.dump(self._log_cache[path_key], f, ensure_ascii=False, indent=2)
+        except Exception as e:
+            print(f"[WARN] Failed to write log entry to {file_path}: {e}")
+
     def _log_session_event(self, response: Dict[str, Any]) -> None:
         """Logs extended query execution metadata to data/conversations/session_log.json."""
         log_entry = {
@@ -195,25 +222,7 @@ class AssistantController:
             "provider": response["llm"]["provider"],
             "model": response["llm"]["model"]
         }
-
-        try:
-            self.log_file_path.parent.mkdir(parents=True, exist_ok=True)
-            logs = []
-            if self.log_file_path.exists():
-                try:
-                    with open(self.log_file_path, "r", encoding="utf-8") as f:
-                        logs = json.load(f)
-                        if not isinstance(logs, list):
-                            logs = []
-                except Exception:
-                    logs = []
-
-            logs.append(log_entry)
-
-            with open(self.log_file_path, "w", encoding="utf-8") as f:
-                json.dump(logs, f, ensure_ascii=False, indent=2)
-        except Exception as e:
-            print(f"[WARN] Failed to write session log entry: {e}")
+        self._append_json_log(self.log_file_path, log_entry)
 
     def _log_planner_event(self, response: Dict[str, Any], plan: ExecutionPlan) -> None:
         """Logs planner execution telemetry to data/planner/planner_log.json."""
@@ -228,25 +237,7 @@ class AssistantController:
             "total_latency": response["execution_time_ms"],
             "confidence": response["confidence"]
         }
-
-        try:
-            self.planner_log_path.parent.mkdir(parents=True, exist_ok=True)
-            logs = []
-            if self.planner_log_path.exists():
-                try:
-                    with open(self.planner_log_path, "r", encoding="utf-8") as f:
-                        logs = json.load(f)
-                        if not isinstance(logs, list):
-                            logs = []
-                except Exception:
-                    logs = []
-
-            logs.append(log_entry)
-
-            with open(self.planner_log_path, "w", encoding="utf-8") as f:
-                json.dump(logs, f, ensure_ascii=False, indent=2)
-        except Exception as e:
-            print(f"[WARN] Failed to write planner log entry: {e}")
+        self._append_json_log(self.planner_log_path, log_entry)
 
     def _log_tool_event(self, response: Dict[str, Any], tool_result: Dict[str, Any], plan: ExecutionPlan) -> None:
         """Logs tool execution telemetry to data/tools/tool_log.json."""
@@ -259,22 +250,4 @@ class AssistantController:
             "status": "success" if tool_result.get("success", True) else "failure",
             "planner_decision": plan.plan_type
         }
-
-        try:
-            self.tool_log_path.parent.mkdir(parents=True, exist_ok=True)
-            logs = []
-            if self.tool_log_path.exists():
-                try:
-                    with open(self.tool_log_path, "r", encoding="utf-8") as f:
-                        logs = json.load(f)
-                        if not isinstance(logs, list):
-                            logs = []
-                except Exception:
-                    logs = []
-
-            logs.append(log_entry)
-
-            with open(self.tool_log_path, "w", encoding="utf-8") as f:
-                json.dump(logs, f, ensure_ascii=False, indent=2)
-        except Exception as e:
-            print(f"[WARN] Failed to write tool log entry: {e}")
+        self._append_json_log(self.tool_log_path, log_entry)

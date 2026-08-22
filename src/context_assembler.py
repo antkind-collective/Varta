@@ -41,6 +41,8 @@ class ContextAssembler:
         grouped_by_parent: Dict[str, List[Dict[str, Any]]] = {}
         for c in unique_chunks:
             pid = c.get("parent_doc_id", "unknown_parent")
+            if pid and (pid.startswith("http://") or pid.startswith("https://")):
+                pid = re.sub(r'\.\d+$', '', pid)
             if pid not in grouped_by_parent:
                 grouped_by_parent[pid] = []
             grouped_by_parent[pid].append(c)

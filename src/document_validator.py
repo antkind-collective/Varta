@@ -10,6 +10,21 @@ class DocumentValidator:
     - JSON serialization & roundtrip integrity
     """
 
+    def validate_document(self, doc: Dict[str, Any]) -> Tuple[bool, Optional[str]]:
+        """Validates a single standardized document schema and payload."""
+        if not isinstance(doc, dict):
+            return False, "Document must be a dictionary."
+        doc_id = doc.get("doc_id")
+        if not doc_id:
+            return False, "Missing doc_id."
+        content = doc.get("content")
+        if not content or not isinstance(content, str) or str(content).strip() == "":
+            return False, "Content cannot be empty."
+        required_keys = ["doc_id", "title", "content", "metadata", "processing_info"]
+        if not all(k in doc for k in required_keys):
+            return False, "Missing required schema fields."
+        return True, None
+
     def validate_documents(self, documents: List[Dict[str, Any]]) -> Dict[str, Any]:
         total_docs = len(documents)
         doc_ids = set()

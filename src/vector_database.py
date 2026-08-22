@@ -64,6 +64,11 @@ class VectorDatabase:
             vid = res["vector_id"]
             res["similarity_score"] = round(score_map.get(vid, 0.0), 4)
 
+            # Skip EXCLUDE chunks (enforce context-filtered corpus)
+            decision = res.get("relevance_decision") or res.get("metadata", {}).get("relevance_decision")
+            if decision == "EXCLUDE":
+                continue
+
             # Apply metadata filters if provided
             if metadata_filters:
                 match = True
@@ -91,7 +96,40 @@ class VectorDatabase:
         return {
             "total_vectors_indexed": self.index.ntotal if self.index else 0,
             "vector_dimension": self.index.d if self.index else 0,
-            "metadata_records_count": self.metadata_store.get_total_records_count(),
+            "metadata_records_count": self.metadata_store.get_total_records_count() if self.metadata_store else 0,
             "reload_duration_sec": self.load_time_sec,
             "manifest": self.manifest
         }
+
+    def get_dataset_representative_chunks(self, max_documents: int = 15) -> List[Dict[str, Any]]:
+        if hasattr(self, "metadata_store") and self.metadata_store:
+            return self.metadata_store.get_dataset_representative_chunks(max_documents=max_documents)
+        elif hasattr(self, "entries") and self.entries:
+            results = []
+            seen = set()
+            for entry in self.entries.values():
+                if entry.doc_id not in seen:
+                    seen.add(entry.doc_id)
+                    results.append({
+                        "chunk_id": entry.chunk_id,
+                        "parent_doc_id": entry.doc_id,
+                        "title": entry.metadata.get("title", "Untitled") if entry.metadata else "Untitled",
+                        "content": entry.text,
+                        "similarity_score": 1.0,
+                        "metadata": entry.metadata or {}
+                    })
+                if len(results) >= max_documents:
+                    break
+            return results
+        return []
+
+    def get_dataset_topic_breakdown(self) -> Dict[str, Any]:
+        if hasattr(self, "metadata_store") and self.metadata_store:
+            return self.metadata_store.get_dataset_topic_breakdown()
+        return {
+            "total_chunks": len(getattr(self, "entries", {})),
+            "total_documents": len(getattr(self, "entries", {})),
+            "categories": {},
+            "source_types": {}
+        }
+

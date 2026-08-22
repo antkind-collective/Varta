@@ -92,7 +92,8 @@ class ToolRouter:
             return {
                 "session_id": context_data.get("session_id", "N/A"),
                 "provider": context_data.get("provider", "OpenAIAdapter"),
-                "model": context_data.get("model", "gpt-4o-mini")
+                "model": context_data.get("model", "gpt-4o-mini"),
+                "query": plan.original_query
             }
         elif tool_name == "conversation_memory":
             return {"memory": context_data.get("memory")}

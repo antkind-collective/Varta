@@ -34,9 +34,31 @@ class DataCleaner:
         stats["columns_dropped"] = existing_cols_to_drop
         stats["columns_dropped_count"] = len(existing_cols_to_drop)
 
-        # 2. Rename columns
+        # 2. Rename columns via config map
         existing_rename_map = {k: v for k, v in self.column_rename_map.items() if k in df_pruned.columns}
         df_renamed = df_pruned.rename(columns=existing_rename_map)
+
+        # 3. Dynamic Alias Fallback for generic datasets
+        alias_fallbacks = {
+            "title": ["headline", "news_title", "article_title", "heading", "name"],
+            "text_content": ["content", "text", "body", "article_text", "article", "sound_bite_text", "sound bite text", "description", "summary"],
+            "source_url": ["source_url", "source url", "url", "link", "article_url", "web_url", "source_link", "orig_url", "source_uri", "uri"],
+            "post_id": ["post_id", "post id", "id", "doc_id", "doc id", "article_id", "identifier", "record_id", "item_id"],
+            "source_type": ["source", "media", "type", "source_name", "publisher"]
+        }
+        for target_col, aliases in alias_fallbacks.items():
+            if target_col not in df_renamed.columns:
+                for c in df_renamed.columns:
+                    if str(c).strip().lower() in aliases or str(c).strip().lower() == target_col:
+                        df_renamed = df_renamed.rename(columns={c: target_col})
+                        existing_rename_map[c] = target_col
+                        break
+
+        # If post_id is still missing but source_url exists, copy source_url to post_id
+        if "post_id" not in df_renamed.columns and "source_url" in df_renamed.columns:
+            df_renamed["post_id"] = df_renamed["source_url"]
+            existing_rename_map["source_url (fallback)"] = "post_id"
+
         stats["columns_renamed"] = existing_rename_map
         stats["columns_renamed_count"] = len(existing_rename_map)
         stats["final_column_count"] = len(df_renamed.columns)

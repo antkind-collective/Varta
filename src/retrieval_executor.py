@@ -68,26 +68,39 @@ class RetrievalExecutor:
             ]
             return rag_output
 
-        # Multi-Step or Comparative Sequential Retrieval Execution
-        sub_results = []
-        all_citations = []
-        confidence_scores = []
+        # Multi-Step or Comparative Parallel / Concurrent Retrieval Execution
+        from concurrent.futures import ThreadPoolExecutor
 
-        for idx, step in enumerate(retrieval_steps, 1):
+        def _execute_sub_step(step_item: tuple) -> tuple:
+            idx, step = step_item
             sub_q = step["query"]
             sub_res = self.rag_orchestrator.run_pipeline(query=sub_q)
-            
             sub_ans = sub_res.get("answer", "").strip() or f"Retrieved documents and evidence regarding {step.get('target', sub_q)}."
-
-            sub_results.append({
+            res_dict = {
                 "step": idx,
                 "sub_query": sub_q,
                 "target": step.get("target") or sub_q,
                 "answer": sub_ans,
                 "confidence": sub_res.get("confidence", {}),
                 "citations": sub_res.get("citations", [])
-            })
+            }
+            return idx, res_dict, sub_res
 
+        step_items = list(enumerate(retrieval_steps, 1))
+        max_workers = min(len(step_items), 4)
+
+        with ThreadPoolExecutor(max_workers=max_workers) as executor:
+            step_outputs = list(executor.map(_execute_sub_step, step_items))
+
+        # Sort by step index to preserve exact order
+        step_outputs.sort(key=lambda x: x[0])
+
+        sub_results = []
+        all_citations = []
+        confidence_scores = []
+
+        for idx, res_dict, sub_res in step_outputs:
+            sub_results.append(res_dict)
             if sub_res.get("citations"):
                 all_citations.extend(sub_res["citations"])
             if sub_res.get("confidence", {}).get("score") is not None:

@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="VARTA Research Intelligence — Grounded Knowledge Retrieval & Evidence-Based Disaster Analysis">
+  <title>VARTA — Research Intelligence</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;0,6..72,700;1,6..72,400&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/static/styles.css?v=2.0">
+</head>
+<body>
+  <div class="app-layout">
+    <!-- Header -->
+    <header class="app-header">
+      <div class="header-brand">
+        <div class="brand-logo">
+          <span class="brand-accent-dot"></span>
+        </div>
+        <div class="brand-text">
+          <h1 class="brand-title">VARTA <span class="brand-badge">RESEARCH INTELLIGENCE</span></h1>
+          <p class="brand-subtitle">Grounded Disaster Intelligence & Multi-Source Evidence Retrieval</p>
+        </div>
+      </div>
+      <div class="header-actions">
+        <div class="status-indicator" id="system-status-badge">
+          <span class="status-dot"></span>
+          <span class="status-label">Online</span>
+        </div>
+        <button id="btn-upload-dataset" class="btn btn-primary" title="Upload a dataset (.csv, .json, .jsonl)">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="17 8 12 3 7 8"></polyline>
+            <line x1="12" y1="3" x2="12" y2="15"></line>
+          </svg>
+          <span>+ Upload Dataset</span>
+        </button>
+        <input type="file" id="dataset-file-input" accept=".csv,.json,.jsonl" style="display: none;">
+        <button id="btn-new-chat" class="btn btn-secondary" title="Start a fresh research session">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="12" y1="5" x2="12" y2="19"></line>
+            <line x1="5" y1="12" x2="19" y2="12"></line>
+          </svg>
+          <span>New Session</span>
+        </button>
+        <button id="btn-export-chat" class="btn btn-outline" title="Export conversation transcript">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+          </svg>
+          <span>Export</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- Main Container -->
+    <div class="main-body">
+      <!-- Sidebar -->
+      <aside class="sidebar">
+        <div class="sidebar-section">
+          <h2 class="sidebar-heading">Active Session</h2>
+          <div class="session-card">
+            <div class="session-info">
+              <span class="session-label">Session ID</span>
+              <code id="active-session-display" class="session-id-code">Initializing...</code>
+            </div>
+            <div class="session-stat">
+              <span class="session-label">Exchanges</span>
+              <span id="turn-count-badge" class="badge">0 turns</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="sidebar-section">
+          <h2 class="sidebar-heading">Sample Research Inquiries</h2>
+          <div class="sample-queries">
+            <button class="sample-chip" data-query="What is the flood situation in Bihar?">
+              <span class="chip-icon">🌊</span>
+              <span>Bihar Flood Situation</span>
+            </button>
+            <button class="sample-chip" data-query="What about Patna?">
+              <span class="chip-icon">📍</span>
+              <span>Patna District Status</span>
+            </button>
+            <button class="sample-chip" data-query="Compare Bihar and Assam floods.">
+              <span class="chip-icon">⚖️</span>
+              <span>Compare Bihar & Assam Floods</span>
+            </button>
+            <button class="sample-chip" data-query="गोरखपुर में बाढ़ और राप्ती नदी का क्या हाल है?">
+              <span class="chip-icon">🇮🇳</span>
+              <span>गोरखपुर व राप्ती नदी अपडेट</span>
+            </button>
+            <button class="sample-chip" data-query="What relief measures are deployed in Danapur?">
+              <span class="chip-icon">🚁</span>
+              <span>Danapur Relief Operations</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="sidebar-section footer-section">
+          <p class="sidebar-note">
+            Answers are grounded in verified disaster records with direct citations.
+          </p>
+        </div>
+      </aside>
+
+      <!-- Chat Area -->
+      <main class="chat-container">
+        <!-- Message Stream -->
+        <div id="messages-container" class="messages-stream">
+          <!-- Welcome Hero (shown on empty chat) -->
+          <div id="welcome-card" class="welcome-card">
+            <div class="welcome-icon">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
+                <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
+              </svg>
+            </div>
+            <h2>VARTA Research Intelligence</h2>
+            <p>
+              Inquire about flood monitoring, relief operations, river water levels, and comparative multi-region disaster intelligence across English and Hindi.
+            </p>
+            <div class="welcome-features">
+              <div class="feature-item">
+                <span class="feature-bullet">▪</span>
+                <span>Grounded multi-source synthesis</span>
+              </div>
+              <div class="feature-item">
+                <span class="feature-bullet">▪</span>
+                <span>Auditable document citations</span>
+              </div>
+              <div class="feature-item">
+                <span class="feature-bullet">▪</span>
+                <span>Continuous multi-turn context</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Typing / Loading Indicator -->
+        <div id="loading-indicator" class="loading-indicator" style="display: none;">
+          <div class="typing-bubble">
+            <span class="dot"></span>
+            <span class="dot"></span>
+            <span class="dot"></span>
+          </div>
+          <span class="loading-text">Synthesizing evidence and consulting sources...</span>
+        </div>
+
+        <!-- Input Composer -->
+        <div class="composer-container">
+          <form id="chat-form" class="composer-form">
+            <div class="input-wrapper">
+              <textarea
+                id="message-input"
+                class="composer-textarea"
+                placeholder="Ask a research inquiry (e.g. 'What is the flood situation in Bihar?' or 'What about Patna?')..."
+                rows="1"
+                required
+              ></textarea>
+              <button id="btn-send" type="submit" class="btn btn-primary btn-send" title="Send message">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <line x1="22" y1="2" x2="11" y2="13"></line>
+                  <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+                </svg>
+                <span>Send</span>
+              </button>
+            </div>
+            <div class="composer-hint">
+              <span>Press <strong>Enter</strong> to send, <strong>Shift + Enter</strong> for a new line</span>
+            </div>
+          </form>
+        </div>
+      </main>
+    </div>
+
+    <!-- Error Toast Notification -->
+    <div id="error-toast" class="toast toast-error" style="display: none;">
+      <div class="toast-icon">⚠️</div>
+      <div class="toast-content">
+        <strong id="toast-title">Error</strong>
+        <p id="toast-message">An unexpected issue occurred.</p>
+      </div>
+      <button id="toast-close" class="toast-close">&times;</button>
+    </div>
+
+    <!-- Success Toast Notification -->
+    <div id="success-toast" class="toast toast-success" style="display: none;">
+      <div class="toast-icon">✓</div>
+      <div class="toast-content">
+        <strong id="success-toast-title">Success</strong>
+        <p id="success-toast-message">Dataset successfully uploaded and ready for queries.</p>
+      </div>
+      <button id="success-toast-close" class="toast-close">&times;</button>
+    </div>
+
+    <!-- Dataset Upload & Ingestion Modal -->
+    <div id="upload-modal" class="modal-backdrop" style="display: none;">
+      <div class="modal-card">
+        <div class="modal-header">
+          <div class="modal-title-group">
+            <h3 class="modal-title">Dataset Ingestion Pipeline</h3>
+          </div>
+          <button id="btn-close-modal" class="modal-close-btn" title="Close modal">&times;</button>
+        </div>
+        <div class="modal-body">
+          <div class="dataset-file-badge" id="upload-filename-badge">
+            <span class="file-icon">📄</span>
+            <span id="upload-filename-text" class="filename-text">disaster_dataset.csv</span>
+          </div>
+          
+          <div class="progress-steps-list">
+            <div class="step-item" id="step-uploading">
+              <div class="step-bullet"><span class="step-dot"></span></div>
+              <div class="step-content">
+                <span class="step-label">Uploading</span>
+                <span class="step-desc">Transferring dataset file to server...</span>
+              </div>
+            </div>
+            <div class="step-item" id="step-processing">
+              <div class="step-bullet"><span class="step-dot"></span></div>
+              <div class="step-content">
+                <span class="step-label">Processing</span>
+                <span class="step-desc">Cleaning, normalizing text, standardizing documents & semantic chunking...</span>
+              </div>
+            </div>
+            <div class="step-item" id="step-indexing">
+              <div class="step-bullet"><span class="step-dot"></span></div>
+              <div class="step-content">
+                <span class="step-label">Indexing</span>
+                <span class="step-desc">Generating vector embeddings & indexing into Vector DB...</span>
+              </div>
+            </div>
+            <div class="step-item" id="step-ready">
+              <div class="step-bullet"><span class="step-dot"></span></div>
+              <div class="step-content">
+                <span class="step-label">Ready</span>
+                <span class="step-desc">Dataset is live and available for research inquiries.</span>
+              </div>
+            </div>
+          </div>
+
+          <div id="upload-status-box" class="upload-status-box" style="display: none;">
+            <span id="upload-status-icon">✓</span>
+            <p id="upload-status-msg">Dataset successfully indexed!</p>
+          </div>
+        </div>
+        <div class="modal-footer" id="modal-footer" style="display: none;">
+          <button id="btn-modal-dismiss" class="btn btn-primary">Done</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="/static/app.js?v=2.0"></script>
+</body>
+</html>

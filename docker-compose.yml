@@ -1,0 +1,29 @@
+version: '3.8'
+
+services:
+  varta-assistant:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: varta-assistant-app
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    environment:
+      - VARTA_ENV=production
+      - VARTA_HOST=0.0.0.0
+      - VARTA_PORT=8000
+      - VARTA_ENABLE_DOCS=true
+      - VARTA_CORS_ORIGINS=*
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - OPENAI_MODEL=${OPENAI_MODEL:-gpt-5}
+      - LLM_PROVIDER=${LLM_PROVIDER:-openai}
+    volumes:
+      - ./data/conversations:/app/data/conversations
+      - ./reports:/app/reports
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 30s

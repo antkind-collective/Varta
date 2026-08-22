@@ -24,12 +24,24 @@ class DatasetLoader:
 
     def load_dataset(self) -> Tuple[pd.DataFrame, Dict[str, Any]]:
         """
-        Loads dataset into pandas DataFrame and computes basic discovery metrics.
+        Loads dataset into pandas DataFrame supporting .csv, .json, and .jsonl files.
         """
-        df = pd.read_csv(self.file_path, low_memory=False)
+        ext = os.path.splitext(self.file_path)[1].lower()
+        if ext == ".jsonl":
+            df = pd.read_json(self.file_path, lines=True)
+        elif ext == ".json":
+            try:
+                df = pd.read_json(self.file_path)
+            except ValueError:
+                # Fallback to lines=True if multi-line jsonl was named .json
+                df = pd.read_json(self.file_path, lines=True)
+        else:
+            # Default to CSV
+            df = pd.read_csv(self.file_path, low_memory=False)
+
         meta = self.get_file_metadata()
 
-        memory_usage_bytes = df.memory_usage(deep=True).sum()
+        memory_usage_bytes = df.memory_usage(deep=True).sum() if not df.empty else 0
         memory_usage_mb = memory_usage_bytes / (1024 * 1024)
 
         metrics = {

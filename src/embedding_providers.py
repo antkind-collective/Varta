@@ -30,27 +30,45 @@ class BaseEmbeddingProvider(ABC):
         pass
 
 
+from collections import OrderedDict
+import threading
+
 class SentenceTransformersProvider(BaseEmbeddingProvider):
     """
     SentenceTransformers local model provider:
     Supports sentence-transformers/all-MiniLM-L6-v2, intfloat/multilingual-e5-base, etc.
+    Includes singleton model caching and bounded LRU query embedding cache.
     """
+
+    _MODEL_CACHE: Dict[tuple, Any] = {}
+    _QUERY_CACHE: OrderedDict = OrderedDict()
+    _CACHE_LOCK = threading.Lock()
+    _MAX_CACHE_SIZE = 512
 
     def __init__(self, model_name: str = "sentence-transformers/all-MiniLM-L6-v2", device: str = "cpu", normalize_embeddings: bool = True):
         self.model_name = model_name
         self.device = device
         self.normalize_embeddings = normalize_embeddings
         
-        try:
-            from sentence_transformers import SentenceTransformer
-            self.model = SentenceTransformer(model_name, device=device)
-            self.dimension = self.model.get_sentence_embedding_dimension()
-        except Exception as e:
-            print(f"[Warning] Failed to load '{model_name}': {e}. Falling back to 'sentence-transformers/all-MiniLM-L6-v2'.")
-            from sentence_transformers import SentenceTransformer
-            self.model_name = "sentence-transformers/all-MiniLM-L6-v2"
-            self.model = SentenceTransformer(self.model_name, device=device)
-            self.dimension = self.model.get_sentence_embedding_dimension()
+        cache_key = (model_name, device)
+        with self._CACHE_LOCK:
+            if cache_key in self._MODEL_CACHE:
+                self.model, self.dimension = self._MODEL_CACHE[cache_key]
+            else:
+                try:
+                    from sentence_transformers import SentenceTransformer
+                    model = SentenceTransformer(model_name, device=device)
+                    dim = model.get_embedding_dimension() if hasattr(model, "get_embedding_dimension") else model.get_sentence_embedding_dimension()
+                except Exception as e:
+                    print(f"[Warning] Failed to load '{model_name}': {e}. Falling back to 'sentence-transformers/all-MiniLM-L6-v2'.")
+                    from sentence_transformers import SentenceTransformer
+                    self.model_name = "sentence-transformers/all-MiniLM-L6-v2"
+                    model = SentenceTransformer(self.model_name, device=device)
+                    dim = model.get_embedding_dimension() if hasattr(model, "get_embedding_dimension") else model.get_sentence_embedding_dimension()
+
+                self.model = model
+                self.dimension = dim
+                self._MODEL_CACHE[cache_key] = (self.model, self.dimension)
 
     def encode(self, texts: List[str]) -> np.ndarray:
         # Prepend 'passage: ' if using e5 models if not present
@@ -72,7 +90,22 @@ class SentenceTransformersProvider(BaseEmbeddingProvider):
             qtext = f"query: {text}" if not text.startswith("query:") else text
         else:
             qtext = text
-        return self.encode([qtext])
+
+        cache_key = (self.model_name, self.device, self.normalize_embeddings, qtext)
+        with self._CACHE_LOCK:
+            if cache_key in self._QUERY_CACHE:
+                self._QUERY_CACHE.move_to_end(cache_key)
+                return self._QUERY_CACHE[cache_key].copy()
+
+        # Compute embedding
+        res = self.encode([qtext])
+
+        with self._CACHE_LOCK:
+            self._QUERY_CACHE[cache_key] = res
+            if len(self._QUERY_CACHE) > self._MAX_CACHE_SIZE:
+                self._QUERY_CACHE.popitem(last=False)
+
+        return res.copy()
 
     def get_dimension(self) -> int:
         return int(self.dimension)
