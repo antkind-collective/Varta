@@ -381,8 +381,8 @@ class ProfilerRunner:
             vdb = VectorDatabase.load(str(vdb_dir))
         else:
             from src.embedding_storage import VectorEntry
-            vdb = VectorDatabase(vector_dim=384)
-            vdb.add_entry(VectorEntry(doc_id="doc1", chunk_id="chunk1", embedding=[0.1]*384, text="Sample text", metadata={"title": "Test"}))
+            vdb = VectorDatabase(vector_dim=1536)
+            vdb.add_entry(VectorEntry(doc_id="doc1", chunk_id="chunk1", embedding=[0.1]*1536, text="Sample text", metadata={"title": "Test"}))
         vdb_init_ms = round((time.perf_counter() - t_vdb_start) * 1000, 3)
 
         t_ret_start = time.perf_counter()

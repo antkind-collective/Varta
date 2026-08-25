@@ -13,12 +13,12 @@
     "inject_title_header": true
   },
   "embedding": {
-    "provider": "sentence-transformers",
-    "model_name": "sentence-transformers/all-MiniLM-L6-v2",
+    "provider": "openai",
+    "model_name": "text-embedding-3-small",
+    "dimension": 1536,
     "fallback_model_name": "sentence-transformers/all-MiniLM-L6-v2",
     "batch_size": 128,
-    "normalize_embeddings": true,
-    "device": "cpu"
+    "normalize_embeddings": true
   },
   "storage": {
     "embeddings_filename": "embeddings.npy",

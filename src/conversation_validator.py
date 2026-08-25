@@ -49,8 +49,8 @@ class ConversationValidator:
         else:
             # Fallback mock for isolated unit execution if vector_db is not pre-built
             from src.embedding_storage import VectorEntry
-            self.vdb = VectorDatabase(vector_dim=384)
-            self.vdb.add_entry(VectorEntry(doc_id="doc1", chunk_id="chunk1", embedding=[0.1]*384, text="बिहार में बाढ़ राहत शिविर स्थापित किए गए हैं।", metadata={"title": "Bihar Flood Report"}))
+            self.vdb = VectorDatabase(vector_dim=1536)
+            self.vdb.add_entry(VectorEntry(doc_id="doc1", chunk_id="chunk1", embedding=[0.1]*1536, text="बिहार में बाढ़ से राहत शिविर स्थापित किए गए हैं।", metadata={"title": "Bihar Flood Report"}))
             
         self.retriever = SemanticRetriever(vector_db=self.vdb)
         self.llm_adapter = MockLLMAdapter()

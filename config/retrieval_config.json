@@ -6,8 +6,8 @@
     "vector_db_dir": "data/vector_db"
   },
   "embedding": {
-    "provider": "sentence-transformers",
-    "model_name": "sentence-transformers/all-MiniLM-L6-v2",
-    "device": "cpu"
+    "provider": "openai",
+    "model_name": "text-embedding-3-small",
+    "dimension": 1536
   }
 }

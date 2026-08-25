@@ -1,6 +1,6 @@
 import re
 import pandas as pd
-from typing import Dict, Any, Optional
+from typing import Dict, Any, Optional, Union
 from src.metadata_formatter import MetadataFormatter
 
 class DocumentBuilder:
@@ -17,7 +17,7 @@ class DocumentBuilder:
         self.schema_version = schema_version
         self.metadata_formatter = MetadataFormatter()
 
-    def build_document(self, row: pd.Series, doc_index: int) -> Dict[str, Any]:
+    def build_document(self, row: Union[pd.Series, Dict[str, Any]], doc_index: int) -> Dict[str, Any]:
         raw_post_id = row.get("post_id") if pd.notna(row.get("post_id")) else (row.get("id") or row.get("doc_id") or row.get("source_url"))
         post_id_clean = str(raw_post_id).strip() if pd.notna(raw_post_id) else ""
         

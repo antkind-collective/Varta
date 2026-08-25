@@ -24,7 +24,8 @@ class SemanticRetriever:
     ):
         self.vector_db = vector_db
         if embedding_provider is None:
-            self.embedding_provider = SentenceTransformersProvider()
+            from src.embedding_providers import get_embedding_provider
+            self.embedding_provider = get_embedding_provider()
         else:
             self.embedding_provider = embedding_provider
 

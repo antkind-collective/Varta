@@ -38,7 +38,7 @@ def get_assistant_controller() -> AssistantController:
             import faiss
             from src.metadata_store import MetadataStore
             meta_store = MetadataStore(str(vdb_dir / "metadata.sqlite"))
-            index = faiss.IndexFlatIP(384) if 'faiss' in sys.modules or hasattr(faiss, 'IndexFlatIP') else None
+            index = faiss.IndexFlatIP(1536) if 'faiss' in sys.modules or hasattr(faiss, 'IndexFlatIP') else None
             manifest = {"total_vectors": 0, "sqlite_records": 0, "status": "uninitialized"}
             vdb = VectorDatabase(index=index, metadata_store=meta_store, manifest=manifest, load_time_sec=0.0)
 

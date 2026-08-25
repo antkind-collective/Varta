@@ -67,9 +67,10 @@ class ContextRelevanceEngine:
         self.embedding_provider = embedding_provider
         if self.embedding_provider is None and EMBEDDINGS_AVAILABLE:
             try:
-                self.embedding_provider = SentenceTransformersProvider()
+                from src.embedding_providers import get_embedding_provider
+                self.embedding_provider = get_embedding_provider()
             except Exception as e:
-                logger.warning(f"Could not load SentenceTransformersProvider: {e}")
+                logger.warning(f"Could not load embedding provider: {e}")
                 self.embedding_provider = None
 
         # Cached context embeddings
@@ -393,8 +394,8 @@ class ContextRelevanceEngine:
             norm_ctx = ctx_flat / (np.linalg.norm(ctx_flat) + 1e-10)
 
             try:
-                # Use batch encoding across all texts
-                doc_embeddings = self.embedding_provider.encode(doc_texts)
+                # Use batch encoding across all texts with bounded internal batch_size
+                doc_embeddings = self.embedding_provider.encode(doc_texts, batch_size=batch_size)
                 norm_docs = doc_embeddings / (np.linalg.norm(doc_embeddings, axis=1, keepdims=True) + 1e-10)
                 sims = np.dot(norm_docs, norm_ctx)
                 sims_norm = np.clip((sims + 1.0) / 2.0, 0.0, 1.0)
@@ -483,7 +484,8 @@ class ContextRelevanceEngine:
         self,
         records: List[Dict[str, Any]],
         context: Optional[ResearchContext] = None,
-        allowed_decisions: Tuple[str, ...] = ("KEEP", "REVIEW")
+        allowed_decisions: Tuple[str, ...] = ("KEEP", "REVIEW"),
+        batch_size: int = 32
     ) -> Tuple[List[Dict[str, Any]], Dict[str, Any]]:
         """
         Evaluates a batch/list of dataset records and returns the filtered records
@@ -493,7 +495,7 @@ class ContextRelevanceEngine:
         if context is None:
             context = ResearchContext()
 
-        evaluated_records = self.evaluate_batch(records, context)
+        evaluated_records = self.evaluate_batch(records, context, batch_size=batch_size)
         filtered_records = []
         decision_counts = {"KEEP": 0, "REVIEW": 0, "EXCLUDE": 0}
         reason_counts = {}

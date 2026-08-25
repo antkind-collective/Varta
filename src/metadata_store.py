@@ -33,7 +33,7 @@ class MetadataStore:
             cursor.execute(f"""
                 CREATE TABLE IF NOT EXISTS {self.table_name} (
                     vector_id INTEGER PRIMARY KEY,
-                    chunk_id TEXT UNIQUE NOT NULL,
+                    chunk_id TEXT NOT NULL,
                     parent_doc_id TEXT NOT NULL,
                     chunk_index INTEGER NOT NULL,
                     total_chunks INTEGER NOT NULL,

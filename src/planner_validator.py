@@ -59,8 +59,8 @@ class PlannerValidator:
             self.vdb = VectorDatabase.load(str(vdb_dir))
         else:
             from src.embedding_storage import VectorEntry
-            self.vdb = VectorDatabase(vector_dim=384)
-            self.vdb.add_entry(VectorEntry(doc_id="doc1", chunk_id="chunk1", embedding=[0.1]*384, text="बिहार, असम, राप्ती और कोसी में बाढ़ से राहत शिविर खोले गए हैं।", metadata={"title": "Flood Report"}))
+            self.vdb = VectorDatabase(vector_dim=1536)
+            self.vdb.add_entry(VectorEntry(doc_id="doc1", chunk_id="chunk1", embedding=[0.1]*1536, text="बिहार, असम, राप्ती और कोसी में बाढ़ से राहत शिविर खोले गए हैं।", metadata={"title": "Flood Report"}))
 
         self.retriever = SemanticRetriever(vector_db=self.vdb)
         self.llm_adapter = MockLLMAdapter()

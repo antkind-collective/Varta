@@ -1,7 +1,7 @@
 import re
 import pandas as pd
 import numpy as np
-from typing import Dict, Any, Optional
+from typing import Dict, Any, Optional, Union
 
 class MetadataFormatter:
     """
@@ -16,7 +16,7 @@ class MetadataFormatter:
     """
 
     @staticmethod
-    def format_metadata(row: pd.Series) -> Dict[str, Any]:
+    def format_metadata(row: Union[pd.Series, Dict[str, Any]]) -> Dict[str, Any]:
         def clean_val(val: Any) -> Optional[Any]:
             if pd.isna(val) or val is None:
                 return None
