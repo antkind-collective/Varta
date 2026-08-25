@@ -30,7 +30,9 @@ def get_assistant_controller() -> AssistantController:
         faiss_file = vdb_dir / "faiss_index.bin"
         sqlite_file = vdb_dir / "metadata.sqlite"
 
-        target_dim = 1536
+        from src.embedding_providers import get_embedding_provider
+        active_provider = get_embedding_provider()
+        target_dim = getattr(active_provider, "dimension", 384)
         if faiss_file.exists() and sqlite_file.exists():
             logger.info(f"Loading persistent Vector Database from: {vdb_dir}")
             vdb = VectorDatabase.load(str(vdb_dir))
@@ -52,7 +54,7 @@ def get_assistant_controller() -> AssistantController:
             manifest = {"total_vectors": 0, "sqlite_records": 0, "status": "uninitialized"}
             vdb = VectorDatabase(index=index, metadata_store=meta_store, manifest=manifest, load_time_sec=0.0)
 
-        retriever = SemanticRetriever(vector_db=vdb)
+        retriever = SemanticRetriever(vector_db=vdb, embedding_provider=active_provider)
         llm_adapter = get_llm_adapter()
         orchestrator = RAGOrchestrator(
             retriever=retriever,
@@ -80,8 +82,11 @@ def reload_assistant_controller() -> AssistantController:
     if not vdb_dir.exists():
         return get_assistant_controller()
 
+    from src.embedding_providers import get_embedding_provider
+    active_provider = get_embedding_provider()
+    target_dim = getattr(active_provider, "dimension", 384)
+
     vdb = VectorDatabase.load(str(vdb_dir))
-    target_dim = 1536
     if vdb.index is not None and getattr(vdb.index, "d", None) != target_dim:
         logger.warning(
             f"Reloaded persistent FAISS index dimension ({vdb.index.d}) does not match "
@@ -92,7 +97,7 @@ def reload_assistant_controller() -> AssistantController:
         manifest = {"total_vectors": 0, "sqlite_records": vdb.metadata_store.get_total_records_count(), "status": "reinitialized_dim_mismatch"}
         vdb = VectorDatabase(index=index, metadata_store=vdb.metadata_store, manifest=manifest, load_time_sec=0.0)
 
-    new_retriever = SemanticRetriever(vector_db=vdb)
+    new_retriever = SemanticRetriever(vector_db=vdb, embedding_provider=active_provider)
 
     if _ASSISTANT_CONTROLLER is not None:
         _ASSISTANT_CONTROLLER.rag_orchestrator.retriever = new_retriever

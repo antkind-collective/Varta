@@ -105,7 +105,7 @@ class DatasetIngestor:
         self,
         file_path: str,
         original_filename: Optional[str] = None,
-        batch_size: int = 500,
+        batch_size: int = 50,
         embedding_batch_size: int = 256
     ) -> Dict[str, Any]:
         """
@@ -229,6 +229,8 @@ class DatasetIngestor:
                 continue
 
             batch_counter += 1
+            raw_count = len(df_raw_chunk)
+            print(f"[Batch {batch_counter} | Step 1/5] Streamed {raw_count} raw rows. Current RSS: {get_rss_mb():.1f} MB", flush=True)
 
             df_clean_cols, _ = cleaner.clean_structure_and_columns(df_raw_chunk)
             df_valid, _ = cleaner.filter_and_fill_identifiers(df_clean_cols)
@@ -267,7 +269,7 @@ class DatasetIngestor:
                 chunks_indexed=total_chunks_added,
                 total_vectors_available=int(faiss_index.ntotal),
                 peak_rss_mb=peak_rss,
-                message=f"Batch {batch_counter}: Filtering & standardizing records..."
+                message=f"Batch {batch_counter}: Filtering {len(records)} records..."
             )
 
             filtered_records, _ = rel_engine.filter_dataset(
@@ -286,6 +288,8 @@ class DatasetIngestor:
             if not filtered_records:
                 gc.collect()
                 continue
+
+            print(f"[Batch {batch_counter} | Step 2/5] Standardizing & Chunking {len(filtered_records)} docs... Current RSS: {get_rss_mb():.1f} MB", flush=True)
 
             # Build documents directly from filtered_records without DataFrame conversion
             documents = []
@@ -323,8 +327,10 @@ class DatasetIngestor:
                 chunks_indexed=total_chunks_added,
                 total_vectors_available=int(faiss_index.ntotal),
                 peak_rss_mb=peak_rss,
-                message=f"Batch {batch_counter}: Embedding {len(chunks)} chunks via OpenAI..."
+                message=f"Batch {batch_counter}: Embedding {len(chunks)} chunks via OpenAI (384-d)..."
             )
+
+            print(f"[Batch {batch_counter} | Step 3/5] Generating 384-d embeddings for {len(chunks)} chunks... Current RSS: {get_rss_mb():.1f} MB", flush=True)
 
             emb_start = time.time()
             new_embeddings, emb_stats = emb_generator.generate_embeddings(chunks)
@@ -334,6 +340,8 @@ class DatasetIngestor:
             rss_after_emb = get_rss_mb()
             if rss_after_emb > peak_rss_embedding:
                 peak_rss_embedding = rss_after_emb
+
+            print(f"[Batch {batch_counter} | Step 4/5] Indexing into FAISS & SQLite... Current RSS: {get_rss_mb():.1f} MB", flush=True)
 
             # Incrementally add to loaded FAISS index and SQLite store
             start_vector_id = int(faiss_index.ntotal)
@@ -366,8 +374,10 @@ class DatasetIngestor:
                 chunks_indexed=total_chunks_added,
                 total_vectors_available=int(faiss_index.ntotal),
                 peak_rss_mb=peak_rss,
-                message=f"Batch {batch_counter}: {total_valid_docs:,} docs / {total_chunks_added:,} chunks processed."
+                message=f"Batch {batch_counter}: {total_valid_docs:,} docs / {total_chunks_added:,} chunks indexed."
             )
+
+            print(f"[Batch {batch_counter} | Step 5/5 Done] Total indexed: {total_valid_docs} docs / {total_chunks_added} chunks. RSS: {current_rss:.1f} MB (Peak: {peak_rss:.1f} MB)", flush=True)
 
             print(
                 f"  [Batch {batch_counter}] Ingested {total_valid_docs} docs / {total_chunks_added} chunks total so far. "

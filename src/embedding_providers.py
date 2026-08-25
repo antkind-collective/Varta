@@ -132,7 +132,7 @@ class OpenAIEmbeddingProvider(BaseEmbeddingProvider):
     _CACHE_LOCK = threading.Lock()
     _MAX_CACHE_SIZE = 512
 
-    def __init__(self, model_name: str = "text-embedding-3-small", dimension: int = 1536, api_key: Optional[str] = None):
+    def __init__(self, model_name: str = "text-embedding-3-small", dimension: int = 384, api_key: Optional[str] = None):
         self.model_name = model_name
         self.dimension = dimension
         self.retry_count = 0
@@ -175,10 +175,14 @@ class OpenAIEmbeddingProvider(BaseEmbeddingProvider):
 
             while attempt < max_retries:
                 try:
-                    response = self.client.embeddings.create(
-                        input=clean_batch,
-                        model=self.model_name
-                    )
+                    create_kwargs = {
+                        "input": clean_batch,
+                        "model": self.model_name
+                    }
+                    if "text-embedding-3" in self.model_name and self.dimension:
+                        create_kwargs["dimensions"] = int(self.dimension)
+
+                    response = self.client.embeddings.create(**create_kwargs)
                     break
                 except Exception as e:
                     attempt += 1
@@ -281,7 +285,7 @@ def get_embedding_provider(config: Optional[Dict[str, Any]] = None) -> BaseEmbed
     emb_cfg = config.get("embedding", {}) if config else {}
     provider_type = emb_cfg.get("provider", "openai").lower()
     model_name = emb_cfg.get("model_name", "text-embedding-3-small")
-    dimension = emb_cfg.get("dimension", 1536)
+    dimension = emb_cfg.get("dimension", 384)
 
     if provider_type in ("openai", "openai-embeddings"):
         return OpenAIEmbeddingProvider(model_name=model_name, dimension=dimension)

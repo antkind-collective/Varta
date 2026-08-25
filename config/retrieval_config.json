@@ -8,6 +8,6 @@
   "embedding": {
     "provider": "openai",
     "model_name": "text-embedding-3-small",
-    "dimension": 1536
+    "dimension": 384
   }
 }
