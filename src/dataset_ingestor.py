@@ -105,7 +105,7 @@ class DatasetIngestor:
         self,
         file_path: str,
         original_filename: Optional[str] = None,
-        batch_size: int = 50,
+        batch_size: int = 500,
         embedding_batch_size: int = 256
     ) -> Dict[str, Any]:
         """
