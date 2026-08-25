@@ -276,9 +276,6 @@ class DatasetIngestor:
             if rss_after_faiss > peak_rss_faiss:
                 peak_rss_faiss = rss_after_faiss
 
-            # Checkpoint FAISS index to disk
-            faiss.write_index(faiss_index, str(faiss_path))
-
             total_valid_docs += len(valid_docs)
             total_chunks_added += len(chunks)
 
@@ -299,6 +296,11 @@ class DatasetIngestor:
 
         if total_chunks_added == 0 and faiss_index.ntotal == 0:
             raise ValueError("All records were filtered out or invalid. No valid chunks were added.")
+
+        # Save FAISS index to disk once after all streaming batches complete
+        if total_chunks_added > 0:
+            logger.info(f"Persisting FAISS index to disk at {faiss_path} ({faiss_index.ntotal} vectors)...")
+            faiss.write_index(faiss_index, str(faiss_path))
 
         total_vectors_after = int(faiss_index.ntotal)
         total_sqlite_records = meta_store.get_total_records_count()
