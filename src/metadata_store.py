@@ -142,50 +142,67 @@ class MetadataStore:
 
     def append_chunks(self, chunks: List[Dict[str, Any]], start_vector_id: int) -> int:
         """
-        Appends new chunk metadata records starting at specified start_vector_id,
-        preserving FAISS vector synchronization.
+        Appends new chunk metadata records starting at specified start_vector_id in micro-batches
+        to preserve low memory consumption (< 200 MB RAM) and prevent SQLite lockups.
         """
-        records = []
-        for idx, chunk in enumerate(chunks):
-            meta = chunk.get("metadata", {})
-            parent_doc_id = chunk.get("parent_doc_id", "")
-            source_url = self._extract_canonical_source_url(meta, parent_doc_id)
-            records.append((
-                start_vector_id + idx,
-                chunk.get("chunk_id"),
-                parent_doc_id,
-                chunk.get("chunk_index", 0),
-                chunk.get("total_chunks", 1),
-                chunk.get("title"),
-                chunk.get("content", ""),
-                chunk.get("embedding_text", ""),
-                meta.get("post_id"),
-                source_url,
-                meta.get("source_type"),
-                meta.get("category_taxonomy"),
-                meta.get("image_url"),
-                meta.get("user_rating"),
-                chunk.get("char_count", 0),
-                chunk.get("word_count", 0),
-                meta.get("context_relevance_score", 1.0),
-                meta.get("data_quality_score", 1.0),
-                meta.get("relevance_decision", "KEEP"),
-                meta.get("relevance_reason", "DEFAULT_KEEP")
-            ))
+        import gc
+        total_chunks = len(chunks)
+        if total_chunks == 0:
+            return 0
 
+        micro_batch_size = 100
         with self._get_connection() as conn:
             cursor = conn.cursor()
-            cursor.executemany(f"""
-                INSERT OR REPLACE INTO {self.table_name} (
-                    vector_id, chunk_id, parent_doc_id, chunk_index, total_chunks,
-                    title, content, embedding_text, post_id, source_url, source_type,
-                    category_taxonomy, image_url, user_rating, char_count, word_count,
-                    relevance_score, quality_score, relevance_decision, relevance_reason
-                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
-            """, records)
-            conn.commit()
+            for start_idx in range(0, total_chunks, micro_batch_size):
+                end_idx = min(start_idx + micro_batch_size, total_chunks)
+                batch_slice = chunks[start_idx:end_idx]
 
-        return len(records)
+                records = []
+                for offset, chunk in enumerate(batch_slice):
+                    meta = chunk.get("metadata", {})
+                    parent_doc_id = chunk.get("parent_doc_id", "")
+                    source_url = self._extract_canonical_source_url(meta, parent_doc_id)
+                    content = str(chunk.get("content", "") or "")
+                    emb_text = str(chunk.get("embedding_text", "") or "")
+                    # Omit duplicate text to halve memory and database footprint
+                    stored_emb_text = emb_text if (emb_text and emb_text != content) else None
+
+                    records.append((
+                        start_vector_id + start_idx + offset,
+                        chunk.get("chunk_id"),
+                        parent_doc_id,
+                        chunk.get("chunk_index", 0),
+                        chunk.get("total_chunks", 1),
+                        chunk.get("title"),
+                        content,
+                        stored_emb_text,
+                        meta.get("post_id"),
+                        source_url,
+                        meta.get("source_type"),
+                        meta.get("category_taxonomy"),
+                        meta.get("image_url"),
+                        meta.get("user_rating"),
+                        chunk.get("char_count", 0),
+                        chunk.get("word_count", 0),
+                        meta.get("context_relevance_score", 1.0),
+                        meta.get("data_quality_score", 1.0),
+                        meta.get("relevance_decision", "KEEP"),
+                        meta.get("relevance_reason", "DEFAULT_KEEP")
+                    ))
+
+                cursor.executemany(f"""
+                    INSERT OR REPLACE INTO {self.table_name} (
+                        vector_id, chunk_id, parent_doc_id, chunk_index, total_chunks,
+                        title, content, embedding_text, post_id, source_url, source_type,
+                        category_taxonomy, image_url, user_rating, char_count, word_count,
+                        relevance_score, quality_score, relevance_decision, relevance_reason
+                    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
+                """, records)
+                conn.commit()
+                del records
+                gc.collect()
+
+        return total_chunks
 
     def _row_to_dict(self, row: sqlite3.Row) -> Dict[str, Any]:
         row_keys = row.keys()

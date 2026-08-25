@@ -339,16 +339,19 @@ class DatasetIngestor:
             start_vector_id = int(faiss_index.ntotal)
             faiss.normalize_L2(new_embeddings)
             faiss_index.add(new_embeddings)
+            del new_embeddings, valid_docs
+            gc.collect()
+
             meta_store.append_chunks(chunks, start_vector_id=start_vector_id)
 
             rss_after_faiss = get_rss_mb()
             if rss_after_faiss > peak_rss_faiss:
                 peak_rss_faiss = rss_after_faiss
 
-            total_valid_docs += len(valid_docs)
+            total_valid_docs += len(chunks)
             total_chunks_added += len(chunks)
 
-            del valid_docs, chunks, new_embeddings
+            del chunks
             gc.collect()
 
             current_rss = get_rss_mb()
