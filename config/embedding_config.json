@@ -17,7 +17,7 @@
     "model_name": "text-embedding-3-small",
     "dimension": 1536,
     "fallback_model_name": "sentence-transformers/all-MiniLM-L6-v2",
-    "batch_size": 128,
+    "batch_size": 256,
     "normalize_embeddings": true
   },
   "storage": {

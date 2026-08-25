@@ -106,7 +106,7 @@ class DatasetIngestor:
         file_path: str,
         original_filename: Optional[str] = None,
         batch_size: int = 500,
-        embedding_batch_size: int = 32
+        embedding_batch_size: int = 256
     ) -> Dict[str, Any]:
         """
         Executes full 5-stage ingestion for the supplied dataset file (.csv, .json, or .jsonl).
@@ -258,11 +258,24 @@ class DatasetIngestor:
             records = df_dedup.to_dict("records")
             del df_dedup
 
+            # Sub-batch progress: Stage 1/5 Preprocessing & Filtering
+            update_ingestion_status(
+                status="processing",
+                filename=file_name,
+                current_batch=batch_counter,
+                documents_ingested=total_valid_docs,
+                chunks_indexed=total_chunks_added,
+                total_vectors_available=int(faiss_index.ntotal),
+                peak_rss_mb=peak_rss,
+                message=f"Batch {batch_counter}: Filtering & standardizing records..."
+            )
+
             filtered_records, _ = rel_engine.filter_dataset(
                 records,
                 context=context,
                 allowed_decisions=("KEEP", "REVIEW"),
-                batch_size=embedding_batch_size
+                batch_size=embedding_batch_size,
+                use_embeddings=False
             )
             del records
 
@@ -300,6 +313,18 @@ class DatasetIngestor:
                 del valid_docs
                 gc.collect()
                 continue
+
+            # Sub-batch progress: Stage 4/5 Generating Dense Embeddings
+            update_ingestion_status(
+                status="processing",
+                filename=file_name,
+                current_batch=batch_counter,
+                documents_ingested=total_valid_docs,
+                chunks_indexed=total_chunks_added,
+                total_vectors_available=int(faiss_index.ntotal),
+                peak_rss_mb=peak_rss,
+                message=f"Batch {batch_counter}: Embedding {len(chunks)} chunks via OpenAI..."
+            )
 
             emb_start = time.time()
             new_embeddings, emb_stats = emb_generator.generate_embeddings(chunks)
