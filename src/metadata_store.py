@@ -23,6 +23,12 @@ class MetadataStore:
         conn = sqlite3.connect(self.db_path)
         conn.row_factory = sqlite3.Row
         try:
+            conn.execute("PRAGMA journal_mode = WAL;")
+            conn.execute("PRAGMA synchronous = NORMAL;")
+            conn.execute("PRAGMA temp_store = MEMORY;")
+        except Exception:
+            pass
+        try:
             yield conn
         finally:
             conn.close()

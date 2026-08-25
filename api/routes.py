@@ -175,10 +175,18 @@ async def upload_dataset(
             detail=f"Unsupported file format '{ext}'. VARTA accepts .csv, .json, and .jsonl files."
         )
 
-    # Save uploaded file to a temporary uploads directory
+    # Save uploaded file to a temporary uploads directory and purge stale temp uploads
     uploads_dir = Path(__file__).resolve().parent.parent / "data" / "uploads"
     uploads_dir.mkdir(parents=True, exist_ok=True)
-    temp_file_path = uploads_dir / f"upload_{int(time.time())}_{filename}"
+    now_ts = time.time()
+    for old_file in uploads_dir.glob("upload_*"):
+        if old_file.is_file() and (now_ts - old_file.stat().st_mtime > 3600):
+            try:
+                old_file.unlink()
+            except Exception:
+                pass
+
+    temp_file_path = uploads_dir / f"upload_{int(now_ts)}_{filename}"
 
     try:
         content = await file.read()

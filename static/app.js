@@ -620,10 +620,18 @@
         body: formData
       });
 
-      const data = await response.json();
+      let data = {};
+      const contentType = response.headers.get('content-type') || '';
+      if (contentType.includes('application/json')) {
+        try {
+          data = await response.json();
+        } catch (_) {}
+      }
 
       if (!response.ok) {
-        throw new Error(data.detail || `Dataset upload failed with status ${response.status}`);
+        const rawText = !contentType.includes('application/json') ? await response.text().catch(() => '') : '';
+        const errorDetail = data.detail || rawText || `Dataset upload failed with status ${response.status}`;
+        throw new Error(errorDetail);
       }
 
       // Step 3 & 4: Indexing & Ready
