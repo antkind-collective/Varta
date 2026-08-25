@@ -609,12 +609,6 @@
     formData.append('file', file);
 
     try {
-      // Step 1: Uploading -> Step 2: Processing visual progression
-      setTimeout(() => {
-        setStepState(elements.stepUploading, 'completed');
-        setStepState(elements.stepProcessing, 'active');
-      }, 500);
-
       const response = await fetch('/dataset/upload', {
         method: 'POST',
         body: formData
@@ -634,23 +628,72 @@
         throw new Error(errorDetail);
       }
 
-      // Step 3 & 4: Indexing & Ready
-      setStepState(elements.stepProcessing, 'completed');
-      setStepState(elements.stepIndexing, 'completed');
-      setStepState(elements.stepReady, 'completed');
+      // Step 1: Upload Complete -> Step 2: Processing Active
+      setStepState(elements.stepUploading, 'completed');
+      setStepState(elements.stepProcessing, 'active');
 
-      if (elements.uploadStatusBox) {
-        elements.uploadStatusBox.className = 'upload-status-box';
-        elements.uploadStatusIcon.textContent = '✅';
-        elements.uploadStatusMsg.textContent = data.message || `Successfully ingested ${data.documents_ingested} documents. Ready for research queries.`;
-        elements.uploadStatusBox.style.display = 'flex';
-      }
+      // Poll /dataset/status until background ingestion completes
+      const pollInterval = setInterval(async () => {
+        try {
+          const statusRes = await fetch('/dataset/status');
+          if (!statusRes.ok) return;
+          const statusData = await statusRes.json();
 
-      if (elements.modalFooter) {
-        elements.modalFooter.style.display = 'flex';
-      }
+          if (statusData.status === 'processing') {
+            if (statusData.current_batch > 0) {
+              setStepState(elements.stepProcessing, 'completed');
+              setStepState(elements.stepIndexing, 'active');
+            }
+            if (elements.uploadStatusBox) {
+              elements.uploadStatusBox.className = 'upload-status-box';
+              elements.uploadStatusIcon.textContent = '⏳';
+              elements.uploadStatusMsg.textContent = statusData.message || `Processing batch ${statusData.current_batch}...`;
+              elements.uploadStatusBox.style.display = 'flex';
+            }
+          } else if (statusData.status === 'ready') {
+            clearInterval(pollInterval);
+            setStepState(elements.stepProcessing, 'completed');
+            setStepState(elements.stepIndexing, 'completed');
+            setStepState(elements.stepReady, 'completed');
 
-      showSuccessToast('Dataset Ingested & Queryable', `${data.documents_ingested} documents (${data.chunks_indexed} chunks) added. Total corpus: ${data.total_vectors_available.toLocaleString()} vectors.`);
+            if (elements.uploadStatusBox) {
+              elements.uploadStatusBox.className = 'upload-status-box';
+              elements.uploadStatusIcon.textContent = '✅';
+              elements.uploadStatusMsg.textContent = statusData.message || `Successfully ingested ${statusData.documents_ingested} documents. Ready for research queries.`;
+              elements.uploadStatusBox.style.display = 'flex';
+            }
+
+            if (elements.modalFooter) {
+              elements.modalFooter.style.display = 'flex';
+            }
+
+            showSuccessToast(
+              'Dataset Ingested & Queryable',
+              `${statusData.documents_ingested.toLocaleString()} documents (${statusData.chunks_indexed.toLocaleString()} chunks) added. Total corpus: ${statusData.total_vectors_available.toLocaleString()} vectors.`
+            );
+          } else if (statusData.status === 'failed') {
+            clearInterval(pollInterval);
+            throw new Error(statusData.error || statusData.message || 'Background dataset ingestion failed.');
+          }
+        } catch (pollErr) {
+          clearInterval(pollInterval);
+          setStepState(elements.stepProcessing, 'failed');
+          setStepState(elements.stepIndexing, 'failed');
+          setStepState(elements.stepReady, 'failed');
+
+          if (elements.uploadStatusBox) {
+            elements.uploadStatusBox.className = 'upload-status-box error';
+            elements.uploadStatusIcon.textContent = '❌';
+            elements.uploadStatusMsg.textContent = pollErr.message || 'Dataset processing encountered an issue.';
+            elements.uploadStatusBox.style.display = 'flex';
+          }
+
+          if (elements.modalFooter) {
+            elements.modalFooter.style.display = 'flex';
+          }
+        }
+      }, 1500);
+
     } catch (err) {
       setStepState(elements.stepUploading, 'completed');
       setStepState(elements.stepProcessing, 'failed');

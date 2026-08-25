@@ -42,6 +42,33 @@ from src.metadata_store import MetadataStore
 
 logger = logging.getLogger("DatasetIngestor")
 
+# Global thread-safe ingestion status tracker
+_INGESTION_STATUS: Dict[str, Any] = {
+    "status": "idle",
+    "filename": None,
+    "current_batch": 0,
+    "total_batches": 0,
+    "documents_ingested": 0,
+    "chunks_indexed": 0,
+    "total_vectors_available": 0,
+    "peak_rss_mb": 0.0,
+    "message": "System ready for dataset upload.",
+    "error": None,
+    "duration_sec": 0.0,
+    "updated_at": None
+}
+
+def get_ingestion_status() -> Dict[str, Any]:
+    """Returns the current background ingestion progress and operational state."""
+    global _INGESTION_STATUS
+    return dict(_INGESTION_STATUS)
+
+def update_ingestion_status(**kwargs):
+    """Updates the global ingestion status tracker."""
+    global _INGESTION_STATUS
+    _INGESTION_STATUS.update(kwargs)
+    _INGESTION_STATUS["updated_at"] = datetime.now(timezone.utc).isoformat()
+
 class DatasetIngestor:
     """
     End-to-End Dynamic Dataset Ingestion & Incremental Vector Indexing Engine.
@@ -113,6 +140,18 @@ class DatasetIngestor:
         initial_rss = get_rss_mb()
         peak_rss = initial_rss
         start_time = time.time()
+
+        update_ingestion_status(
+            status="processing",
+            filename=file_name,
+            current_batch=0,
+            documents_ingested=0,
+            chunks_indexed=0,
+            total_vectors_available=0,
+            peak_rss_mb=initial_rss,
+            message=f"Starting dataset ingestion for {file_name}...",
+            error=None
+        )
 
         logger.info(
             f"Initiating streaming 5-stage ingestion pipeline for: {file_name} "
@@ -291,6 +330,17 @@ class DatasetIngestor:
             if current_rss > peak_rss:
                 peak_rss = current_rss
 
+            update_ingestion_status(
+                status="processing",
+                filename=file_name,
+                current_batch=batch_counter,
+                documents_ingested=total_valid_docs,
+                chunks_indexed=total_chunks_added,
+                total_vectors_available=int(faiss_index.ntotal),
+                peak_rss_mb=peak_rss,
+                message=f"Batch {batch_counter}: {total_valid_docs:,} docs / {total_chunks_added:,} chunks processed."
+            )
+
             print(
                 f"  [Batch {batch_counter}] Ingested {total_valid_docs} docs / {total_chunks_added} chunks total so far. "
                 f"Current RSS: {current_rss} MB (Peak: {peak_rss} MB)",
@@ -300,6 +350,11 @@ class DatasetIngestor:
             sys.stderr.flush()
 
         if total_chunks_added == 0 and faiss_index.ntotal == 0:
+            update_ingestion_status(
+                status="failed",
+                error="All records were filtered out or invalid. No valid chunks were added.",
+                message="Dataset validation failed: No valid chunks found."
+            )
             raise ValueError("All records were filtered out or invalid. No valid chunks were added.")
 
         # Save FAISS index to disk once after all streaming batches complete
@@ -331,9 +386,9 @@ class DatasetIngestor:
             f"Total Corpus: {total_vectors_after:,} vectors. Peak RSS: {peak_rss} MB"
         )
 
-        return {
+        final_result = {
             "status": "ready",
-            "message": f"Successfully ingested {total_valid_docs} documents ({total_chunks_added} chunks). Dataset is now live and queryable.",
+            "message": f"Successfully ingested {total_valid_docs:,} documents ({total_chunks_added:,} chunks). Dataset is now live and queryable.",
             "filename": file_name,
             "documents_ingested": total_valid_docs,
             "chunks_ingested": total_chunks_added,
@@ -349,3 +404,18 @@ class DatasetIngestor:
             "duration_sec": elapsed_time,
             "embedding_time_sec": round(total_embedding_time, 2)
         }
+
+        update_ingestion_status(
+            status="ready",
+            filename=file_name,
+            current_batch=batch_counter,
+            documents_ingested=total_valid_docs,
+            chunks_indexed=total_chunks_added,
+            total_vectors_available=total_vectors_after,
+            peak_rss_mb=peak_rss,
+            duration_sec=elapsed_time,
+            message=final_result["message"],
+            error=None
+        )
+
+        return final_result

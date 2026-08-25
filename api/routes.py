@@ -2,7 +2,7 @@ import time
 import logging
 from pathlib import Path
 from typing import Dict, Any
-from fastapi import APIRouter, Depends, HTTPException, status, UploadFile, File
+from fastapi import APIRouter, Depends, HTTPException, status, UploadFile, File, BackgroundTasks
 from api.schemas import (
     ChatRequest,
     ChatResponse,
@@ -15,7 +15,7 @@ from api.schemas import (
 )
 from api.dependencies import get_assistant_controller, get_server_uptime, reload_assistant_controller
 from src.assistant_controller import AssistantController
-from src.dataset_ingestor import DatasetIngestor
+from src.dataset_ingestor import DatasetIngestor, get_ingestion_status, update_ingestion_status
 
 logger = logging.getLogger("VARTA.Routes")
 router = APIRouter()
@@ -153,18 +153,52 @@ def system_info(
         build_version="1.0.0"
     )
 
+def _run_background_dataset_ingestion(temp_file_path: str, filename: str):
+    """Background worker for asynchronous dataset ingestion without blocking HTTP proxy timeouts."""
+    file_path = Path(temp_file_path)
+    try:
+        logger.info(f"Starting background dataset ingestion for: {filename}")
+        ingestor = DatasetIngestor()
+        ingestor.ingest_file(str(file_path), original_filename=filename)
+        reload_assistant_controller()
+        logger.info(f"Background dataset ingestion completed successfully for: {filename}")
+    except Exception as e:
+        logger.error(f"Error during background ingestion of {filename}: {e}", exc_info=True)
+        update_ingestion_status(
+            status="failed",
+            error=str(e),
+            message=f"Dataset ingestion error: {e}"
+        )
+    finally:
+        if file_path.exists():
+            try:
+                file_path.unlink()
+            except Exception:
+                pass
+
+@router.get(
+    "/dataset/status",
+    summary="Get Dataset Ingestion Progress & Status",
+    description="Returns the real-time background status, batch progress, and corpus vector counts of dataset ingestion."
+)
+async def get_dataset_status():
+    return get_ingestion_status()
+
 @router.post(
     "/dataset/upload",
     response_model=DatasetIngestResponse,
+    status_code=status.HTTP_202_ACCEPTED,
     responses={
+        202: {"model": DatasetIngestResponse, "description": "Dataset upload accepted and ingestion started in background"},
         400: {"model": ErrorResponse, "description": "Invalid file type or empty dataset"},
-        500: {"model": ErrorResponse, "description": "Ingestion processing error"}
+        500: {"model": ErrorResponse, "description": "Ingestion upload error"}
     },
     summary="Upload & Ingest New Dataset",
-    description="Uploads a .csv, .json, or .jsonl dataset, processes it through VARTA's 5-stage ingestion pipeline, and indexes it into the vector database for real-time querying."
+    description="Uploads a .csv, .json, or .jsonl dataset, and starts background streaming ingestion into the vector database."
 )
 async def upload_dataset(
     file: UploadFile = File(...),
+    background_tasks: BackgroundTasks = BackgroundTasks()
 ) -> DatasetIngestResponse:
     filename = file.filename or "uploaded_dataset"
     ext = Path(filename).suffix.lower()
@@ -214,38 +248,39 @@ async def upload_dataset(
                 detail="The uploaded file is empty."
             )
 
-        ingestor = DatasetIngestor()
-        result = ingestor.ingest_file(str(temp_file_path), original_filename=filename)
+        update_ingestion_status(
+            status="processing",
+            filename=filename,
+            current_batch=0,
+            documents_ingested=0,
+            chunks_indexed=0,
+            total_vectors_available=0,
+            message=f"Uploaded {filename} ({file_size:,} bytes). Ingestion pipeline initiated in background...",
+            error=None
+        )
 
-        # Reload assistant controller so new vectors are immediately live
-        reload_assistant_controller()
+        # Enqueue background task
+        background_tasks.add_task(_run_background_dataset_ingestion, str(temp_file_path), filename)
 
         return DatasetIngestResponse(
-            status=result.get("status", "ready"),
-            message=result.get("message", "Dataset successfully indexed and queryable."),
+            status="processing",
+            message=f"Dataset '{filename}' received ({file_size:,} bytes). Processing in background.",
             filename=filename,
-            documents_ingested=result.get("documents_ingested", 0),
-            chunks_indexed=result.get("chunks_ingested") or result.get("chunks_indexed", 0),
-            total_vectors_available=result.get("total_vectors_in_corpus") or result.get("total_vectors_available", 0),
-            duration_sec=result.get("duration_sec", 0.0)
+            documents_ingested=0,
+            chunks_indexed=0,
+            total_vectors_available=0,
+            duration_sec=0.0
         )
     except HTTPException:
         raise
-    except ValueError as ve:
-        logger.warning(f"Dataset validation warning: {ve}")
-        raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST,
-            detail=f"Dataset validation error: {ve}"
-        )
     except Exception as e:
-        logger.error(f"Error executing /dataset/upload request: {e}", exc_info=True)
-        raise HTTPException(
-            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail=f"Dataset ingestion error: {e}"
-        )
-    finally:
+        logger.error(f"Error handling /dataset/upload request: {e}", exc_info=True)
         if temp_file_path.exists():
             try:
                 temp_file_path.unlink()
             except Exception:
                 pass
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"Dataset upload initialization error: {e}"
+        )
