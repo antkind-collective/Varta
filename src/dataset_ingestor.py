@@ -158,16 +158,21 @@ class DatasetIngestor:
         self.vdb_dir.mkdir(parents=True, exist_ok=True)
 
         target_dim = emb_provider.get_dimension()
+        faiss_index = None
         if faiss_path.exists():
-            faiss_index = faiss.read_index(str(faiss_path))
-            if faiss_index.d != target_dim:
-                logger.warning(
-                    f"Existing FAISS index dimension ({faiss_index.d}) does not match "
-                    f"active model dimension ({target_dim}). Re-initializing clean {target_dim}-dim FAISS IndexFlatIP."
-                )
+            try:
+                faiss_index = faiss.read_index(str(faiss_path))
+                if faiss_index.d != target_dim:
+                    logger.warning(
+                        f"Existing FAISS index dimension ({faiss_index.d}) does not match "
+                        f"active model dimension ({target_dim}). Re-initializing clean {target_dim}-dim FAISS IndexFlatIP."
+                    )
+                    faiss_index = faiss.IndexFlatIP(target_dim)
+                else:
+                    logger.info(f"Loaded existing FAISS index from {faiss_path} with {faiss_index.ntotal} vectors.")
+            except Exception as e:
+                logger.warning(f"Failed to read existing FAISS index file ({e}). Initializing clean {target_dim}-dim index.")
                 faiss_index = faiss.IndexFlatIP(target_dim)
-            else:
-                logger.info(f"Loaded existing FAISS index from {faiss_path} with {faiss_index.ntotal} vectors.")
         else:
             faiss_index = faiss.IndexFlatIP(target_dim)
             logger.info(f"Initialized new FAISS IndexFlatIP with dimension {target_dim}.")
