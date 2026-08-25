@@ -201,18 +201,20 @@ async def upload_dataset(
             message=result.get("message", "Dataset successfully indexed and queryable."),
             filename=filename,
             documents_ingested=result.get("documents_ingested", 0),
-            chunks_indexed=result.get("chunks_indexed", 0),
-            total_vectors_available=result.get("total_vectors_available", 0),
+            chunks_indexed=result.get("chunks_ingested") or result.get("chunks_indexed", 0),
+            total_vectors_available=result.get("total_vectors_in_corpus") or result.get("total_vectors_available", 0),
             duration_sec=result.get("duration_sec", 0.0)
         )
     except HTTPException:
         raise
     except ValueError as ve:
+        logger.warning(f"Dataset validation warning: {ve}")
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
             detail=f"Dataset validation error: {ve}"
         )
     except Exception as e:
+        logger.error(f"Error executing /dataset/upload request: {e}", exc_info=True)
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail=f"Dataset ingestion error: {e}"

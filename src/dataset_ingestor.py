@@ -157,14 +157,20 @@ class DatasetIngestor:
         manifest_path = self.vdb_dir / "db_manifest.json"
         self.vdb_dir.mkdir(parents=True, exist_ok=True)
 
-        # Load FAISS index and MetadataStore ONCE before batch loop
+        target_dim = emb_provider.get_dimension()
         if faiss_path.exists():
             faiss_index = faiss.read_index(str(faiss_path))
-            logger.info(f"Loaded existing FAISS index from {faiss_path} with {faiss_index.ntotal} vectors.")
+            if faiss_index.d != target_dim:
+                logger.warning(
+                    f"Existing FAISS index dimension ({faiss_index.d}) does not match "
+                    f"active model dimension ({target_dim}). Re-initializing clean {target_dim}-dim FAISS IndexFlatIP."
+                )
+                faiss_index = faiss.IndexFlatIP(target_dim)
+            else:
+                logger.info(f"Loaded existing FAISS index from {faiss_path} with {faiss_index.ntotal} vectors.")
         else:
-            vector_dim = emb_provider.get_dimension()
-            faiss_index = faiss.IndexFlatIP(vector_dim)
-            logger.info(f"Initialized new FAISS IndexFlatIP with dimension {vector_dim}.")
+            faiss_index = faiss.IndexFlatIP(target_dim)
+            logger.info(f"Initialized new FAISS IndexFlatIP with dimension {target_dim}.")
 
         meta_store = MetadataStore(str(sqlite_path))
 
