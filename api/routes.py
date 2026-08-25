@@ -175,28 +175,44 @@ async def upload_dataset(
             detail=f"Unsupported file format '{ext}'. VARTA accepts .csv, .json, and .jsonl files."
         )
 
-    # Save uploaded file to a temporary uploads directory and purge stale temp uploads
-    uploads_dir = Path(__file__).resolve().parent.parent / "data" / "uploads"
+    # Clean up ALL temporary uploads and stale embedding cache files to free volume disk space
+    project_root = Path(__file__).resolve().parent.parent
+    uploads_dir = project_root / "data" / "uploads"
     uploads_dir.mkdir(parents=True, exist_ok=True)
-    now_ts = time.time()
-    for old_file in uploads_dir.glob("upload_*"):
-        if old_file.is_file() and (now_ts - old_file.stat().st_mtime > 3600):
+    for old_file in uploads_dir.glob("*"):
+        if old_file.is_file():
             try:
                 old_file.unlink()
             except Exception:
                 pass
 
-    temp_file_path = uploads_dir / f"upload_{int(now_ts)}_{filename}"
+    emb_dir = project_root / "data" / "embeddings"
+    if emb_dir.exists():
+        for old_emb in emb_dir.glob("*"):
+            if old_emb.is_file():
+                try:
+                    old_emb.unlink()
+                except Exception:
+                    pass
+
+    temp_file_path = uploads_dir / f"upload_{int(time.time())}_{filename}"
 
     try:
-        content = await file.read()
-        if not content or len(content.strip()) == 0:
+        # Stream file in 64KB chunks to avoid RAM spikes and write efficiently
+        file_size = 0
+        with open(temp_file_path, "wb") as f:
+            while True:
+                chunk = await file.read(65536)
+                if not chunk:
+                    break
+                f.write(chunk)
+                file_size += len(chunk)
+
+        if file_size == 0:
             raise HTTPException(
                 status_code=status.HTTP_400_BAD_REQUEST,
                 detail="The uploaded file is empty."
             )
-        with open(temp_file_path, "wb") as f:
-            f.write(content)
 
         ingestor = DatasetIngestor()
         result = ingestor.ingest_file(str(temp_file_path), original_filename=filename)
