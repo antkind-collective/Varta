@@ -44,13 +44,14 @@ class ConversationValidator:
         
         # Initialize mock or lightweight vector db setup for test validation
         vdb_dir = project_root / "data" / "vector_db"
-        if vdb_dir.exists():
+        if (vdb_dir / "faiss_index.bin").exists() and (vdb_dir / "metadata.sqlite").exists():
             self.vdb = VectorDatabase.load(str(vdb_dir))
         else:
-            # Fallback mock for isolated unit execution if vector_db is not pre-built
-            from src.embedding_storage import VectorEntry
-            self.vdb = VectorDatabase(vector_dim=1536)
-            self.vdb.add_entry(VectorEntry(doc_id="doc1", chunk_id="chunk1", embedding=[0.1]*1536, text="बिहार में बाढ़ से राहत शिविर स्थापित किए गए हैं।", metadata={"title": "Bihar Flood Report"}))
+            import faiss
+            from src.metadata_store import MetadataStore
+            idx = faiss.IndexFlatIP(1536)
+            store = MetadataStore(str(vdb_dir / "metadata.sqlite"))
+            self.vdb = VectorDatabase(index=idx, metadata_store=store, manifest={}, load_time_sec=0.0)
             
         self.retriever = SemanticRetriever(vector_db=self.vdb)
         self.llm_adapter = MockLLMAdapter()

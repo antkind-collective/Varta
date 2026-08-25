@@ -55,12 +55,14 @@ class PlannerValidator:
         self.planner_log_path = Path(planner_log_path) if planner_log_path else project_root / "data" / "planner" / "planner_log.json"
 
         vdb_dir = project_root / "data" / "vector_db"
-        if vdb_dir.exists():
+        if (vdb_dir / "faiss_index.bin").exists() and (vdb_dir / "metadata.sqlite").exists():
             self.vdb = VectorDatabase.load(str(vdb_dir))
         else:
-            from src.embedding_storage import VectorEntry
-            self.vdb = VectorDatabase(vector_dim=1536)
-            self.vdb.add_entry(VectorEntry(doc_id="doc1", chunk_id="chunk1", embedding=[0.1]*1536, text="बिहार, असम, राप्ती और कोसी में बाढ़ से राहत शिविर खोले गए हैं।", metadata={"title": "Flood Report"}))
+            import faiss
+            from src.metadata_store import MetadataStore
+            idx = faiss.IndexFlatIP(1536)
+            store = MetadataStore(str(vdb_dir / "metadata.sqlite"))
+            self.vdb = VectorDatabase(index=idx, metadata_store=store, manifest={}, load_time_sec=0.0)
 
         self.retriever = SemanticRetriever(vector_db=self.vdb)
         self.llm_adapter = MockLLMAdapter()

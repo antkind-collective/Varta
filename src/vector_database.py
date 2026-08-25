@@ -47,6 +47,23 @@ class VectorDatabase:
         # L2-normalize query vector for Cosine Similarity matching
         faiss.normalize_L2(query_arr)
 
+        # Check dimension alignment between index and query vector
+        query_dim = query_arr.shape[1]
+        index_dim = getattr(self.index, "d", None)
+        if index_dim is not None and query_dim != index_dim:
+            import logging
+            logging.getLogger("VectorDatabase").error(
+                f"FAISS index dimension ({index_dim}) does not match query vector dimension ({query_dim})."
+            )
+            if self.index.ntotal == 0:
+                return []
+            raise ValueError(
+                f"FAISS index dimension ({index_dim}) does not match query vector dimension ({query_dim})."
+            )
+
+        if self.index.ntotal == 0:
+            return []
+
         # Fetch extra items if filtering is requested
         fetch_k = top_k * 5 if metadata_filters else top_k
         fetch_k = min(fetch_k, self.index.ntotal)

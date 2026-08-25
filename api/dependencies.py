@@ -30,15 +30,25 @@ def get_assistant_controller() -> AssistantController:
         faiss_file = vdb_dir / "faiss_index.bin"
         sqlite_file = vdb_dir / "metadata.sqlite"
 
+        target_dim = 1536
         if faiss_file.exists() and sqlite_file.exists():
             logger.info(f"Loading persistent Vector Database from: {vdb_dir}")
             vdb = VectorDatabase.load(str(vdb_dir))
+            if vdb.index is not None and getattr(vdb.index, "d", None) != target_dim:
+                logger.warning(
+                    f"Loaded persistent FAISS index dimension ({vdb.index.d}) does not match "
+                    f"active model dimension ({target_dim}). Re-initializing clean {target_dim}-dim index."
+                )
+                import faiss
+                index = faiss.IndexFlatIP(target_dim) if 'faiss' in sys.modules or hasattr(faiss, 'IndexFlatIP') else None
+                manifest = {"total_vectors": 0, "sqlite_records": vdb.metadata_store.get_total_records_count(), "status": "reinitialized_dim_mismatch"}
+                vdb = VectorDatabase(index=index, metadata_store=vdb.metadata_store, manifest=manifest, load_time_sec=0.0)
         else:
             logger.warning(f"Persistent Vector DB files missing at {vdb_dir}. Initializing clean base VectorDatabase.")
             import faiss
             from src.metadata_store import MetadataStore
             meta_store = MetadataStore(str(vdb_dir / "metadata.sqlite"))
-            index = faiss.IndexFlatIP(1536) if 'faiss' in sys.modules or hasattr(faiss, 'IndexFlatIP') else None
+            index = faiss.IndexFlatIP(target_dim) if 'faiss' in sys.modules or hasattr(faiss, 'IndexFlatIP') else None
             manifest = {"total_vectors": 0, "sqlite_records": 0, "status": "uninitialized"}
             vdb = VectorDatabase(index=index, metadata_store=meta_store, manifest=manifest, load_time_sec=0.0)
 
@@ -71,6 +81,17 @@ def reload_assistant_controller() -> AssistantController:
         return get_assistant_controller()
 
     vdb = VectorDatabase.load(str(vdb_dir))
+    target_dim = 1536
+    if vdb.index is not None and getattr(vdb.index, "d", None) != target_dim:
+        logger.warning(
+            f"Reloaded persistent FAISS index dimension ({vdb.index.d}) does not match "
+            f"active model dimension ({target_dim}). Re-initializing clean {target_dim}-dim index."
+        )
+        import faiss
+        index = faiss.IndexFlatIP(target_dim) if 'faiss' in sys.modules or hasattr(faiss, 'IndexFlatIP') else None
+        manifest = {"total_vectors": 0, "sqlite_records": vdb.metadata_store.get_total_records_count(), "status": "reinitialized_dim_mismatch"}
+        vdb = VectorDatabase(index=index, metadata_store=vdb.metadata_store, manifest=manifest, load_time_sec=0.0)
+
     new_retriever = SemanticRetriever(vector_db=vdb)
 
     if _ASSISTANT_CONTROLLER is not None:

@@ -1,4 +1,5 @@
 import time
+import logging
 from pathlib import Path
 from typing import Dict, Any
 from fastapi import APIRouter, Depends, HTTPException, status, UploadFile, File
@@ -16,6 +17,7 @@ from api.dependencies import get_assistant_controller, get_server_uptime, reload
 from src.assistant_controller import AssistantController
 from src.dataset_ingestor import DatasetIngestor
 
+logger = logging.getLogger("VARTA.Routes")
 router = APIRouter()
 
 @router.get(
@@ -79,7 +81,10 @@ def chat_endpoint(
             tool_used=resp_dict.get("tool_selected", "rag_search"),
             plan_type=resp_dict.get("plan_type", "direct")
         )
+    except HTTPException:
+        raise
     except Exception as e:
+        logger.error(f"Error executing /chat request: {e}", exc_info=True)
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail=f"Internal assistant processing error: {e}"
