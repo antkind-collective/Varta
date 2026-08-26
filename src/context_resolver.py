@@ -195,3 +195,65 @@ class ContextResolver:
             pass
 
         return False, query
+
+    def extract_research_context(self, query: str, history: Optional[List[Dict[str, Any]]] = None) -> Any:
+        """
+        Parses a research query into structured ResearchContext parameters:
+        - disaster_types: list of detected disaster types (e.g. ['flood'], ['cyclone'])
+        - geography: list of detected geographic regions (e.g. ['assam'], ['odisha'])
+        - time_period: optional detected timeframe
+        - research_topic: resolved topic summary string
+        Handles follow-up entity and topic carry-over from conversation history.
+        """
+        from src.context_relevance_engine import ResearchContext
+        
+        # 1. Resolve query standalone text using prior turns if needed
+        is_rewritten, resolved_query, _ = self.resolve_context(query, history or [])
+        clean_text = resolved_query.lower()
+
+        # 2. Detect Disaster Types
+        disaster_types = []
+        if any(w in clean_text for w in ["flood", "floods", "flooding", "waterlogging", "inundation", "inundated", "deluge", "baadh", "बाढ़", "जलभराव", "जलमग्न"]):
+            disaster_types.append("flood")
+        if any(w in clean_text for w in ["cyclone", "cyclones", "storm", "cyclonic", "storm surge", "तूफान", "चक्रवात"]):
+            disaster_types.append("cyclone")
+        if any(w in clean_text for w in ["landslide", "landslides", "mudslide", "debris flow", "rockfall", "भूस्खलन"]):
+            disaster_types.append("landslide")
+        if any(w in clean_text for w in ["drought", "droughts", "dry spell", "crop failure", "water scarcity", "सूखा", "अकाल"]):
+            disaster_types.append("drought")
+        if any(w in clean_text for w in ["cloudburst", "glof", "glacial lake"]):
+            if "flood" not in disaster_types:
+                disaster_types.append("flood")
+
+        # 3. Detect Geography
+        geography = []
+        geo_map = {
+            "assam": ["assam", "guwahati", "brahmaputra", "barpeta", "silchar", "dibrugarh", "jorhat", "असम", "गुवाहाटी"],
+            "bihar": ["bihar", "patna", "kosi", "gandak", "darbhanga", "danapur", "chhapra", "saran", "bhagalpur", "बिहार", "पटना", "कोसी"],
+            "odisha": ["odisha", "orissa", "bhubaneswar", "puri", "cuttack", "balasore", "mahanadi", "ओडिशा", "भुवनेश्वर"],
+            "gorakhpur": ["gorakhpur", "rapti", "campierganj", "chauri chaura", "गोरखपुर", "राप्ती"],
+            "mumbai": ["mumbai", "bombay", "maharashtra", "मुंबई", "महाराष्ट्र"],
+            "sikkim": ["sikkim", "namchi", "gangtok", "सिक्किम", "गंगटोक"],
+            "punjab": ["punjab", "पंजाब"],
+            "kerala": ["kerala", "केरल"]
+        }
+
+        for canon_geo, terms in geo_map.items():
+            if any(t in clean_text for t in terms):
+                geography.append(canon_geo)
+
+        # 4. Fallback from History if follow-up missing explicit entities
+        if history:
+            prev_turn = history[-1]
+            prev_ctx = prev_turn.get("research_context")
+            if isinstance(prev_ctx, dict):
+                if not disaster_types and prev_ctx.get("disaster_types"):
+                    disaster_types = list(prev_ctx["disaster_types"])
+                if not geography and prev_ctx.get("geography"):
+                    geography = list(prev_ctx["geography"])
+
+        return ResearchContext(
+            disaster_types=disaster_types,
+            geography=geography,
+            research_topic=resolved_query
+        )

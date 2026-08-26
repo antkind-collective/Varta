@@ -11,7 +11,10 @@ from api.schemas import (
     HealthResponse,
     SystemInfoResponse,
     ErrorResponse,
-    DatasetIngestResponse
+    DatasetIngestResponse,
+    ReviewDecisionRequest,
+    ReviewRecordItem,
+    ReviewQueueResponse
 )
 from api.dependencies import get_assistant_controller, get_server_uptime, reload_assistant_controller
 from src.assistant_controller import AssistantController
@@ -283,4 +286,143 @@ async def upload_dataset(
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail=f"Dataset upload initialization error: {e}"
+        )
+
+# =========================================================================
+# Sagar Preprocessing Review Queue Endpoints
+# =========================================================================
+
+def _get_review_queue_path() -> Path:
+    project_root = Path(__file__).resolve().parent.parent
+    return project_root / "reports" / "sagar_review_queue.csv"
+
+@router.get(
+    "/review/records",
+    response_model=ReviewQueueResponse,
+    summary="Get Context-Specific Review Queue Records",
+    description="Retrieves borderline records pending stakeholder review for the active research context."
+)
+def get_review_records(context_topic: str = "Floods in Assam") -> ReviewQueueResponse:
+    import pandas as pd
+    review_path = _get_review_queue_path()
+    if not review_path.exists():
+        return ReviewQueueResponse(
+            context_topic=context_topic,
+            total_records=0,
+            reviewed_count=0,
+            pending_count=0,
+            keep_count=0,
+            exclude_count=0,
+            records=[]
+        )
+
+    try:
+        df = pd.read_csv(review_path).fillna("")
+        records = []
+        keep_count = 0
+        exclude_count = 0
+        pending_count = 0
+
+        for _, row in df.iterrows():
+            rec_id = str(row.get("record_id", ""))
+            title = str(row.get("title", ""))
+            content = str(row.get("content_preview", ""))
+            score = float(row.get("relevance_score", 0.0)) if str(row.get("relevance_score", "")).strip() != "" else 0.0
+            keywords = str(row.get("matched_keywords", "None"))
+            reason = str(row.get("relevance_reason", ""))
+            final_dec = str(row.get("final_decision", "REVIEW")).upper()
+            row_ctx = str(row.get("context_topic", context_topic))
+
+            if final_dec == "KEEP":
+                keep_count += 1
+            elif final_dec == "EXCLUDE":
+                exclude_count += 1
+            else:
+                pending_count += 1
+
+            records.append(ReviewRecordItem(
+                record_id=rec_id,
+                title=title,
+                content_preview=content,
+                relevance_score=score,
+                matched_keywords=keywords,
+                relevance_reason=reason,
+                final_decision=final_dec,
+                context_topic=row_ctx
+            ))
+
+        total = len(records)
+        reviewed = keep_count + exclude_count
+
+        return ReviewQueueResponse(
+            context_topic=context_topic,
+            total_records=total,
+            reviewed_count=reviewed,
+            pending_count=pending_count,
+            keep_count=keep_count,
+            exclude_count=exclude_count,
+            records=records
+        )
+    except Exception as e:
+        logger.error(f"Error reading review queue CSV: {e}", exc_info=True)
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"Failed to load review queue: {e}"
+        )
+
+@router.post(
+    "/review/decision",
+    response_model=ReviewQueueResponse,
+    summary="Submit Stakeholder Review Decision",
+    description="Updates final decision (KEEP / EXCLUDE) for a specific record for the active research context."
+)
+def submit_review_decision(req: ReviewDecisionRequest) -> ReviewQueueResponse:
+    import pandas as pd
+    clean_dec = req.decision.strip().upper()
+    if clean_dec not in ("KEEP", "EXCLUDE"):
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Decision must be either 'KEEP' or 'EXCLUDE'."
+        )
+
+    review_path = _get_review_queue_path()
+    if not review_path.exists():
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Review queue CSV not found."
+        )
+
+    try:
+        df = pd.read_csv(review_path).fillna("")
+        if "record_id" not in df.columns:
+            raise HTTPException(
+                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                detail="Malformed review queue format."
+            )
+
+        match_mask = df["record_id"].astype(str) == req.record_id
+        if not match_mask.any():
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail=f"Record ID '{req.record_id}' not found in review queue."
+            )
+
+        if "context_topic" not in df.columns:
+            df["context_topic"] = req.context_topic or "Floods in Assam"
+
+        df.loc[match_mask, "final_decision"] = clean_dec
+        if req.context_topic:
+            df.loc[match_mask, "context_topic"] = req.context_topic
+
+        df.to_csv(review_path, index=False, encoding="utf-8")
+
+        # Return updated state
+        return get_review_records(context_topic=req.context_topic or "Floods in Assam")
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"Error persisting review decision: {e}", exc_info=True)
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"Failed to persist decision: {e}"
         )

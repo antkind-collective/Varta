@@ -181,8 +181,6 @@ class DatasetIngestor:
         if model_load_rss > peak_rss:
             peak_rss = model_load_rss
 
-        rel_engine = ContextRelevanceEngine(embedding_provider=emb_provider)
-        context = ResearchContext()
         doc_builder = DocumentBuilder(schema_version="1.0.0")
         validator = DocumentValidator()
         chunk_builder = ChunkBuilder(
@@ -260,7 +258,7 @@ class DatasetIngestor:
             records = df_dedup.to_dict("records")
             del df_dedup
 
-            # Sub-batch progress: Stage 1/5 Preprocessing & Filtering
+            # Sub-batch progress: Stage 1/5 Clean Master Standardization
             update_ingestion_status(
                 status="processing",
                 filename=file_name,
@@ -269,36 +267,19 @@ class DatasetIngestor:
                 chunks_indexed=total_chunks_added,
                 total_vectors_available=int(faiss_index.ntotal),
                 peak_rss_mb=peak_rss,
-                message=f"Batch {batch_counter}: Filtering {len(records)} records..."
+                message=f"Batch {batch_counter}: Standardizing {len(records)} clean master records..."
             )
 
-            filtered_records, _ = rel_engine.filter_dataset(
-                records,
-                context=context,
-                allowed_decisions=("KEEP", "REVIEW"),
-                batch_size=embedding_batch_size,
-                use_embeddings=False
-            )
-            del records
+            print(f"[Batch {batch_counter} | Step 2/5] Standardizing & Chunking {len(records)} clean docs... Current RSS: {get_rss_mb():.1f} MB", flush=True)
 
-            rss_after_rel = get_rss_mb()
-            if rss_after_rel > peak_rss_relevance:
-                peak_rss_relevance = rss_after_rel
-
-            if not filtered_records:
-                gc.collect()
-                continue
-
-            print(f"[Batch {batch_counter} | Step 2/5] Standardizing & Chunking {len(filtered_records)} docs... Current RSS: {get_rss_mb():.1f} MB", flush=True)
-
-            # Build documents directly from filtered_records without DataFrame conversion
+            # Build documents directly from clean records
             documents = []
-            for rec in filtered_records:
+            for rec in records:
                 doc = doc_builder.build_document(rec, doc_index=doc_index_counter)
                 doc_index_counter += 1
                 documents.append(doc)
 
-            del filtered_records
+            del records
 
             valid_docs = []
             for doc in documents:

@@ -37,6 +37,14 @@
           <span>+ Upload Dataset</span>
         </button>
         <input type="file" id="dataset-file-input" accept=".csv,.json,.jsonl" style="display: none;">
+        <button id="btn-review-queue" class="btn btn-outline" title="Review borderline dataset records">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M9 11l3 3L22 4"></path>
+            <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path>
+          </svg>
+          <span>Preprocessing Review</span>
+          <span id="review-pending-badge" class="badge-pill" style="display: none;">0</span>
+        </button>
         <button id="btn-new-chat" class="btn btn-secondary" title="Start a fresh research session">
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
             <line x1="12" y1="5" x2="12" y2="19"></line>
@@ -249,6 +257,51 @@
         </div>
         <div class="modal-footer" id="modal-footer" style="display: none;">
           <button id="btn-modal-dismiss" class="btn btn-primary">Done</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Preprocessing Review Modal for Sagar -->
+    <div id="review-modal" class="modal-backdrop" style="display: none;">
+      <div class="modal-card review-modal-card">
+        <div class="modal-header">
+          <div class="modal-title-group">
+            <h3 class="modal-title">Preprocessing Review Queue</h3>
+            <p class="modal-subtitle">Review borderline records flagged by relevance filters before embedding</p>
+          </div>
+          <button id="btn-close-review-modal" class="modal-close-btn" title="Close review modal">&times;</button>
+        </div>
+        
+        <div class="review-modal-body">
+          <!-- Progress Bar & Summary -->
+          <div class="review-progress-bar-container">
+            <div class="review-progress-header">
+              <span class="review-progress-title">Stakeholder Review Progress</span>
+              <span id="review-progress-text" class="review-progress-stat">0 / 0 reviewed</span>
+            </div>
+            <div class="review-progress-track">
+              <div id="review-progress-fill" class="review-progress-fill" style="width: 0%;"></div>
+            </div>
+            <div class="review-status-stats">
+              <span class="stat-pill stat-keep"><strong id="stat-keep-count">0</strong> KEEP</span>
+              <span class="stat-pill stat-exclude"><strong id="stat-exclude-count">0</strong> EXCLUDE</span>
+              <span class="stat-pill stat-pending"><strong id="stat-pending-count">0</strong> PENDING</span>
+            </div>
+          </div>
+
+          <!-- Review Records List -->
+          <div id="review-records-list" class="review-records-list">
+            <div class="review-loading-state">
+              <span>Loading review queue...</span>
+            </div>
+          </div>
+        </div>
+        
+        <div class="modal-footer review-modal-footer">
+          <div class="review-footer-summary">
+            <span id="review-summary-stat">8 total records in review queue</span>
+          </div>
+          <button id="btn-review-done" class="btn btn-primary">Done Reviewing</button>
         </div>
       </div>
     </div>

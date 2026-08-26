@@ -81,16 +81,21 @@ class VectorDatabase:
             vid = res["vector_id"]
             res["similarity_score"] = round(score_map.get(vid, 0.0), 4)
 
-            # Skip EXCLUDE chunks (enforce context-filtered corpus)
-            decision = res.get("relevance_decision") or res.get("metadata", {}).get("relevance_decision")
-            if decision == "EXCLUDE":
-                continue
-
-            # Apply metadata filters if provided
+            # Support dynamic context-filtered corpus via allowed_vector_ids / excluded_vector_ids
             if metadata_filters:
+                allowed_vids = metadata_filters.get("allowed_vector_ids")
+                if allowed_vids is not None and vid not in allowed_vids:
+                    continue
+                excluded_vids = metadata_filters.get("excluded_vector_ids")
+                if excluded_vids is not None and vid in excluded_vids:
+                    continue
+
+                # Apply attribute metadata filters
                 match = True
                 meta = res.get("metadata", {})
                 for k, v in metadata_filters.items():
+                    if k in ("allowed_vector_ids", "excluded_vector_ids"):
+                        continue
                     if meta.get(k) != v and res.get(k) != v:
                         match = False
                         break

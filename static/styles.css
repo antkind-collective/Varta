@@ -1211,3 +1211,306 @@ html, body {
     padding: 16px;
   }
 }
+
+/* ==========================================================================
+   Sagar Preprocessing Review Queue Modal & Components
+   ========================================================================== */
+
+.badge-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 20px;
+  height: 20px;
+  padding: 0 6px;
+  font-size: 11px;
+  font-weight: 700;
+  font-family: var(--font-family-mono);
+  background-color: var(--accent-primary);
+  color: #ffffff;
+  border-radius: 10px;
+  margin-left: 6px;
+}
+
+.review-modal-card {
+  max-width: 860px;
+  width: 92%;
+  max-height: 88vh;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--bg-surface);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-lg);
+  border: 1px solid var(--accent-border);
+  overflow: hidden;
+}
+
+.review-modal-body {
+  padding: 20px 24px;
+  overflow-y: auto;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  background-color: var(--bg-app);
+}
+
+.review-progress-bar-container {
+  background-color: var(--bg-surface);
+  padding: 16px 20px;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--accent-border);
+  box-shadow: var(--shadow-sm);
+}
+
+.review-progress-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.review-progress-title {
+  font-size: 13px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-muted);
+}
+
+.review-progress-stat {
+  font-family: var(--font-family-mono);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-main);
+}
+
+.review-progress-track {
+  width: 100%;
+  height: 8px;
+  background-color: var(--bg-surface-subtle);
+  border-radius: 4px;
+  overflow: hidden;
+  margin-bottom: 12px;
+}
+
+.review-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #16A34A, #10B981);
+  transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.review-status-stats {
+  display: flex;
+  gap: 10px;
+}
+
+.stat-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 10px;
+  font-size: 11px;
+  font-family: var(--font-family-mono);
+  border-radius: var(--radius-sm);
+  background-color: var(--bg-surface-warm);
+  border: 1px solid var(--accent-border);
+  color: var(--text-muted);
+}
+
+.stat-pill.stat-keep {
+  background-color: rgba(22, 163, 74, 0.08);
+  border-color: rgba(22, 163, 74, 0.25);
+  color: #16A34A;
+}
+
+.stat-pill.stat-exclude {
+  background-color: rgba(220, 38, 38, 0.08);
+  border-color: rgba(220, 38, 38, 0.25);
+  color: #DC2626;
+}
+
+.stat-pill.stat-pending {
+  background-color: rgba(217, 119, 6, 0.08);
+  border-color: rgba(217, 119, 6, 0.25);
+  color: #D97706;
+}
+
+.review-records-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.review-record-card {
+  background-color: var(--bg-surface);
+  border: 1px solid var(--accent-border);
+  border-radius: var(--radius-lg);
+  padding: 16px 18px;
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.review-record-card.status-keep {
+  border-left: 4px solid #16A34A;
+}
+
+.review-record-card.status-exclude {
+  border-left: 4px solid #DC2626;
+  opacity: 0.85;
+}
+
+.review-record-card.status-pending {
+  border-left: 4px solid #D97706;
+}
+
+.review-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.review-card-title {
+  font-family: var(--font-family-heading);
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.35;
+  color: var(--text-main);
+}
+
+.review-card-badges {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.score-badge {
+  font-family: var(--font-family-mono);
+  font-size: 11px;
+  font-weight: 600;
+  padding: 3px 8px;
+  border-radius: var(--radius-sm);
+  background-color: var(--bg-surface-subtle);
+  color: var(--text-main);
+  border: 1px solid var(--accent-border);
+}
+
+.decision-badge {
+  font-family: var(--font-family-mono);
+  font-size: 11px;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: var(--radius-sm);
+}
+
+.decision-badge.badge-keep {
+  background-color: #16A34A;
+  color: #FFFFFF;
+}
+
+.decision-badge.badge-exclude {
+  background-color: #DC2626;
+  color: #FFFFFF;
+}
+
+.decision-badge.badge-review {
+  background-color: #D97706;
+  color: #FFFFFF;
+}
+
+.review-meta-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+.review-meta-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.review-meta-item strong {
+  color: var(--text-main);
+  font-weight: 500;
+}
+
+.review-content-preview {
+  font-size: 13.5px;
+  line-height: 1.5;
+  color: var(--text-muted);
+  background-color: var(--bg-surface-warm);
+  padding: 10px 14px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--accent-border-subtle);
+}
+
+.review-card-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  padding-top: 6px;
+  border-top: 1px dashed var(--accent-border);
+}
+
+.btn-action-keep {
+  background-color: var(--bg-surface);
+  border: 1.5px solid #16A34A;
+  color: #16A34A;
+  font-weight: 600;
+  font-size: 12.5px;
+  padding: 6px 14px;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  transition: all 0.15s ease;
+}
+
+.btn-action-keep:hover, .btn-action-keep.active {
+  background-color: #16A34A;
+  color: #FFFFFF;
+}
+
+.btn-action-exclude {
+  background-color: var(--bg-surface);
+  border: 1.5px solid #DC2626;
+  color: #DC2626;
+  font-weight: 600;
+  font-size: 12.5px;
+  padding: 6px 14px;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  transition: all 0.15s ease;
+}
+
+.btn-action-exclude:hover, .btn-action-exclude.active {
+  background-color: #DC2626;
+  color: #FFFFFF;
+}
+
+.review-modal-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 24px;
+  background-color: var(--bg-surface);
+  border-top: 1px solid var(--accent-border);
+}
+
+.review-footer-summary {
+  font-size: 13px;
+  color: var(--text-muted);
+}
+

@@ -53,7 +53,20 @@
     uploadStatusIcon: document.getElementById('upload-status-icon'),
     uploadStatusMsg: document.getElementById('upload-status-msg'),
     modalFooter: document.getElementById('modal-footer'),
-    sampleChips: document.querySelectorAll('.sample-chip')
+    sampleChips: document.querySelectorAll('.sample-chip'),
+    // Preprocessing Review Modal Elements
+    btnReviewQueue: document.getElementById('btn-review-queue'),
+    reviewPendingBadge: document.getElementById('review-pending-badge'),
+    reviewModal: document.getElementById('review-modal'),
+    btnCloseReviewModal: document.getElementById('btn-close-review-modal'),
+    btnReviewDone: document.getElementById('btn-review-done'),
+    reviewProgressText: document.getElementById('review-progress-text'),
+    reviewProgressFill: document.getElementById('review-progress-fill'),
+    reviewRecordsList: document.getElementById('review-records-list'),
+    statKeepCount: document.getElementById('stat-keep-count'),
+    statExcludeCount: document.getElementById('stat-exclude-count'),
+    statPendingCount: document.getElementById('stat-pending-count'),
+    reviewSummaryStat: document.getElementById('review-summary-stat')
   };
 
   // ========================================================================
@@ -63,6 +76,7 @@
   async function initApp() {
     setupEventListeners();
     await createNewSession();
+    await updateReviewBadge();
   }
 
   async function createNewSession() {
@@ -176,6 +190,22 @@
     // Export Chat Button
     if (elements.btnExportChat) {
       elements.btnExportChat.addEventListener('click', exportConversationTranscript);
+    }
+
+    // Preprocessing Review Queue Modal Triggers
+    if (elements.btnReviewQueue) {
+      elements.btnReviewQueue.addEventListener('click', openReviewModal);
+    }
+    if (elements.btnCloseReviewModal) {
+      elements.btnCloseReviewModal.addEventListener('click', closeReviewModal);
+    }
+    if (elements.btnReviewDone) {
+      elements.btnReviewDone.addEventListener('click', closeReviewModal);
+    }
+    if (elements.reviewModal) {
+      elements.reviewModal.addEventListener('click', (e) => {
+        if (e.target === elements.reviewModal) closeReviewModal();
+      });
     }
 
     // Toast Close Buttons
@@ -760,6 +790,181 @@
     URL.revokeObjectURL(url);
 
     showToast('Export Success', 'Conversation transcript downloaded as Markdown.');
+  }
+
+  // ========================================================================
+  // Sagar Preprocessing Review Queue Handlers
+  // ========================================================================
+
+  async function updateReviewBadge() {
+    try {
+      const resp = await fetch('/review/records');
+      if (resp.ok) {
+        const data = await resp.json();
+        if (elements.reviewPendingBadge) {
+          if (data.pending_count > 0) {
+            elements.reviewPendingBadge.textContent = data.pending_count;
+            elements.reviewPendingBadge.style.display = 'inline-flex';
+          } else {
+            elements.reviewPendingBadge.style.display = 'none';
+          }
+        }
+      }
+    } catch (err) {
+      console.warn('Could not fetch review queue badge count:', err);
+    }
+  }
+
+  async function openReviewModal() {
+    if (!elements.reviewModal) return;
+    elements.reviewModal.style.display = 'flex';
+    await fetchAndRenderReviewQueue();
+  }
+
+  function closeReviewModal() {
+    if (!elements.reviewModal) return;
+    elements.reviewModal.style.display = 'none';
+    updateReviewBadge();
+  }
+
+  async function fetchAndRenderReviewQueue() {
+    if (!elements.reviewRecordsList) return;
+    elements.reviewRecordsList.innerHTML = '<div class="review-loading-state" style="padding: 24px; text-align: center; color: var(--text-muted);"><span>Loading review queue...</span></div>';
+    
+    try {
+      const resp = await fetch('/review/records');
+      if (!resp.ok) {
+        throw new Error(`Failed to load review records (HTTP ${resp.status})`);
+      }
+      const data = await resp.json();
+      renderReviewQueueData(data);
+    } catch (err) {
+      elements.reviewRecordsList.innerHTML = `<div class="review-loading-state" style="padding: 24px; text-align: center; color: var(--accent-danger);"><span>Failed to load review records: ${err.message}</span></div>`;
+    }
+  }
+
+  function renderReviewQueueData(data) {
+    const total = data.total_records || 0;
+    const reviewed = data.reviewed_count || 0;
+    const pending = data.pending_count || 0;
+    const keep = data.keep_count || 0;
+    const exclude = data.exclude_count || 0;
+
+    // Update Progress and Stats
+    if (elements.reviewProgressText) {
+      elements.reviewProgressText.textContent = `${reviewed} / ${total} reviewed`;
+    }
+    if (elements.reviewProgressFill) {
+      const pct = total > 0 ? Math.round((reviewed / total) * 100) : 0;
+      elements.reviewProgressFill.style.width = `${pct}%`;
+    }
+    if (elements.statKeepCount) elements.statKeepCount.textContent = keep;
+    if (elements.statExcludeCount) elements.statExcludeCount.textContent = exclude;
+    if (elements.statPendingCount) elements.statPendingCount.textContent = pending;
+    if (elements.reviewSummaryStat) {
+      elements.reviewSummaryStat.textContent = `${total} total records (${keep} KEEP, ${exclude} EXCLUDE, ${pending} pending)`;
+    }
+
+    if (elements.reviewPendingBadge) {
+      if (pending > 0) {
+        elements.reviewPendingBadge.textContent = pending;
+        elements.reviewPendingBadge.style.display = 'inline-flex';
+      } else {
+        elements.reviewPendingBadge.style.display = 'none';
+      }
+    }
+
+    if (!data.records || data.records.length === 0) {
+      elements.reviewRecordsList.innerHTML = '<div class="review-loading-state" style="padding: 24px; text-align: center; color: var(--text-muted);"><span>No records currently require review. All records processed.</span></div>';
+      return;
+    }
+
+    elements.reviewRecordsList.innerHTML = '';
+    data.records.forEach((rec) => {
+      const card = document.createElement('div');
+      const isKeep = rec.final_decision === 'KEEP';
+      const isExclude = rec.final_decision === 'EXCLUDE';
+
+      const statusClass = isKeep ? 'status-keep' : (isExclude ? 'status-exclude' : 'status-pending');
+      card.className = `review-record-card ${statusClass}`;
+      card.id = `review-card-${rec.record_id}`;
+
+      let badgeHtml = '';
+      if (isKeep) {
+        badgeHtml = '<span class="decision-badge badge-keep">KEEP</span>';
+      } else if (isExclude) {
+        badgeHtml = '<span class="decision-badge badge-exclude">EXCLUDE</span>';
+      } else {
+        badgeHtml = '<span class="decision-badge badge-review">PENDING</span>';
+      }
+
+      card.innerHTML = `
+        <div class="review-card-header">
+          <h4 class="review-card-title">${escapeHtml(rec.title || 'Untitled Record')}</h4>
+          <div class="review-card-badges">
+            <span class="score-badge" title="Algorithmic Relevance Score">Score: ${rec.relevance_score.toFixed(2)}</span>
+            ${badgeHtml}
+          </div>
+        </div>
+        <div class="review-meta-row">
+          <span class="review-meta-item"><strong>Context:</strong> <code>${escapeHtml(rec.context_topic || 'Floods in Assam')}</code></span>
+          <span class="review-meta-item"><strong>Keywords:</strong> <code>${escapeHtml(rec.matched_keywords || 'None')}</code></span>
+          <span class="review-meta-item"><strong>Reason:</strong> <code>${escapeHtml(rec.relevance_reason || 'Borderline')}</code></span>
+        </div>
+        <div class="review-content-preview">
+          ${escapeHtml(rec.content_preview || 'No content preview available.')}
+        </div>
+        <div class="review-card-actions">
+          <button class="btn-action-keep ${isKeep ? 'active' : ''}" data-id="${rec.record_id}" title="Include in this research context only">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
+            <span>KEEP FOR CONTEXT</span>
+          </button>
+          <button class="btn-action-exclude ${isExclude ? 'active' : ''}" data-id="${rec.record_id}" title="Exclude from this research context only">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="18" y1="6" x2="6" y2="18"></line>
+              <line x1="6" y1="6" x2="18" y2="18"></line>
+            </svg>
+            <span>EXCLUDE FOR CONTEXT</span>
+          </button>
+        </div>
+      `;
+
+      // Event listener for KEEP
+      const btnKeep = card.querySelector('.btn-action-keep');
+      btnKeep.addEventListener('click', () => submitDecision(rec.record_id, 'KEEP', rec.context_topic));
+
+      // Event listener for EXCLUDE
+      const btnExclude = card.querySelector('.btn-action-exclude');
+      btnExclude.addEventListener('click', () => submitDecision(rec.record_id, 'EXCLUDE', rec.context_topic));
+
+      elements.reviewRecordsList.appendChild(card);
+    });
+  }
+
+  async function submitDecision(recordId, decision, contextTopic) {
+    try {
+      const resp = await fetch('/review/decision', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ 
+          record_id: recordId, 
+          decision: decision,
+          context_topic: contextTopic || 'Floods in Assam'
+        })
+      });
+
+      if (!resp.ok) {
+        throw new Error(`Failed to save decision (HTTP ${resp.status})`);
+      }
+
+      const updatedData = await resp.json();
+      renderReviewQueueData(updatedData);
+      showToast('Context Decision Saved', `Record ${decision === 'KEEP' ? 'kept in' : 'excluded from'} ${contextTopic || 'active context'}.`, 'success');
+    } catch (err) {
+      showToast('Review Error', err.message || 'Could not save review decision.');
+    }
   }
 
   // Launch application

@@ -53,12 +53,14 @@ class QueryRewriter:
 
         # 2. Perform Context Resolution for RAG Queries
         needs_rewrite, resolved_query, method = self.context_resolver.resolve_context(clean_query, history)
+        research_context = self.context_resolver.extract_research_context(clean_query, history)
 
         return {
             "original_query": clean_query,
             "rewritten_query": resolved_query if needs_rewrite else clean_query,
             "memory_used": needs_rewrite,
-            "resolution_method": method
+            "resolution_method": method,
+            "research_context": research_context
         }
 
     def _is_tool_query(self, query: str) -> bool:

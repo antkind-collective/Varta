@@ -56,3 +56,30 @@ class DatasetIngestResponse(BaseModel):
     chunks_indexed: int = Field(..., description="Number of semantic vector chunks indexed.")
     total_vectors_available: int = Field(..., description="Total vector records available in vector database.")
     duration_sec: float = Field(..., description="Total ingestion and embedding duration in seconds.")
+
+class ReviewDecisionRequest(BaseModel):
+    """Request model for submitting Sagar's review decision for a specific context."""
+    record_id: str = Field(..., description="Unique ID of the record being reviewed.")
+    decision: str = Field(..., description="Decision: 'KEEP' or 'EXCLUDE'.")
+    context_topic: Optional[str] = Field(default="Floods in Assam", description="Active research context topic for this decision.")
+
+class ReviewRecordItem(BaseModel):
+    """Schema for a single record in the Sagar review queue."""
+    record_id: str
+    title: str
+    content_preview: str
+    relevance_score: float
+    matched_keywords: str
+    relevance_reason: str
+    final_decision: str
+    context_topic: str = "Floods in Assam"
+
+class ReviewQueueResponse(BaseModel):
+    """Response model for review queue listing."""
+    context_topic: str = "Floods in Assam"
+    total_records: int
+    reviewed_count: int
+    pending_count: int
+    keep_count: int
+    exclude_count: int
+    records: List[ReviewRecordItem]
