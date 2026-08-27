@@ -10,7 +10,7 @@ class RetrievalEngine:
     - Formats 1-based ranks and metadata attributes.
     """
 
-    def __init__(self, min_similarity_score: float = -1.0, group_by_parent_doc: bool = False):
+    def __init__(self, min_similarity_score: float = 0.35, group_by_parent_doc: bool = False):
         self.min_similarity_score = min_similarity_score
         self.group_by_parent_doc = group_by_parent_doc
 

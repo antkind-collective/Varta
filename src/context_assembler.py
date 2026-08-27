@@ -85,8 +85,32 @@ class ContextAssembler:
         # Re-sort merged blocks by top similarity_score
         merged_blocks.sort(key=lambda x: x.get("similarity_score", -1.0), reverse=True)
 
+        # 3. Cross-document title and content-hash deduplication (e.g. syndicated news)
+        deduped_blocks = []
+        seen_titles = set()
+        seen_content_hashes = set()
+
+        for block in merged_blocks:
+            raw_title = block.get("title") or ""
+            norm_title = re.sub(r'[^a-zA-Z0-9\s]', '', raw_title.lower()).strip()
+            # Content snippet hash (first 150 chars normalized)
+            raw_content = block.get("content") or ""
+            norm_content_snippet = re.sub(r'\s+', ' ', raw_content[:150].lower()).strip()
+
+            if norm_title and norm_title in seen_titles:
+                continue
+            if norm_content_snippet and norm_content_snippet in seen_content_hashes:
+                continue
+
+            if norm_title:
+                seen_titles.add(norm_title)
+            if norm_content_snippet:
+                seen_content_hashes.add(norm_content_snippet)
+
+            deduped_blocks.append(block)
+
         # Assign citation IDs [Doc 1], [Doc 2], ...
-        for idx, block in enumerate(merged_blocks):
+        for idx, block in enumerate(deduped_blocks):
             block["citation_id"] = f"[Doc {idx + 1}]"
 
-        return merged_blocks
+        return deduped_blocks

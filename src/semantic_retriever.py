@@ -19,7 +19,7 @@ class SemanticRetriever:
         self,
         vector_db: VectorDatabase,
         embedding_provider: Optional[BaseEmbeddingProvider] = None,
-        min_similarity_score: float = -1.0,
+        min_similarity_score: float = 0.35,
         group_by_parent_doc: bool = False
     ):
         self.vector_db = vector_db

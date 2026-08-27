@@ -20,7 +20,7 @@ class RAGOrchestrator:
         self,
         retriever: SemanticRetriever,
         llm_adapter: Optional[BaseLLMAdapter] = None,
-        max_context_tokens: int = 2048,
+        max_context_tokens: int = 3500,
         min_similarity_threshold: float = 0.30,
         merge_overlapping_chunks: bool = True,
         group_by_parent_doc: bool = True
@@ -217,17 +217,73 @@ class RAGOrchestrator:
         query: str,
         top_k: int = 5,
         metadata_filters: Optional[Dict[str, Any]] = None,
-        is_dataset_summary: Optional[bool] = None
+        is_dataset_summary: Optional[bool] = None,
+        research_context: Optional[Any] = None
     ) -> Dict[str, Any]:
         pipeline_start_time = time.time()
 
         # Check if query requests a dataset-level summary
-        if is_dataset_summary is True or (is_dataset_summary is None and not metadata_filters and self.is_dataset_summary_query(query)):
+        if is_dataset_summary is True or (is_dataset_summary is None and not metadata_filters and not research_context and self.is_dataset_summary_query(query)):
             return self.run_dataset_summary(query=query)
 
-        # 1. Execute Semantic Retrieval
-        retrieval_resp = self.retriever.retrieve(query=query, top_k=top_k, metadata_filters=metadata_filters)
+        # -------------------------------------------------------------
+        # LAYER 1: Scope Candidate Corpus using active ResearchContext
+        # -------------------------------------------------------------
+        active_filters = dict(metadata_filters) if metadata_filters else {}
+
+        if research_context and hasattr(self.retriever, "vector_db") and self.retriever.vector_db:
+            geography = getattr(research_context, "geography", None)
+            specific_location = getattr(research_context, "specific_location", None)
+            domain = getattr(research_context, "domain", "disaster")
+            disaster_types = getattr(research_context, "disaster_types", None)
+
+            if geography or specific_location or domain or disaster_types:
+                scoped_vids = self.retriever.vector_db.get_scoped_vector_ids(
+                    geography=geography,
+                    specific_location=specific_location,
+                    domain=domain,
+                    disaster_types=disaster_types,
+                    limit=5000
+                )
+                if scoped_vids:
+                    active_filters["allowed_vector_ids"] = scoped_vids
+
+        # -------------------------------------------------------------
+        # LAYER 2: Execute Semantic Retrieval on Query / Analytical Intent
+        # -------------------------------------------------------------
+        fetch_limit = max(top_k * 3, 10) if research_context else top_k
+        retrieval_resp = self.retriever.retrieve(query=query, top_k=fetch_limit, metadata_filters=active_filters if active_filters else None)
         raw_chunks = retrieval_resp.get("results", [])
+
+        # -------------------------------------------------------------
+        # LAYER 3: Final Context Validation Safety Gate
+        # -------------------------------------------------------------
+        if research_context and raw_chunks:
+            try:
+                from src.context_relevance_engine import ContextRelevanceEngine
+                rel_engine = ContextRelevanceEngine(embedding_provider=self.retriever.embedding_provider)
+                validated_chunks = []
+                for chunk in raw_chunks:
+                    eval_res = rel_engine.evaluate_record(
+                        chunk,
+                        context=research_context,
+                        precomputed_semantic_score=chunk.get("similarity_score")
+                    )
+                    if eval_res.get("relevance_decision") != "EXCLUDE":
+                        chunk["relevance_decision"] = eval_res.get("relevance_decision")
+                        chunk["context_relevance_score"] = eval_res.get("context_relevance_score")
+                        validated_chunks.append(chunk)
+                    if len(validated_chunks) >= top_k:
+                        break
+                
+                if validated_chunks:
+                    raw_chunks = validated_chunks
+                elif not active_filters.get("allowed_vector_ids"):
+                    # If unconstrained search brought only excluded docs, discard them
+                    raw_chunks = []
+            except Exception as e:
+                pass
+
         total_retrieved = len(raw_chunks)
         top1_score = raw_chunks[0].get("similarity_score", 0.0) if raw_chunks else 0.0
 
