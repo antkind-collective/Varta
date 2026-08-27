@@ -59,7 +59,7 @@ def get_assistant_controller() -> AssistantController:
         orchestrator = RAGOrchestrator(
             retriever=retriever,
             llm_adapter=llm_adapter,
-            max_context_tokens=2048
+            max_context_tokens=3500
         )
 
         conversation_manager = ConversationManager()
