@@ -124,7 +124,7 @@ class RAGOrchestrator:
                     "provider": self.llm_adapter.__class__.__name__,
                     "model_name": self.llm_adapter.get_model_name()
                 },
-                "answer": "Insufficient context retrieved from the database to answer this query.",
+                "answer": "I don't have enough relevant data in the current dataset to answer this confidently. You can try rephrasing your query, or ask about specific regions (such as Assam, Bihar, Odisha, Mumbai), disaster events, or relief operations covered in the repository.",
                 "citations": [],
                 "execution_time_ms": elapsed_ms
             }
@@ -319,7 +319,7 @@ class RAGOrchestrator:
                     "provider": self.llm_adapter.__class__.__name__,
                     "model_name": self.llm_adapter.get_model_name()
                 },
-                "answer": "Insufficient context retrieved from the database to answer this query.",
+                "answer": "I don't have enough relevant data in the current dataset to answer this confidently. You can try rephrasing your query, or ask about specific regions (such as Assam, Bihar, Odisha, Mumbai), disaster events, or relief operations covered in the repository.",
                 "citations": [],
                 "execution_time_ms": elapsed_ms
             }
