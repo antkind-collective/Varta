@@ -13,7 +13,7 @@ class ConversationMemory:
         self.turns: List[Dict[str, Any]] = []
         self.turn_counter: int = 0
 
-    def add_turn(self, user_query: str, assistant_response: str) -> Dict[str, Any]:
+    def add_turn(self, user_query: str, assistant_response: str, research_context: Optional[Any] = None) -> Dict[str, Any]:
         """
         Appends a conversation turn and maintains history within max_history_turns limit.
         """
@@ -22,6 +22,7 @@ class ConversationMemory:
             "turn_number": self.turn_counter,
             "user_query": user_query.strip(),
             "assistant_response": assistant_response.strip(),
+            "research_context": research_context,
             "timestamp": datetime.now(timezone.utc).isoformat()
         }
         self.turns.append(turn)

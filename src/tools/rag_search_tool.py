@@ -35,8 +35,21 @@ class RAGSearchTool(BaseTool):
 
         query = input_data["query"].strip()
         top_k = input_data.get("top_k", 5)
+        research_context = input_data.get("research_context")
+        review_decisions = input_data.get("review_decisions") or {}
 
-        rag_output = self.rag_orchestrator.run_pipeline(query=query, top_k=top_k)
+        # Collect excluded post IDs from stakeholder review decisions
+        excluded_post_ids = [pid for pid, dec in review_decisions.items() if dec == "EXCLUDE"]
+        metadata_filters = {}
+        if excluded_post_ids:
+            metadata_filters["excluded_post_ids"] = excluded_post_ids
+
+        rag_output = self.rag_orchestrator.run_pipeline(
+            query=query,
+            top_k=top_k,
+            metadata_filters=metadata_filters,
+            research_context=research_context
+        )
         return {
             "success": True,
             "tool_name": self.tool_name,

@@ -57,10 +57,11 @@ class MetadataStore:
                     relevance_score REAL,
                     quality_score REAL,
                     relevance_decision TEXT,
-                    relevance_reason TEXT
+                    relevance_reason TEXT,
+                    source_dataset TEXT DEFAULT 'master_corpus'
                 );
             """)
-            # Ensure source_url column exists for pre-existing databases
+            # Ensure columns exist for pre-existing databases
             cursor.execute(f"PRAGMA table_info({self.table_name});")
             existing_cols = [c[1] for c in cursor.fetchall()]
             for col_name, col_type in [
@@ -68,7 +69,8 @@ class MetadataStore:
                 ("relevance_score", "REAL"),
                 ("quality_score", "REAL"),
                 ("relevance_decision", "TEXT"),
-                ("relevance_reason", "TEXT")
+                ("relevance_reason", "TEXT"),
+                ("source_dataset", "TEXT DEFAULT 'master_corpus'")
             ]:
                 if col_name not in existing_cols:
                     try:
@@ -80,6 +82,7 @@ class MetadataStore:
             cursor.execute(f"CREATE INDEX IF NOT EXISTS idx_{self.table_name}_parent_doc_id ON {self.table_name}(parent_doc_id);")
             cursor.execute(f"CREATE INDEX IF NOT EXISTS idx_{self.table_name}_source_type ON {self.table_name}(source_type);")
             cursor.execute(f"CREATE INDEX IF NOT EXISTS idx_{self.table_name}_decision ON {self.table_name}(relevance_decision);")
+            cursor.execute(f"CREATE INDEX IF NOT EXISTS idx_{self.table_name}_source_dataset ON {self.table_name}(source_dataset);")
             conn.commit()
 
     def _extract_canonical_source_url(self, meta: Dict[str, Any], parent_doc_id: str) -> Optional[str]:
@@ -96,12 +99,13 @@ class MetadataStore:
             return re.sub(r'\.\d+$', '', str(parent_doc_id).strip())
         return None
 
-    def populate_from_chunks(self, chunks: List[Dict[str, Any]]) -> int:
+    def populate_from_chunks(self, chunks: List[Dict[str, Any]], dataset_name: Optional[str] = None) -> int:
         records = []
         for idx, chunk in enumerate(chunks):
             meta = chunk.get("metadata", {})
             parent_doc_id = chunk.get("parent_doc_id", "")
             source_url = self._extract_canonical_source_url(meta, parent_doc_id)
+            source_dataset = meta.get("source_dataset") or dataset_name or "master_corpus"
             records.append((
                 idx,  # vector_id maps 1-to-1 with FAISS integer ID
                 chunk.get("chunk_id"),
@@ -122,7 +126,8 @@ class MetadataStore:
                 meta.get("context_relevance_score", 1.0),
                 meta.get("data_quality_score", 1.0),
                 meta.get("relevance_decision", "KEEP"),
-                meta.get("relevance_reason", "DEFAULT_KEEP")
+                meta.get("relevance_reason", "DEFAULT_KEEP"),
+                source_dataset
             ))
 
         with self._get_connection() as conn:
@@ -133,14 +138,15 @@ class MetadataStore:
                     vector_id, chunk_id, parent_doc_id, chunk_index, total_chunks,
                     title, content, embedding_text, post_id, source_url, source_type,
                     category_taxonomy, image_url, user_rating, char_count, word_count,
-                    relevance_score, quality_score, relevance_decision, relevance_reason
-                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
+                    relevance_score, quality_score, relevance_decision, relevance_reason,
+                    source_dataset
+                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
             """, records)
             conn.commit()
 
         return len(records)
 
-    def append_chunks(self, chunks: List[Dict[str, Any]], start_vector_id: int) -> int:
+    def append_chunks(self, chunks: List[Dict[str, Any]], start_vector_id: int, dataset_name: Optional[str] = None) -> int:
         """
         Appends new chunk metadata records starting at specified start_vector_id in micro-batches
         to preserve low memory consumption (< 200 MB RAM) and prevent SQLite lockups.
@@ -162,6 +168,7 @@ class MetadataStore:
                     meta = chunk.get("metadata", {})
                     parent_doc_id = chunk.get("parent_doc_id", "")
                     source_url = self._extract_canonical_source_url(meta, parent_doc_id)
+                    source_dataset = meta.get("source_dataset") or dataset_name or "master_corpus"
                     content = str(chunk.get("content", "") or "")
                     emb_text = str(chunk.get("embedding_text", "") or "")
                     # Omit duplicate text to halve memory and database footprint
@@ -187,7 +194,8 @@ class MetadataStore:
                         meta.get("context_relevance_score", 1.0),
                         meta.get("data_quality_score", 1.0),
                         meta.get("relevance_decision", "KEEP"),
-                        meta.get("relevance_reason", "DEFAULT_KEEP")
+                        meta.get("relevance_reason", "DEFAULT_KEEP"),
+                        source_dataset
                     ))
 
                 cursor.executemany(f"""
@@ -195,8 +203,9 @@ class MetadataStore:
                         vector_id, chunk_id, parent_doc_id, chunk_index, total_chunks,
                         title, content, embedding_text, post_id, source_url, source_type,
                         category_taxonomy, image_url, user_rating, char_count, word_count,
-                        relevance_score, quality_score, relevance_decision, relevance_reason
-                    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
+                        relevance_score, quality_score, relevance_decision, relevance_reason,
+                        source_dataset
+                    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
                 """, records)
                 conn.commit()
                 del records
@@ -236,10 +245,12 @@ class MetadataStore:
             "quality_score": quality_score,
             "relevance_decision": relevance_decision,
             "relevance_reason": relevance_reason,
+            "source_dataset": row["source_dataset"] if "source_dataset" in row.keys() else "master_corpus",
             "metadata": {
                 "post_id": row["post_id"],
                 "source_url": source_url,
                 "source_type": row["source_type"],
+                "source_dataset": row["source_dataset"] if "source_dataset" in row.keys() else "master_corpus",
                 "category_taxonomy": row["category_taxonomy"],
                 "image_url": row["image_url"],
                 "user_rating": row["user_rating"],
@@ -276,11 +287,180 @@ class MetadataStore:
             rows = cursor.fetchall()
             return [self._row_to_dict(r) for r in rows]
 
+    def get_candidate_parent_records(
+        self,
+        limit: int = 500,
+        search_terms: Optional[List[str]] = None
+    ) -> List[Dict[str, Any]]:
+        """
+        Retrieves candidate parent documents (chunk_index=0) matching optional search terms
+        or sampled with distinct titles across diverse categories for dynamic context relevance evaluation.
+        """
+        clean_terms = [t.strip().lower() for t in (search_terms or []) if t and len(t.strip()) > 1]
+        
+        with self._get_connection() as conn:
+            cursor = conn.cursor()
+            rows = []
+            seen_titles = set()
+
+            # 1. If explicit search terms are provided, query matching records first
+            if clean_terms:
+                clauses = []
+                params = []
+                for term in clean_terms[:8]:
+                    clauses.append("(LOWER(title) LIKE ? OR LOWER(content) LIKE ?)")
+                    params.extend([f"%{term}%", f"%{term}%"])
+
+                where_clause = " OR ".join(clauses)
+                params.append(limit)
+
+                cursor.execute(f"""
+                    SELECT parent_doc_id, post_id, title, content, source_url, source_type, category_taxonomy
+                    FROM {self.table_name}
+                    WHERE chunk_index = 0 AND ({where_clause})
+                    GROUP BY title
+                    ORDER BY vector_id ASC
+                    LIMIT ?
+                """, params)
+                for r in cursor.fetchall():
+                    title_norm = (r["title"] or "").strip().lower()
+                    if title_norm not in seen_titles:
+                        seen_titles.add(title_norm)
+                        rows.append(r)
+
+            # 2. Fill remaining slots with diverse distinct parent documents
+            remaining = limit - len(rows)
+            if remaining > 0:
+                cursor.execute(f"""
+                    SELECT parent_doc_id, post_id, title, content, source_url, source_type, category_taxonomy
+                    FROM {self.table_name}
+                    WHERE chunk_index = 0
+                    GROUP BY title
+                    ORDER BY vector_id ASC
+                    LIMIT ?
+                """, (remaining + 50,))
+                for r in cursor.fetchall():
+                    title_norm = (r["title"] or "").strip().lower()
+                    if title_norm not in seen_titles:
+                        seen_titles.add(title_norm)
+                        rows.append(r)
+                    if len(rows) >= limit:
+                        break
+
+            return [
+                {
+                    "post_id": r["post_id"] or r["parent_doc_id"],
+                    "parent_doc_id": r["parent_doc_id"],
+                    "title": r["title"] or "",
+                    "content": r["content"] or "",
+                    "text_content": r["content"] or "",
+                    "source_url": r["source_url"] or "",
+                    "source_type": r["source_type"] or "",
+                    "category_taxonomy": r["category_taxonomy"] or ""
+                }
+                for r in rows
+            ]
+
+    def get_scoped_vector_ids(
+        self,
+        geography: Optional[List[str]] = None,
+        specific_location: Optional[str] = None,
+        domain: str = "disaster",
+        disaster_types: Optional[List[str]] = None,
+        source_dataset: Optional[str] = None,
+        limit: int = 5000
+    ) -> List[int]:
+        """
+        Layer 1 Corpus Scoping:
+        Returns a list of vector IDs strictly satisfying the active ResearchContext constraints
+        (Geography, Disaster Domain/Type, and Source Dataset origin).
+        """
+        geo_terms = []
+        if geography:
+            for g in geography:
+                g_clean = g.strip().lower()
+                geo_terms.append(g_clean)
+                if g_clean == "assam":
+                    geo_terms.extend(["guwahati", "brahmaputra", "silchar", "dibrugarh", "barpeta", "jorhat", "dhemaji", "dhubri", "kaziranga", "असम", "गुवाहाटी"])
+                elif g_clean == "bihar":
+                    geo_terms.extend(["patna", "kosi", "gandak", "darbhanga", "danapur", "chhapra", "saran", "bhagalpur", "बिहार", "पटना"])
+                elif g_clean == "odisha":
+                    geo_terms.extend(["bhubaneswar", "puri", "cuttack", "balasore", "mahanadi", "ओडिशा"])
+                elif g_clean == "mumbai":
+                    geo_terms.extend(["bombay", "maharashtra", "thane", "pune", "मुंबई"])
+                elif g_clean == "chennai":
+                    geo_terms.extend(["madras", "tamil nadu", "tamilnadu", "adyar", "cooum", "चेन्नई"])
+                elif g_clean == "gorakhpur":
+                    geo_terms.extend(["rapti", "गोरखपुर"])
+
+        if specific_location and specific_location.strip().lower() not in geo_terms:
+            geo_terms.append(specific_location.strip().lower())
+
+        disaster_markers = [
+            "flood", "inundat", "submerg", "deluge", "waterlog", "river", "breach", "embankment",
+            "disaster", "calamity", "hazard", "landslide", "cyclon", "storm", "rain", "monsoon",
+            "rescue", "relief", "evacuat", "casualt", "death", "toll", "damage", "ndrf", "sdrf",
+            "erosion", "बाढ़", "आपदा", "जलभराव", "जलमग्न", "बारिश", "मानसून"
+        ]
+
+        if disaster_types:
+            specific_d_markers = []
+            for dt in disaster_types:
+                dt_clean = dt.strip().lower()
+                if dt_clean == "flood":
+                    specific_d_markers.extend(["flood", "inundat", "submerg", "deluge", "waterlog", "river", "breach", "embankment", "बाढ़", "जलभराव", "जलमग्न"])
+                elif dt_clean == "cyclone":
+                    specific_d_markers.extend(["cyclon", "storm", "gale", "तूफान", "चक्रवात"])
+                elif dt_clean == "landslide":
+                    specific_d_markers.extend(["landslide", "mudslide", "rockfall", "debris flow", "भूस्खलन"])
+                elif dt_clean == "drought":
+                    specific_d_markers.extend(["drought", "dry spell", "water scarcity", "सूखा", "अकाल"])
+            if specific_d_markers:
+                disaster_markers = specific_d_markers
+
+        # Build SQL query
+        where_parts = []
+        params = []
+
+        if source_dataset:
+            where_parts.append("source_dataset = ?")
+            params.append(source_dataset)
+
+        if geo_terms:
+            geo_clauses = ["(LOWER(title) LIKE ? OR LOWER(content) LIKE ?)" for _ in geo_terms[:10]]
+            where_parts.append(f"({' OR '.join(geo_clauses)})")
+            for term in geo_terms[:10]:
+                params.extend([f"%{term}%", f"%{term}%"])
+
+        if domain == "disaster" or disaster_types:
+            d_clauses = ["(LOWER(title) LIKE ? OR LOWER(content) LIKE ?)" for _ in disaster_markers[:12]]
+            where_parts.append(f"({' OR '.join(d_clauses)})")
+            for term in disaster_markers[:12]:
+                params.extend([f"%{term}%", f"%{term}%"])
+
+        if not where_parts:
+            return []
+
+        full_where = " AND ".join(where_parts)
+        params.append(limit)
+
+        with self._get_connection() as conn:
+            cursor = conn.cursor()
+            cursor.execute(f"SELECT vector_id FROM {self.table_name} WHERE {full_where} LIMIT ?", params)
+            rows = cursor.fetchall()
+            return [int(r["vector_id"]) for r in rows]
+
     def get_total_records_count(self) -> int:
         with self._get_connection() as conn:
             cursor = conn.cursor()
             cursor.execute(f"SELECT COUNT(*) FROM {self.table_name}")
             return cursor.fetchone()[0]
+
+    def get_next_vector_id(self) -> int:
+        with self._get_connection() as conn:
+            cursor = conn.cursor()
+            cursor.execute(f"SELECT COALESCE(MAX(vector_id), -1) + 1 FROM {self.table_name}")
+            return int(cursor.fetchone()[0])
 
     def get_dataset_representative_chunks(self, max_documents: int = 15) -> List[Dict[str, Any]]:
         """

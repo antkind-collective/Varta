@@ -13,7 +13,12 @@ class RetrievalExecutor:
     def __init__(self, rag_orchestrator: RAGOrchestrator):
         self.rag_orchestrator = rag_orchestrator
 
-    def execute_plan(self, plan: ExecutionPlan) -> Dict[str, Any]:
+    def execute_plan(
+        self,
+        plan: ExecutionPlan,
+        metadata_filters: Optional[Dict[str, Any]] = None,
+        research_context: Optional[Any] = None
+    ) -> Dict[str, Any]:
         """
         Executes plan steps sequentially and synthesizes final response.
         """
@@ -49,7 +54,11 @@ class RetrievalExecutor:
         # Single Retrieval Execution (direct, followup, summarization)
         if len(retrieval_steps) <= 1:
             step_query = retrieval_steps[0]["query"] if retrieval_steps else plan.rewritten_query
-            rag_output = self.rag_orchestrator.run_pipeline(query=step_query)
+            rag_output = self.rag_orchestrator.run_pipeline(
+                query=step_query,
+                metadata_filters=metadata_filters,
+                research_context=research_context
+            )
             
             elapsed_ms = round((time.time() - start_time) * 1000, 2)
             ans = rag_output.get("answer", "") or "Retrieved information successfully from knowledge repository."
@@ -74,7 +83,11 @@ class RetrievalExecutor:
         def _execute_sub_step(step_item: tuple) -> tuple:
             idx, step = step_item
             sub_q = step["query"]
-            sub_res = self.rag_orchestrator.run_pipeline(query=sub_q)
+            sub_res = self.rag_orchestrator.run_pipeline(
+                query=sub_q,
+                metadata_filters=metadata_filters,
+                research_context=research_context
+            )
             sub_ans = sub_res.get("answer", "").strip() or f"Retrieved documents and evidence regarding {step.get('target', sub_q)}."
             res_dict = {
                 "step": idx,
@@ -148,38 +161,50 @@ class RetrievalExecutor:
 
     def _synthesize_multi_step_answer(self, plan: ExecutionPlan, sub_results: List[Dict[str, Any]], citations: List[Dict[str, Any]]) -> str:
         """
-        Synthesizes answers from multiple sub-query retrievals into a coherent response.
-        Guarantees non-empty structured response with Overview, Similarities, Differences, Important observations, and Citations.
+        Synthesizes answers from multiple sub-query retrievals into a coherent response using LLM generation.
+        Eliminates static/hardcoded boilerplate strings.
         """
-        if plan.plan_type == "comparison":
-            lines = [f"### Comparative Analysis: {plan.original_query.strip()}\n"]
-            lines.append("#### 1. Overview & Findings")
+        # Construct evidence context from sub-query execution
+        context_parts = []
+        for idx, res in enumerate(sub_results, 1):
+            target = res.get("target") or f"Sub-topic {idx}"
+            sub_q = res.get("sub_query") or ""
+            sub_ans = res.get("answer", "").strip()
+            if sub_ans:
+                context_parts.append(f"### Evidence for {target} (Query: {sub_q}):\n{sub_ans}")
 
-            for idx, res in enumerate(sub_results, 1):
-                target = res.get("target") or f"Subject {idx}"
-                ans_text = res.get("answer", "").strip()
-                if not ans_text:
-                    ans_text = f"Retrieved documented records and operational data regarding {target}."
-                lines.append(f"- **{target}**: {ans_text}")
+        joined_evidence = "\n\n".join(context_parts)
 
-            lines.append("\n#### 2. Key Similarities & Differences")
-            lines.append("- **Similarities**: Both subjects exhibit severe impact, active monitoring by relevant government/environmental bodies, and deployment of emergency management interventions.")
-            lines.append("- **Differences**: Variations exist in geographical terrain, specific river/basin hydrologic features, infrastructure vulnerabilities, and localized impact metrics.")
+        if not joined_evidence:
+            return "I don't have enough relevant data in the current dataset to answer this confidently. You can try rephrasing your query, or ask about specific regions (such as Assam, Bihar, Odisha, Mumbai), disaster events, or relief operations covered in the repository."
 
-            lines.append("\n#### 3. Important Observations & Evidence")
-            if citations:
-                cit_titles = ", ".join(set([c.get("title", "") for c in citations if c.get("title")]))
-                lines.append(f"Based on retrieved evidence (*{cit_titles}*), continuous field monitoring and relief operations remain in effect across affected zones.")
-            else:
-                lines.append("Retrieved documentation provides grounded comparative context for decision support.")
+        prompt = (
+            f"You are an expert research analyst. The user asked the following question:\n"
+            f"\"{plan.original_query}\"\n\n"
+            f"The following retrieved research evidence was gathered across multiple sub-topics:\n"
+            f"{joined_evidence}\n\n"
+            f"Instructions:\n"
+            f"1. Synthesize a unified, comprehensive, and natural answer directly answering the user's question.\n"
+            f"2. Structure key findings, comparative analysis/differences (if applicable), and concrete takeaways based strictly on the evidence above.\n"
+            f"3. Do NOT invent information or use generic placeholder boilerplate. Ground every statement in the provided evidence.\n"
+            f"4. Format in clean, readable markdown with clear headings and bullet points.\n\n"
+            f"Synthesized Response:"
+        )
 
-            return "\n".join(lines)
+        try:
+            if hasattr(self.rag_orchestrator, "llm_adapter") and self.rag_orchestrator.llm_adapter:
+                llm_resp = self.rag_orchestrator.llm_adapter.generate(prompt)
+                synth_text = llm_resp.get("text", "").strip()
+                if synth_text:
+                    return synth_text
+        except Exception:
+            pass
 
-        else:
-            lines = ["### Multi-Step Analysis Summary\n"]
-            for res in sub_results:
-                ans_text = res.get("answer", "").strip()
-                if not ans_text:
-                    ans_text = "Retrieved relevant details from knowledge repository."
-                lines.append(f"**Section {res['step']}: {res['sub_query']}**\n{ans_text}\n")
-            return "\n".join(lines)
+        # Clean deterministic fallback if LLM synthesis is unavailable
+        lines = [f"### Analysis Synthesis: {plan.original_query.strip()}\n"]
+        for idx, res in enumerate(sub_results, 1):
+            target = res.get("target") or f"Topic {idx}"
+            ans_text = res.get("answer", "").strip()
+            if ans_text:
+                lines.append(f"#### {target}\n{ans_text}\n")
+        return "\n".join(lines)

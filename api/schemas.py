@@ -61,7 +61,8 @@ class ReviewDecisionRequest(BaseModel):
     """Request model for submitting Sagar's review decision for a specific context."""
     record_id: str = Field(..., description="Unique ID of the record being reviewed.")
     decision: str = Field(..., description="Decision: 'KEEP' or 'EXCLUDE'.")
-    context_topic: Optional[str] = Field(default="Floods in Assam", description="Active research context topic for this decision.")
+    session_id: Optional[str] = Field(default=None, description="Optional active session ID.")
+    context_topic: Optional[str] = Field(default=None, description="Active research context topic for this decision.")
 
 class ReviewRecordItem(BaseModel):
     """Schema for a single record in the Sagar review queue."""
@@ -72,14 +73,39 @@ class ReviewRecordItem(BaseModel):
     matched_keywords: str
     relevance_reason: str
     final_decision: str
-    context_topic: str = "Floods in Assam"
+    context_topic: str = ""
+
+class PreprocessingStageInfo(BaseModel):
+    """Details of a single preprocessing transformation stage."""
+    stage_number: int
+    stage_name: str
+    description: str
+    status: str = "COMPLETED"
+    details: str = ""
+
+class DatasetAuditStats(BaseModel):
+    """Dataset quality and transformation audit summary for stakeholder."""
+    total_master_records: int = 0
+    auto_kept_count: int = 0
+    auto_excluded_count: int = 0
+    borderline_review_count: int = 0
+    quality_status: str = "HEALTHY & INDEXED"
+    summary_message: str = ""
+    languages: Dict[str, int] = Field(default_factory=lambda: {"English": 0, "Hindi": 0})
+    deduplication_rate_pct: float = 0.0
+    vector_index_status: str = "SYNCHRONIZED (384-dim)"
+    available_regions: List[str] = Field(default_factory=lambda: ["All Corpus", "Assam", "Mumbai", "Bihar", "Odisha", "Gorakhpur", "Sikkim"])
+    preprocessing_stages: List[PreprocessingStageInfo] = Field(default_factory=list)
 
 class ReviewQueueResponse(BaseModel):
-    """Response model for review queue listing."""
-    context_topic: str = "Floods in Assam"
-    total_records: int
-    reviewed_count: int
-    pending_count: int
-    keep_count: int
-    exclude_count: int
-    records: List[ReviewRecordItem]
+    """Response model for review queue listing and dataset audit."""
+    context_topic: str = ""
+    session_id: Optional[str] = None
+    audit_stats: Optional[DatasetAuditStats] = None
+    total_records: int = 0
+    reviewed_count: int = 0
+    pending_count: int = 0
+    keep_count: int = 0
+    exclude_count: int = 0
+    records: List[ReviewRecordItem] = []
+

@@ -12,7 +12,7 @@ class AgentPlanner:
     invokes QueryDecomposer for complex queries, and returns a structured ExecutionPlan.
     """
 
-    COMPARISON_KEYWORDS = {"compare", "comparison", "versus", "vs", "difference", "तुलना", "अंतर"}
+    COMPARISON_KEYWORDS = {"compare", "comparison", "versus", "vs", "तुलना"}
     SUMMARIZATION_KEYWORDS = {"summarize", "summary", "overview", "overall status", "सारंश", "संक्षेप", "विवरण"}
     SYSTEM_INFO_KEYWORDS = {
         "system status", "system info", "active model", "what model", "system information",
@@ -103,16 +103,18 @@ class AgentPlanner:
             )
 
         # 6. Check Comparison Query
-        is_comparison = any(re.search(r"\b" + re.escape(kw) + r"\b", combined_text) for kw in self.COMPARISON_KEYWORDS)
-        if is_comparison or (" और " in clean_q and "तुलना" in clean_q) or (" compare " in f" {combined_text} "):
+        is_comparison = any(re.search(r"\b" + re.escape(kw) + r"\b", clean_q.lower()) for kw in self.COMPARISON_KEYWORDS)
+        if is_comparison or (" और " in clean_q and "तुलना" in clean_q) or (" compare " in f" {clean_q.lower()} "):
             steps = self.query_decomposer.decompose_query(clean_rw, plan_type="comparison")
-            return ExecutionPlan(
-                plan_type="comparison",
-                steps=steps,
-                original_query=clean_q,
-                rewritten_query=clean_rw,
-                reasoning="Comparative query detected requiring separate retrievals for comparison."
-            )
+            retrieval_steps = [s for s in steps if s.get("type") == "retrieve"]
+            if len(retrieval_steps) > 1:
+                return ExecutionPlan(
+                    plan_type="comparison",
+                    steps=steps,
+                    original_query=clean_q,
+                    rewritten_query=clean_rw,
+                    reasoning="Comparative query detected requiring separate retrievals for comparison."
+                )
 
         # 7. Check Multi-Step Query
         is_multistep = any(conj in combined_text for conj in ["and also", "as well as", "साथ ही"])

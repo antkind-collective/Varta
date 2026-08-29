@@ -236,13 +236,15 @@ class RAGOrchestrator:
             specific_location = getattr(research_context, "specific_location", None)
             domain = getattr(research_context, "domain", "disaster")
             disaster_types = getattr(research_context, "disaster_types", None)
+            source_dataset = getattr(research_context, "source_dataset", None) or (metadata_filters.get("source_dataset") if metadata_filters else None)
 
-            if geography or specific_location or domain or disaster_types:
+            if geography or specific_location or domain or disaster_types or source_dataset:
                 scoped_vids = self.retriever.vector_db.get_scoped_vector_ids(
                     geography=geography,
                     specific_location=specific_location,
                     domain=domain,
                     disaster_types=disaster_types,
+                    source_dataset=source_dataset,
                     limit=5000
                 )
                 if scoped_vids:

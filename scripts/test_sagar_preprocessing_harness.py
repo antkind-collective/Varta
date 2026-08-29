@@ -520,7 +520,7 @@ def run_sagar_review_workflow_harness() -> Dict[str, Any]:
                 rec_id = str(row.get("record_id") or "").strip()
                 dec = str(row.get("final_decision") or "REVIEW").strip().upper()
                 if rec_id:
-                    sagar_reviewed_decisions[rec_id] = dec
+                    sagar_reviewed_decisions[rec_id] = dec if dec in ("KEEP", "EXCLUDE") else "EXCLUDE"
         except Exception:
             pass
 

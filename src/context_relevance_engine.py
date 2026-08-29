@@ -18,22 +18,33 @@ logger = logging.getLogger("ContextRelevanceEngine")
 class ResearchContext:
     """
     Encapsulates dynamic research parameters for disaster intelligence filtering.
+    Separates Layer 1 (Corpus Constraints: Geography & Domain/Disaster Type)
+    from Layer 2 (Analytical Inquiry Dimensions: Causes, Public Attribution, Impacts).
     """
+    domain: str = "disaster"
     disaster_types: List[str] = field(default_factory=list)
     geography: List[str] = field(default_factory=list)
+    specific_location: str = ""
+    analytical_intent: List[str] = field(default_factory=list)
     time_period: Optional[Any] = None
     source_types: List[str] = field(default_factory=lambda: ["News", "Official Report", "Research", "Blogs"])
     research_topic: str = ""
     custom_keywords: List[str] = field(default_factory=list)
+    source_dataset: Optional[str] = None
+
 
     def to_embedding_text(self) -> str:
         parts = []
         if self.research_topic:
             parts.append(self.research_topic)
+        if self.domain:
+            parts.append(f"Domain: {self.domain}")
         if self.disaster_types:
             parts.append(f"Disaster types: {', '.join(self.disaster_types)}")
         if self.geography:
             parts.append(f"Geography: {', '.join(self.geography)}")
+        if self.analytical_intent:
+            parts.append(f"Intent: {', '.join(self.analytical_intent)}")
         if self.source_types:
             parts.append(f"Sources: {', '.join(self.source_types)}")
         if self.custom_keywords:
@@ -56,6 +67,7 @@ class ContextRelevanceEngine:
     """
 
     DISASTER_SYNONYMS = {
+        "disaster": ["disaster", "disasters", "calamity", "hazard", "catastrophe", "emergency", "आपदा", "विपदा", "दुर्घटना"],
         "flood": ["flood", "floods", "flooded", "flooding", "inundation", "inundated", "deluge", "submerged", "heavy rainfall", "downpour", "monsoon", "river overflow", "waterlogging", "breach", "embankment", "बाढ़", "जलभराव", "भारी बारिश", "मानसून", "नदी", "flash flood", "flash floods", "cloudburst", "marooned", "जलमग्न", "जल स्तर"],
         "cyclone": ["cyclone", "cyclones", "storm", "super cyclone", "cyclonic", "storm surge", "gale", "तूफान", "चक्रवात", "तबाही"],
         "landslide": ["landslide", "landslides", "mudslide", "debris flow", "rockfall", "भूस्खलन", "मलबा"],
@@ -67,8 +79,18 @@ class ContextRelevanceEngine:
         "bihar": ["bihar", "patna", "kosi", "gandak", "darbhanga", "danapur", "chhapra", "saran", "bhagalpur", "muzaffarpur", "gaya", "nalanda", "बिहार", "पटना", "कोसी", "गंगा"],
         "odisha": ["odisha", "orissa", "bhubaneswar", "puri", "cuttack", "balasore", "mahanadi", "gopalpur", "ओडिशा", "भुवनेश्वर", "पुरी"],
         "gorakhpur": ["gorakhpur", "rapti", "campierganj", "chauri chaura", "गोरखपुर", "राप्ती"],
-        "mumbai": ["mumbai", "bombay", "maharashtra", "thane", "मुंबई", "महाराष्ट्र"],
-        "sikkim": ["sikkim", "namchi", "gangtok", "samardung", "सिक्किम", "गंगटोक"]
+        "mumbai": ["mumbai", "bombay", "maharashtra", "thane", "pune", "मुंबई", "महाराष्ट्र"],
+        "chennai": ["chennai", "madras", "tamil nadu", "tamilnadu", "adyar", "cooum", "चेन्नई", "तमिलनाडु"],
+        "delhi": ["delhi", "yamuna", "ncr", "noida", "ghaziabad", "gurugram", "दिल्ली", "यमुना"],
+        "gujarat": ["gujarat", "ahmedabad", "surat", "vadodara", "rajkot", "गुजरात", "अहमदाबाद"],
+        "himachal": ["himachal", "shimla", "manali", "kullu", "mandi", "beas", "हिमाचल", "मनाली"],
+        "uttarakhand": ["uttarakhand", "kedarnath", "rishikesh", "haridwar", "dehradun", "chamoli", "उत्तराखंड", "ऋषिकेश"],
+        "kerala": ["kerala", "wayanad", "kozhikode", "idukki", "munnar", "केरल"],
+        "sikkim": ["sikkim", "namchi", "gangtok", "samardung", "सिक्किम", "गंगटोक"],
+        "punjab": ["punjab", "ludhiana", "amritsar", "sutlej", "पंजाब"],
+        "karnataka": ["karnataka", "bengaluru", "bangalore", "mysuru", "कर्नाटक", "बेंगलुरु"],
+        "andhra": ["andhra", "vijayawada", "visakhapatnam", "godavari", "krishna", "आंध्र"],
+        "bengal": ["bengal", "kolkata", "hooghly", "teesta", "पश्चिम बंगाल", "कोलकाता"]
     }
 
     def __init__(self, config_path: Optional[str] = None, embedding_provider: Optional[Any] = None):
@@ -200,8 +222,8 @@ class ContextRelevanceEngine:
                 geography_terms.add(geo_lower)
                 for syn in self.GEOGRAPHY_SYNONYMS.get(geo_lower, []):
                     geography_terms.add(syn.lower())
-        else:
-            geography_terms = set([t.lower() for t in self.keywords.get("geography_terms", [])])
+        if context.specific_location:
+            geography_terms.add(context.specific_location.lower())
 
         custom_terms = set([t.lower() for t in context.custom_keywords])
 
@@ -212,10 +234,11 @@ class ContextRelevanceEngine:
         # General Geographic Conflict Detection:
         # If context specifies an explicit geography, check if document belongs to a conflicting region.
         geo_conflict = False
-        if context.geography:
+        if context.geography or context.specific_location:
             all_other_geo_terms = set()
+            target_geos = [g.lower() for g in context.geography]
             for g_key, g_syns in self.GEOGRAPHY_SYNONYMS.items():
-                if g_key not in [g.lower() for g in context.geography]:
+                if g_key not in target_geos:
                     for s in g_syns:
                         if s.lower() not in geography_terms:
                             all_other_geo_terms.add(s.lower())

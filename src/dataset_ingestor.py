@@ -14,6 +14,8 @@ try:
 except Exception:
     pass
 
+import re
+import time
 import json
 import logging
 from pathlib import Path
@@ -101,10 +103,15 @@ class DatasetIngestor:
         with open(self.config_dir / "vector_db_config.json", "r", encoding="utf-8") as f:
             self.vdb_config = json.load(f)
 
-    def ingest_file(
+    def ingest_file(self, *args, **kwargs) -> Dict[str, Any]:
+        """Alias for ingest_dataset."""
+        return self.ingest_dataset(*args, **kwargs)
+
+    def ingest_dataset(
         self,
         file_path: str,
         original_filename: Optional[str] = None,
+        dataset_name: Optional[str] = None,
         batch_size: int = 500,
         embedding_batch_size: int = 256
     ) -> Dict[str, Any]:
@@ -133,6 +140,11 @@ class DatasetIngestor:
         ext = resolved_path.suffix.lower()
         if ext not in [".csv", ".json", ".jsonl"]:
             raise ValueError(f"Unsupported file format '{ext}'. VARTA accepts .csv, .json, and .jsonl files.")
+
+        # Determine explicit or inferred source_dataset origin label
+        raw_label = dataset_name or original_filename or resolved_path.stem
+        clean_label = re.sub(r'[^a-zA-Z0-9_-]', '_', Path(raw_label).stem.lower().strip())
+        effective_dataset_name = clean_label if clean_label else "uploaded_dataset"
 
         if not FAISS_AVAILABLE:
             raise RuntimeError("FAISS library is required for vector database indexing.")
@@ -325,13 +337,13 @@ class DatasetIngestor:
             print(f"[Batch {batch_counter} | Step 4/5] Indexing into FAISS & SQLite... Current RSS: {get_rss_mb():.1f} MB", flush=True)
 
             # Incrementally add to loaded FAISS index and SQLite store
-            start_vector_id = int(faiss_index.ntotal)
+            start_vector_id = meta_store.get_next_vector_id()
             faiss.normalize_L2(new_embeddings)
             faiss_index.add(new_embeddings)
             del new_embeddings, valid_docs
             gc.collect()
 
-            meta_store.append_chunks(chunks, start_vector_id=start_vector_id)
+            meta_store.append_chunks(chunks, start_vector_id=start_vector_id, dataset_name=effective_dataset_name)
 
             rss_after_faiss = get_rss_mb()
             if rss_after_faiss > peak_rss_faiss:

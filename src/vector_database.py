@@ -64,8 +64,41 @@ class VectorDatabase:
         if self.index.ntotal == 0:
             return []
 
+        # Auto-resolve allowed_vector_ids if source_dataset filter is provided
+        if metadata_filters and "allowed_vector_ids" not in metadata_filters and metadata_filters.get("source_dataset"):
+            metadata_filters["allowed_vector_ids"] = self.get_scoped_vector_ids(source_dataset=metadata_filters.get("source_dataset"), limit=10000)
+
+        # Fast exact scoring for small scoped subsets (e.g. specific datasets < 500 vectors)
+        if metadata_filters and metadata_filters.get("allowed_vector_ids"):
+            allowed_vids = set(metadata_filters["allowed_vector_ids"])
+            if len(allowed_vids) <= 500 and hasattr(self.index, "reconstruct"):
+                direct_scores = []
+                for vid in allowed_vids:
+                    if 0 <= vid < self.index.ntotal:
+                        v_emb = self.index.reconstruct(vid)
+                        sim = float(np.dot(query_arr[0], v_emb))
+                        direct_scores.append((vid, sim))
+                direct_scores.sort(key=lambda x: x[1], reverse=True)
+                top_vids = [vid for vid, _ in direct_scores[:top_k]]
+                score_map = {vid: sim for vid, sim in direct_scores[:top_k]}
+                raw_results = self.metadata_store.get_metadata_by_vector_ids(top_vids)
+                results = []
+                for res in raw_results:
+                    vid = res["vector_id"]
+                    res["similarity_score"] = round(score_map.get(vid, 0.0), 4)
+                    results.append(res)
+                return results
+
         # Fetch extra items if filtering is requested
-        fetch_k = top_k * 5 if metadata_filters else top_k
+        if metadata_filters:
+            if metadata_filters.get("allowed_vector_ids"):
+                allowed_set_len = len(metadata_filters["allowed_vector_ids"])
+                fetch_k = min(self.index.ntotal, max(top_k * 50, min(2000, allowed_set_len)))
+            else:
+                fetch_k = min(self.index.ntotal, top_k * 20)
+        else:
+            fetch_k = top_k * 5
+
         fetch_k = min(fetch_k, self.index.ntotal)
 
         scores, indices = self.index.search(query_arr, fetch_k)
@@ -81,7 +114,7 @@ class VectorDatabase:
             vid = res["vector_id"]
             res["similarity_score"] = round(score_map.get(vid, 0.0), 4)
 
-            # Support dynamic context-filtered corpus via allowed_vector_ids / excluded_vector_ids
+            # Support dynamic context-filtered corpus via allowed_vector_ids / excluded_vector_ids / excluded_post_ids
             if metadata_filters:
                 allowed_vids = metadata_filters.get("allowed_vector_ids")
                 if allowed_vids is not None and vid not in allowed_vids:
@@ -90,11 +123,18 @@ class VectorDatabase:
                 if excluded_vids is not None and vid in excluded_vids:
                     continue
 
+                excluded_pids = metadata_filters.get("excluded_post_ids")
+                if excluded_pids is not None:
+                    pid = str(res.get("post_id") or res.get("parent_doc_id") or (res.get("metadata", {}).get("post_id")) or "")
+                    parent_id = str(res.get("parent_doc_id") or (res.get("metadata", {}).get("parent_doc_id")) or "")
+                    if pid in excluded_pids or parent_id in excluded_pids:
+                        continue
+
                 # Apply attribute metadata filters
                 match = True
                 meta = res.get("metadata", {})
                 for k, v in metadata_filters.items():
-                    if k in ("allowed_vector_ids", "excluded_vector_ids"):
+                    if k in ("allowed_vector_ids", "excluded_vector_ids", "excluded_post_ids"):
                         continue
                     if meta.get(k) != v and res.get(k) != v:
                         match = False
@@ -107,6 +147,33 @@ class VectorDatabase:
                 break
 
         return filtered_results
+
+    def get_scoped_vector_ids(
+        self,
+        geography: Optional[List[str]] = None,
+        specific_location: Optional[str] = None,
+        domain: str = "disaster",
+        disaster_types: Optional[List[str]] = None,
+        source_dataset: Optional[str] = None,
+        limit: int = 5000
+    ) -> List[int]:
+        """Retrieves scoped vector IDs satisfying geography, disaster domain, and source_dataset from metadata store."""
+        if hasattr(self, "metadata_store") and self.metadata_store and hasattr(self.metadata_store, "get_scoped_vector_ids"):
+            return self.metadata_store.get_scoped_vector_ids(
+                geography=geography,
+                specific_location=specific_location,
+                domain=domain,
+                disaster_types=disaster_types,
+                source_dataset=source_dataset,
+                limit=limit
+            )
+        return []
+
+    def get_candidate_parent_records(self, limit: int = 500, search_terms: Optional[List[str]] = None) -> List[Dict[str, Any]]:
+        """Retrieves candidate parent documents from underlying metadata store for relevance filtering."""
+        if hasattr(self, "metadata_store") and self.metadata_store and hasattr(self.metadata_store, "get_candidate_parent_records"):
+            return self.metadata_store.get_candidate_parent_records(limit=limit, search_terms=search_terms)
+        return []
 
     def get_chunk_by_id(self, chunk_id: str) -> Optional[Dict[str, Any]]:
         return self.metadata_store.get_chunk_by_id(chunk_id)

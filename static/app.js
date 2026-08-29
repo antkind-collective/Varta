@@ -15,6 +15,7 @@
     sessionId: null,
     turnCount: 0,
     isProcessing: false,
+    activeReviewRegion: 'active',
     messages: [] // { role: 'user' | 'assistant', text: '', citations: [], timestamp: '' }
   };
 
@@ -66,7 +67,17 @@
     statKeepCount: document.getElementById('stat-keep-count'),
     statExcludeCount: document.getElementById('stat-exclude-count'),
     statPendingCount: document.getElementById('stat-pending-count'),
-    reviewSummaryStat: document.getElementById('review-summary-stat')
+    reviewSummaryStat: document.getElementById('review-summary-stat'),
+    reviewActiveContextTag: document.getElementById('review-active-context-tag'),
+    reviewDatasetHealthTag: document.getElementById('review-dataset-health-tag'),
+    reviewHealthSubtext: document.getElementById('review-health-subtext'),
+    auditMasterCount: document.getElementById('audit-master-count'),
+    auditKeptCount: document.getElementById('audit-kept-count'),
+    auditExcludedCount: document.getElementById('audit-excluded-count'),
+    auditBorderlineCount: document.getElementById('audit-borderline-count'),
+    reviewAuditSummaryMsg: document.getElementById('review-audit-summary-msg'),
+    preprocessingStagesList: document.getElementById('preprocessing-stages-list'),
+    regionFilterChips: document.querySelectorAll('.region-chip')
   };
 
   // ========================================================================
@@ -229,6 +240,18 @@
         }
       });
     });
+
+    // Dataset / Region Filter Chips inside Review Modal
+    if (elements.regionFilterChips) {
+      elements.regionFilterChips.forEach((chip) => {
+        chip.addEventListener('click', async function () {
+          elements.regionFilterChips.forEach((c) => c.classList.remove('active'));
+          this.classList.add('active');
+          state.activeReviewRegion = this.getAttribute('data-region') || 'active';
+          await fetchAndRenderReviewQueue();
+        });
+      });
+    }
   }
 
   function autoResizeTextarea() {
@@ -323,6 +346,7 @@
       if (elements.messageInput) {
         elements.messageInput.focus();
       }
+      updateReviewBadge();
     }
   }
 
@@ -798,7 +822,8 @@
 
   async function updateReviewBadge() {
     try {
-      const resp = await fetch('/review/records');
+      const url = state.sessionId ? `/review/records?session_id=${encodeURIComponent(state.sessionId)}` : '/review/records';
+      const resp = await fetch(url);
       if (resp.ok) {
         const data = await resp.json();
         if (elements.reviewPendingBadge) {
@@ -829,10 +854,19 @@
 
   async function fetchAndRenderReviewQueue() {
     if (!elements.reviewRecordsList) return;
-    elements.reviewRecordsList.innerHTML = '<div class="review-loading-state" style="padding: 24px; text-align: center; color: var(--text-muted);"><span>Loading review queue...</span></div>';
+    elements.reviewRecordsList.innerHTML = '<div class="review-loading-state" style="padding: 24px; text-align: center; color: var(--text-muted);"><span>Loading review queue & dataset health...</span></div>';
     
     try {
-      const resp = await fetch('/review/records');
+      let url = '/review/records';
+      if (state.activeReviewRegion === 'active') {
+        url = state.sessionId ? `/review/records?session_id=${encodeURIComponent(state.sessionId)}` : '/review/records';
+      } else if (state.activeReviewRegion === 'all') {
+        url = '/review/records?region=all%20corpus';
+      } else {
+        url = `/review/records?region=${encodeURIComponent(state.activeReviewRegion)}`;
+      }
+
+      const resp = await fetch(url);
       if (!resp.ok) {
         throw new Error(`Failed to load review records (HTTP ${resp.status})`);
       }
@@ -850,6 +884,44 @@
     const keep = data.keep_count || 0;
     const exclude = data.exclude_count || 0;
 
+    // Update Active Context Badge
+    if (elements.reviewActiveContextTag) {
+      elements.reviewActiveContextTag.textContent = data.context_topic || 'Master Corpus (Global)';
+    }
+
+    // Update Dataset Health and Preprocessing Transformation Summary
+    if (data.audit_stats) {
+      const ast = data.audit_stats;
+      if (elements.auditMasterCount) elements.auditMasterCount.textContent = (ast.total_master_records || 0).toLocaleString();
+      if (elements.auditKeptCount) elements.auditKeptCount.textContent = (ast.auto_kept_count || 0).toLocaleString();
+      if (elements.auditExcludedCount) elements.auditExcludedCount.textContent = (ast.auto_excluded_count || 0).toLocaleString();
+      if (elements.auditBorderlineCount) elements.auditBorderlineCount.textContent = (ast.borderline_review_count || total).toLocaleString();
+
+      if (elements.reviewDatasetHealthTag) {
+        elements.reviewDatasetHealthTag.textContent = ast.quality_status || 'HEALTHY & INDEXED';
+      }
+      if (elements.reviewHealthSubtext) {
+        elements.reviewHealthSubtext.textContent = `FAISS Vector Store: ${ast.vector_index_status || 'Synchronized (384-dim)'}`;
+      }
+      if (elements.reviewAuditSummaryMsg) {
+        elements.reviewAuditSummaryMsg.textContent = ast.summary_message || 'Dataset is clean, standardized, and indexed for high-precision retrieval.';
+      }
+
+      // Populate Preprocessing Stages
+      if (elements.preprocessingStagesList && ast.preprocessing_stages && ast.preprocessing_stages.length > 0) {
+        elements.preprocessingStagesList.innerHTML = ast.preprocessing_stages.map(stg => `
+          <div style="padding: 8px 10px; background: var(--bg-card-hover); border-radius: 6px; border: 1px solid var(--border-color); font-size: 11px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 3px;">
+              <strong style="color: var(--text-main);">Stage ${stg.stage_number}: ${escapeHTML(stg.stage_name)}</strong>
+              <span style="color: #34d399; font-weight: 600; font-size: 10px;">✓ ${escapeHTML(stg.status)}</span>
+            </div>
+            <p style="margin: 0 0 2px 0; color: var(--text-muted);">${escapeHTML(stg.description)}</p>
+            ${stg.details ? `<small style="color: var(--text-dim); display: block;">${escapeHTML(stg.details)}</small>` : ''}
+          </div>
+        `).join('');
+      }
+    }
+
     // Update Progress and Stats
     if (elements.reviewProgressText) {
       elements.reviewProgressText.textContent = `${reviewed} / ${total} reviewed`;
@@ -862,7 +934,7 @@
     if (elements.statExcludeCount) elements.statExcludeCount.textContent = exclude;
     if (elements.statPendingCount) elements.statPendingCount.textContent = pending;
     if (elements.reviewSummaryStat) {
-      elements.reviewSummaryStat.textContent = `${total} total records (${keep} KEEP, ${exclude} EXCLUDE, ${pending} pending)`;
+      elements.reviewSummaryStat.textContent = `${total} total records in view (${keep} KEEP, ${exclude} EXCLUDE, ${pending} pending)`;
     }
 
     if (elements.reviewPendingBadge) {
@@ -875,7 +947,11 @@
     }
 
     if (!data.records || data.records.length === 0) {
-      elements.reviewRecordsList.innerHTML = '<div class="review-loading-state" style="padding: 24px; text-align: center; color: var(--text-muted);"><span>No records currently require review. All records processed.</span></div>';
+      if (!data.context_topic || data.context_topic === 'Master Corpus (Global)') {
+        elements.reviewRecordsList.innerHTML = '<div class="review-loading-state" style="padding: 28px; text-align: center; color: var(--text-muted);"><span style="font-size: 26px; display: block; margin-bottom: 8px;">🌐</span><span>Master Dataset loaded and healthy.<br><small style="color: var(--text-dim); margin-top: 6px; display: block;">Click a region button above (e.g. <em>Assam, Mumbai, Bihar, Odisha</em>) or send an inquiry to inspect and review candidate records.</small></span></div>';
+      } else {
+        elements.reviewRecordsList.innerHTML = `<div class="review-loading-state" style="padding: 28px; text-align: center; color: var(--text-muted);"><span style="font-size: 26px; display: block; margin-bottom: 8px;">✅</span><span>No borderline records require review for context <strong>${escapeHTML(data.context_topic)}</strong>.<br><small style="color: var(--text-dim); margin-top: 6px; display: block;">All candidate records meet high-confidence thresholds.</small></span></div>`;
+      }
       return;
     }
 
@@ -900,19 +976,19 @@
 
       card.innerHTML = `
         <div class="review-card-header">
-          <h4 class="review-card-title">${escapeHtml(rec.title || 'Untitled Record')}</h4>
+          <h4 class="review-card-title">${escapeHTML(rec.title || 'Untitled Record')}</h4>
           <div class="review-card-badges">
             <span class="score-badge" title="Algorithmic Relevance Score">Score: ${rec.relevance_score.toFixed(2)}</span>
             ${badgeHtml}
           </div>
         </div>
         <div class="review-meta-row">
-          <span class="review-meta-item"><strong>Context:</strong> <code>${escapeHtml(rec.context_topic || 'Floods in Assam')}</code></span>
-          <span class="review-meta-item"><strong>Keywords:</strong> <code>${escapeHtml(rec.matched_keywords || 'None')}</code></span>
-          <span class="review-meta-item"><strong>Reason:</strong> <code>${escapeHtml(rec.relevance_reason || 'Borderline')}</code></span>
+          <span class="review-meta-item"><strong>Context:</strong> <code>${escapeHTML(rec.context_topic || data.context_topic || 'Current Context')}</code></span>
+          <span class="review-meta-item"><strong>Keywords:</strong> <code>${escapeHTML(rec.matched_keywords || 'None')}</code></span>
+          <span class="review-meta-item"><strong>Reason:</strong> <code>${escapeHTML(rec.relevance_reason || 'Relevance Evaluation')}</code></span>
         </div>
         <div class="review-content-preview">
-          ${escapeHtml(rec.content_preview || 'No content preview available.')}
+          ${escapeHTML(rec.content_preview || 'No content preview available.')}
         </div>
         <div class="review-card-actions">
           <button class="btn-action-keep ${isKeep ? 'active' : ''}" data-id="${rec.record_id}" title="Include in this research context only">
@@ -933,11 +1009,11 @@
 
       // Event listener for KEEP
       const btnKeep = card.querySelector('.btn-action-keep');
-      btnKeep.addEventListener('click', () => submitDecision(rec.record_id, 'KEEP', rec.context_topic));
+      btnKeep.addEventListener('click', () => submitDecision(rec.record_id, 'KEEP', rec.context_topic || data.context_topic));
 
       // Event listener for EXCLUDE
       const btnExclude = card.querySelector('.btn-action-exclude');
-      btnExclude.addEventListener('click', () => submitDecision(rec.record_id, 'EXCLUDE', rec.context_topic));
+      btnExclude.addEventListener('click', () => submitDecision(rec.record_id, 'EXCLUDE', rec.context_topic || data.context_topic));
 
       elements.reviewRecordsList.appendChild(card);
     });
@@ -951,7 +1027,8 @@
         body: JSON.stringify({ 
           record_id: recordId, 
           decision: decision,
-          context_topic: contextTopic || 'Floods in Assam'
+          session_id: state.sessionId || null,
+          context_topic: contextTopic || null
         })
       });
 
@@ -961,7 +1038,7 @@
 
       const updatedData = await resp.json();
       renderReviewQueueData(updatedData);
-      showToast('Context Decision Saved', `Record ${decision === 'KEEP' ? 'kept in' : 'excluded from'} ${contextTopic || 'active context'}.`, 'success');
+      showToast('Decision Saved', `Record marked as ${decision}.`, 'success');
     } catch (err) {
       showToast('Review Error', err.message || 'Could not save review decision.');
     }

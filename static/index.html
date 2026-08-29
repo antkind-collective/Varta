@@ -266,17 +266,80 @@
       <div class="modal-card review-modal-card">
         <div class="modal-header">
           <div class="modal-title-group">
-            <h3 class="modal-title">Preprocessing Review Queue</h3>
-            <p class="modal-subtitle">Review borderline records flagged by relevance filters before embedding</p>
+            <h3 class="modal-title">Dataset & Preprocessing Quality Inspector</h3>
+            <p class="modal-subtitle">Audit master dataset health, inspect preprocessing changes, and review context-specific records</p>
           </div>
           <button id="btn-close-review-modal" class="modal-close-btn" title="Close review modal">&times;</button>
         </div>
         
         <div class="review-modal-body">
+          <!-- Region / Dataset Filter Selector -->
+          <div class="review-region-selector-bar" style="margin-bottom: 14px;">
+            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
+              <span style="font-size: 11px; text-transform: uppercase; letter-spacing: 0.6px; color: var(--text-muted); font-weight: 700;">Select Dataset / Region:</span>
+              <span id="review-active-context-tag" style="background: rgba(59, 130, 246, 0.15); color: #60a5fa; padding: 2px 10px; border-radius: 999px; font-size: 11px; font-weight: 600; border: 1px solid rgba(59, 130, 246, 0.3);">Active Context</span>
+            </div>
+            <div class="region-filter-chips" id="region-filter-chips" style="display: flex; gap: 8px; flex-wrap: wrap;">
+              <button class="region-chip active" data-region="active"><span>⚡ Current Query</span></button>
+              <button class="region-chip" data-region="all"><span>🌐 All Corpus</span></button>
+              <button class="region-chip" data-region="assam"><span>🏞️ Assam Dataset</span></button>
+              <button class="region-chip" data-region="mumbai"><span>🏙️ Mumbai Dataset</span></button>
+              <button class="region-chip" data-region="bihar"><span>🌊 Bihar Dataset</span></button>
+              <button class="region-chip" data-region="odisha"><span>🌪️ Odisha Dataset</span></button>
+              <button class="region-chip" data-region="gorakhpur"><span>📍 Gorakhpur</span></button>
+            </div>
+          </div>
+
+          <!-- Dataset Health Overview -->
+          <div class="review-context-overview" style="margin-bottom: 14px; padding: 12px 16px; background: var(--bg-card-hover); border: 1px solid var(--border-color); border-radius: 12px;">
+            <div style="display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 8px; flex-wrap: wrap;">
+              <div style="display: flex; align-items: center; gap: 8px;">
+                <span style="font-size: 12px; font-weight: 600; color: var(--text-main);">Dataset Health Status:</span>
+                <span id="review-dataset-health-tag" style="background: rgba(16, 185, 129, 0.15); color: #34d399; padding: 2px 10px; border-radius: 999px; font-size: 11px; font-weight: 600; border: 1px solid rgba(16, 185, 129, 0.3);">HEALTHY &amp; INDEXED</span>
+              </div>
+              <div style="font-size: 11px; color: var(--text-muted);" id="review-health-subtext">
+                FAISS Vector Store: Synchronized (384-dim)
+              </div>
+            </div>
+            
+            <div id="review-audit-stats-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(110px, 1fr)); gap: 8px; font-size: 12px;">
+              <div style="background: var(--bg-card); padding: 8px 10px; border-radius: 8px; border: 1px solid var(--border-color);">
+                <span style="display: block; font-size: 10px; text-transform: uppercase; color: var(--text-dim); font-weight: 600;">Total Records</span>
+                <strong id="audit-master-count" style="font-size: 14px; color: var(--text-main);">0</strong>
+              </div>
+              <div style="background: var(--bg-card); padding: 8px 10px; border-radius: 8px; border: 1px solid var(--border-color);">
+                <span style="display: block; font-size: 10px; text-transform: uppercase; color: #34d399; font-weight: 600;">Auto-Kept</span>
+                <strong id="audit-kept-count" style="font-size: 14px; color: #34d399;">0</strong>
+              </div>
+              <div style="background: var(--bg-card); padding: 8px 10px; border-radius: 8px; border: 1px solid var(--border-color);">
+                <span style="display: block; font-size: 10px; text-transform: uppercase; color: #f87171; font-weight: 600;">Auto-Excluded</span>
+                <strong id="audit-excluded-count" style="font-size: 14px; color: #f87171;">0</strong>
+              </div>
+              <div style="background: var(--bg-card); padding: 8px 10px; border-radius: 8px; border: 1px solid var(--border-color);">
+                <span style="display: block; font-size: 10px; text-transform: uppercase; color: #fbbf24; font-weight: 600;">In Review</span>
+                <strong id="audit-borderline-count" style="font-size: 14px; color: #fbbf24;">0</strong>
+              </div>
+            </div>
+            <p id="review-audit-summary-msg" style="margin-top: 8px; margin-bottom: 0; font-size: 11px; color: var(--text-dim); line-height: 1.4;">
+              Dataset is clean, standardized, and indexed for high-precision retrieval.
+            </p>
+          </div>
+
+          <!-- Preprocessing Transformation Pipeline Accordion -->
+          <details class="preprocessing-pipeline-accordion" style="margin-bottom: 14px; background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 10px; padding: 8px 12px;">
+            <summary style="cursor: pointer; font-size: 12px; font-weight: 600; color: #60a5fa; user-select: none; display: flex; align-items: center; justify-content: space-between;">
+              <span>🛠️ What changes took place in this dataset? (5 Preprocessing Stages)</span>
+              <span style="font-size: 10px; background: rgba(59,130,246,0.15); padding: 2px 8px; border-radius: 6px;">Audit Trail</span>
+            </summary>
+            <div id="preprocessing-stages-list" style="margin-top: 10px; display: flex; flex-direction: column; gap: 8px;">
+              <!-- Populated dynamically via JS -->
+            </div>
+          </details>
+
           <!-- Progress Bar & Summary -->
           <div class="review-progress-bar-container">
             <div class="review-progress-header">
-              <span class="review-progress-title">Stakeholder Review Progress</span>
+              <span class="review-progress-title">Stakeholder Decision Progress</span>
               <span id="review-progress-text" class="review-progress-stat">0 / 0 reviewed</span>
             </div>
             <div class="review-progress-track">
@@ -299,7 +362,7 @@
         
         <div class="modal-footer review-modal-footer">
           <div class="review-footer-summary">
-            <span id="review-summary-stat">8 total records in review queue</span>
+            <span id="review-summary-stat">0 total records in review queue</span>
           </div>
           <button id="btn-review-done" class="btn btn-primary">Done Reviewing</button>
         </div>

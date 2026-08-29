@@ -18,6 +18,8 @@ class Session:
         self.message_count: int = 0
         self.status: str = "active"
         self.memory: ConversationMemory = ConversationMemory(max_history_turns=max_memory_turns)
+        self.research_context: Optional[Any] = None
+        self.review_decisions: Dict[str, str] = {}
 
     def update_activity(self) -> None:
         """Updates the last_activity timestamp to current UTC time."""

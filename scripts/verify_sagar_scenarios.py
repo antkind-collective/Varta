@@ -6,6 +6,9 @@ import numpy as np
 PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 sys.path.insert(0, PROJECT_ROOT)
 
+if hasattr(sys.stdout, "reconfigure"):
+    sys.stdout.reconfigure(encoding="utf-8")
+
 from src.context_relevance_engine import ContextRelevanceEngine, ResearchContext
 from src.context_resolver import ContextResolver
 from src.embedding_providers import BaseEmbeddingProvider

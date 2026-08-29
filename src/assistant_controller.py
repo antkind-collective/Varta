@@ -109,6 +109,9 @@ class AssistantController:
         rewritten_query = rewrite_res["rewritten_query"]
         memory_used = rewrite_res["memory_used"]
         resolution_method = rewrite_res["resolution_method"]
+        research_ctx = rewrite_res.get("research_context")
+        if research_ctx and (research_ctx.disaster_types or research_ctx.geography or research_ctx.custom_keywords):
+            session.research_context = research_ctx
 
         # 3. Agentic Intent Analysis & Execution Planning
         execution_plan = self.agent_planner.create_plan(
@@ -121,7 +124,10 @@ class AssistantController:
         # 4. Tool Routing & Execution
         context_data = {
             "session_id": session.session_id,
+            "session": session,
             "memory": session.memory,
+            "research_context": session.research_context,
+            "review_decisions": getattr(session, "review_decisions", {}),
             "provider": getattr(self.rag_orchestrator.llm_adapter, "__class__", type(self.rag_orchestrator.llm_adapter)).__name__,
             "model": self.rag_orchestrator.llm_adapter.get_model_name() if hasattr(self.rag_orchestrator.llm_adapter, "get_model_name") else "unknown"
         }
@@ -134,7 +140,8 @@ class AssistantController:
 
         turn_data = session.memory.add_turn(
             user_query=clean_query,
-            assistant_response=assistant_answer
+            assistant_response=assistant_answer,
+            research_context=session.research_context
         )
 
         # 6. Extract Metadata & Build Standardized Response Schema
@@ -157,6 +164,7 @@ class AssistantController:
             "plan_summary": execution_plan.summary_str(),
             "tool_selected": tool_selected,
             "assistant_answer": assistant_answer,
+            "answer": assistant_answer,
             "confidence": tool_result.get("confidence", {
                 "score": 1.0 if tool_selected != "rag_search" else 0.5,
                 "level": "HIGH" if tool_selected != "rag_search" else "MEDIUM",

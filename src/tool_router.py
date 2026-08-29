@@ -49,8 +49,17 @@ class ToolRouter:
                 }
 
         # 2. Dispatch RAG search or multi-step/comparative plans to RAG Search Tool / RetrievalExecutor
+        rev_decisions = context_data.get("review_decisions", {})
+        research_context = context_data.get("research_context")
+        excluded_pids = [pid for pid, dec in rev_decisions.items() if dec == "EXCLUDE"]
+        meta_filters = {"excluded_post_ids": excluded_pids} if excluded_pids else None
+
         if self.retrieval_executor:
-            executor_result = self.retrieval_executor.execute_plan(plan)
+            executor_result = self.retrieval_executor.execute_plan(
+                plan,
+                metadata_filters=meta_filters,
+                research_context=research_context
+            )
             elapsed_ms = round((time.time() - start_time) * 1000, 2)
             executor_result["tool_selected"] = "rag_search"
             executor_result["execution_time_ms"] = elapsed_ms
@@ -59,7 +68,13 @@ class ToolRouter:
         # Fallback if tool_registry has RAG tool registered
         if self.tool_registry.has_tool("rag_search"):
             rag_tool = self.tool_registry.get_tool("rag_search")
-            result = rag_tool.execute({"query": plan.rewritten_query})
+            payload = {
+                "query": plan.rewritten_query or user_query,
+                "research_context": research_context,
+                "review_decisions": rev_decisions
+            }
+            return rag_tool.execute(payload)
+            result = rag_tool.execute({"query": plan.rewritten_query, "metadata_filters": meta_filters})
             result["tool_selected"] = "rag_search"
             return result
 
