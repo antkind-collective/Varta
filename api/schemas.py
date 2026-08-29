@@ -5,6 +5,19 @@ class ChatRequest(BaseModel):
     """Request model for /chat endpoint."""
     message: str = Field(..., min_length=1, description="User question or input message.")
     session_id: Optional[str] = Field(None, description="Optional active session ID. Created automatically if omitted.")
+    dataset_filter: Optional[List[str]] = Field(None, description="Optional list of source_dataset values to scope retrieval.")
+
+class DatasetItem(BaseModel):
+    """Metadata item for an indexed dataset."""
+    source_dataset: str = Field(..., description="Unique raw source_dataset identifier/tag.")
+    display_name: str = Field(..., description="Formatted user-friendly display name.")
+    chunk_count: int = Field(..., description="Total number of chunks indexed for this dataset.")
+
+class DatasetListResponse(BaseModel):
+    """Response model for /datasets/list endpoint."""
+    datasets: List[DatasetItem] = Field(default_factory=list, description="List of available datasets.")
+    total_datasets: int = Field(..., description="Total number of distinct datasets.")
+    total_chunks: int = Field(..., description="Total chunks across all datasets.")
 
 class ChatResponse(BaseModel):
     """Response model for /chat endpoint."""

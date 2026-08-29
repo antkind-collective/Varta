@@ -52,7 +52,13 @@ class ToolRouter:
         rev_decisions = context_data.get("review_decisions", {})
         research_context = context_data.get("research_context")
         excluded_pids = [pid for pid, dec in rev_decisions.items() if dec == "EXCLUDE"]
-        meta_filters = {"excluded_post_ids": excluded_pids} if excluded_pids else None
+        meta_filters = {}
+        if excluded_pids:
+            meta_filters["excluded_post_ids"] = excluded_pids
+        if context_data.get("metadata_filters"):
+            meta_filters.update(context_data.get("metadata_filters"))
+        if not meta_filters:
+            meta_filters = None
 
         if self.retrieval_executor:
             executor_result = self.retrieval_executor.execute_plan(

@@ -1,8 +1,9 @@
 import os
+import re
 import sqlite3
 import json
 from contextlib import contextmanager
-from typing import List, Dict, Any, Optional, Generator
+from typing import List, Dict, Any, Optional, Generator, Union
 
 class MetadataStore:
     """
@@ -361,13 +362,66 @@ class MetadataStore:
                 for r in rows
             ]
 
+    def _format_dataset_display_name(self, source_dataset: str) -> str:
+        """Derives a user-friendly display name from a raw dataset tag."""
+        if not source_dataset:
+            return "Unknown Dataset"
+        tag = source_dataset.strip().lower()
+        if tag in ("master_news_corpus", "master_corpus"):
+            return "Master News Corpus"
+        if tag in ("sagar_reddit_dataset", "disaster_reddit", "reddit_disaster"):
+            return "Sagar's Reddit Data"
+        
+        # General formatting: replace underscores/hyphens with spaces and capitalize
+        clean = re.sub(r'[_-]+', ' ', tag).strip()
+        words = clean.split()
+        formatted_words = []
+        for w in words:
+            if w.lower() == "csv":
+                formatted_words.append("CSV")
+            elif w.lower() == "json":
+                formatted_words.append("JSON")
+            elif w.lower() == "api":
+                formatted_words.append("API")
+            else:
+                formatted_words.append(w.capitalize())
+        return " ".join(formatted_words) if formatted_words else tag
+
+    def get_available_datasets(self) -> List[Dict[str, Any]]:
+        """
+        Returns all distinct source_dataset values currently stored in the metadata store,
+        along with friendly display names and indexed chunk counts.
+        """
+        with self._get_connection() as conn:
+            cursor = conn.cursor()
+            cursor.execute(
+                f"""
+                SELECT source_dataset, COUNT(*) as count
+                FROM {self.table_name}
+                WHERE source_dataset IS NOT NULL AND TRIM(source_dataset) != ''
+                GROUP BY source_dataset
+                ORDER BY count DESC
+                """
+            )
+            rows = cursor.fetchall()
+            datasets = []
+            for row in rows:
+                ds = row["source_dataset"] if isinstance(row, sqlite3.Row) or hasattr(row, "keys") else row[0]
+                cnt = row["count"] if isinstance(row, sqlite3.Row) or hasattr(row, "keys") else row[1]
+                datasets.append({
+                    "source_dataset": ds,
+                    "display_name": self._format_dataset_display_name(ds),
+                    "chunk_count": int(cnt)
+                })
+            return datasets
+
     def get_scoped_vector_ids(
         self,
         geography: Optional[List[str]] = None,
         specific_location: Optional[str] = None,
         domain: str = "disaster",
         disaster_types: Optional[List[str]] = None,
-        source_dataset: Optional[str] = None,
+        source_dataset: Optional[Union[str, List[str]]] = None,
         limit: int = 5000
     ) -> List[int]:
         """
@@ -423,8 +477,18 @@ class MetadataStore:
         params = []
 
         if source_dataset:
-            where_parts.append("source_dataset = ?")
-            params.append(source_dataset)
+            if isinstance(source_dataset, list):
+                valid_ds = [d.strip() for d in source_dataset if d and isinstance(d, str) and d.strip()]
+                if len(valid_ds) == 1:
+                    where_parts.append("source_dataset = ?")
+                    params.append(valid_ds[0])
+                elif len(valid_ds) > 1:
+                    placeholders = ", ".join(["?"] * len(valid_ds))
+                    where_parts.append(f"source_dataset IN ({placeholders})")
+                    params.extend(valid_ds)
+            elif isinstance(source_dataset, str) and source_dataset.strip():
+                where_parts.append("source_dataset = ?")
+                params.append(source_dataset.strip())
 
         if geo_terms:
             geo_clauses = ["(LOWER(title) LIKE ? OR LOWER(content) LIKE ?)" for _ in geo_terms[:10]]

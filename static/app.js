@@ -16,6 +16,8 @@
     turnCount: 0,
     isProcessing: false,
     activeReviewRegion: 'active',
+    selectedDatasets: [], // [] means all datasets; ['sagar_reddit_dataset'] means scoped
+    availableDatasets: [], // list of dataset items from /datasets/list
     messages: [] // { role: 'user' | 'assistant', text: '', citations: [], timestamp: '' }
   };
 
@@ -25,6 +27,12 @@
     turnCountBadge: document.getElementById('turn-count-badge'),
     btnUploadDataset: document.getElementById('btn-upload-dataset'),
     datasetFileInput: document.getElementById('dataset-file-input'),
+    // Dataset Picker Elements
+    datasetPickerContainer: document.getElementById('dataset-picker-container'),
+    datasetChipsList: document.getElementById('dataset-chips-list'),
+    chipAllDatasets: document.getElementById('chip-all-datasets'),
+    chipAllCount: document.getElementById('chip-all-count'),
+    datasetPickerStatus: document.getElementById('dataset-picker-status'),
     btnNewChat: document.getElementById('btn-new-chat'),
     btnExportChat: document.getElementById('btn-export-chat'),
     messagesContainer: document.getElementById('messages-container'),
@@ -88,6 +96,7 @@
     setupEventListeners();
     await createNewSession();
     await updateReviewBadge();
+    await loadAvailableDatasets();
   }
 
   async function createNewSession() {
@@ -254,6 +263,125 @@
     }
   }
 
+  // ========================================================================
+  // Dataset Knowledge Scoping Picker
+  // ========================================================================
+
+  async function loadAvailableDatasets() {
+    try {
+      const response = await fetch('/datasets/list');
+      if (!response.ok) return;
+      const data = await response.json();
+      state.availableDatasets = data.datasets || [];
+      renderDatasetChips(data);
+    } catch (err) {
+      console.warn('Unable to load dataset list:', err);
+    }
+  }
+
+  function renderDatasetChips(data) {
+    if (!elements.datasetChipsList) return;
+    const datasets = data.datasets || [];
+    const totalChunks = data.total_chunks || 0;
+
+    if (elements.chipAllCount) {
+      elements.chipAllCount.textContent = totalChunks.toLocaleString();
+    }
+
+    elements.datasetChipsList.innerHTML = '';
+    
+    // 1. "All Datasets" chip
+    const isAllActive = !state.selectedDatasets || state.selectedDatasets.length === 0;
+    const allChip = document.createElement('button');
+    allChip.type = 'button';
+    allChip.className = `dataset-picker-chip ${isAllActive ? 'active' : ''}`;
+    allChip.id = 'chip-all-datasets';
+    allChip.title = 'Search across all indexed datasets';
+    allChip.innerHTML = `
+      <span class="chip-check">✓</span>
+      <span class="chip-title">All Datasets</span>
+      <span class="chip-count">${totalChunks.toLocaleString()}</span>
+    `;
+    allChip.addEventListener('click', () => {
+      state.selectedDatasets = [];
+      updateDatasetChipsUI();
+    });
+    elements.datasetChipsList.appendChild(allChip);
+
+    // 2. Individual dataset chips
+    datasets.forEach(ds => {
+      const isSelected = state.selectedDatasets.includes(ds.source_dataset);
+      const chip = document.createElement('button');
+      chip.type = 'button';
+      chip.className = `dataset-picker-chip chip-dataset-scoped ${isSelected ? 'active' : ''}`;
+      chip.setAttribute('data-dataset', ds.source_dataset);
+      chip.title = `Filter retrieval to '${ds.display_name}' (${ds.chunk_count.toLocaleString()} chunks)`;
+      chip.innerHTML = `
+        <span class="chip-check">✓</span>
+        <span class="chip-title">${escapeHTML(ds.display_name)}</span>
+        <span class="chip-count">${ds.chunk_count.toLocaleString()}</span>
+      `;
+      chip.addEventListener('click', () => {
+        toggleDatasetSelection(ds.source_dataset);
+      });
+      elements.datasetChipsList.appendChild(chip);
+    });
+
+    updateDatasetStatusText();
+  }
+
+  function toggleDatasetSelection(sourceDataset) {
+    const idx = state.selectedDatasets.indexOf(sourceDataset);
+    if (idx >= 0) {
+      state.selectedDatasets.splice(idx, 1);
+    } else {
+      state.selectedDatasets.push(sourceDataset);
+    }
+    updateDatasetChipsUI();
+  }
+
+  function updateDatasetChipsUI() {
+    if (!elements.datasetChipsList) return;
+    const isAll = state.selectedDatasets.length === 0;
+
+    const allChip = elements.datasetChipsList.querySelector('#chip-all-datasets');
+    if (allChip) {
+      if (isAll) {
+        allChip.classList.add('active');
+      } else {
+        allChip.classList.remove('active');
+      }
+    }
+
+    const scopedChips = elements.datasetChipsList.querySelectorAll('.chip-dataset-scoped');
+    scopedChips.forEach(chip => {
+      const ds = chip.getAttribute('data-dataset');
+      if (state.selectedDatasets.includes(ds)) {
+        chip.classList.add('active');
+      } else {
+        chip.classList.remove('active');
+      }
+    });
+
+    updateDatasetStatusText();
+  }
+
+  function updateDatasetStatusText() {
+    if (!elements.datasetPickerStatus) return;
+    if (state.selectedDatasets.length === 0) {
+      elements.datasetPickerStatus.textContent = 'Searching across all datasets';
+      elements.datasetPickerStatus.style.color = 'var(--text-subtle)';
+    } else if (state.selectedDatasets.length === 1) {
+      const match = state.availableDatasets.find(d => d.source_dataset === state.selectedDatasets[0]);
+      const name = match ? match.display_name : state.selectedDatasets[0];
+      elements.datasetPickerStatus.textContent = `Scoped to: ${name}`;
+      elements.datasetPickerStatus.style.color = 'var(--accent-primary)';
+    } else {
+      elements.datasetPickerStatus.textContent = `Scoped to ${state.selectedDatasets.length} datasets`;
+      elements.datasetPickerStatus.style.color = 'var(--accent-primary)';
+    }
+  }
+
   function autoResizeTextarea() {
     if (!elements.messageInput) return;
     elements.messageInput.style.height = 'auto';
@@ -292,7 +420,8 @@
     try {
       const payload = {
         message: messageText,
-        session_id: state.sessionId
+        session_id: state.sessionId,
+        dataset_filter: state.selectedDatasets && state.selectedDatasets.length > 0 ? state.selectedDatasets : null
       };
 
       const response = await fetch('/chat', {
@@ -725,6 +854,7 @@
               'Dataset Ingested & Queryable',
               `${statusData.documents_ingested.toLocaleString()} documents (${statusData.chunks_indexed.toLocaleString()} chunks) added. Total corpus: ${statusData.total_vectors_available.toLocaleString()} vectors.`
             );
+            loadAvailableDatasets();
           } else if (statusData.status === 'failed') {
             clearInterval(pollInterval);
             throw new Error(statusData.error || statusData.message || 'Background dataset ingestion failed.');

@@ -80,11 +80,24 @@ class AssistantController:
                 max_context_tokens=self.rag_orchestrator.max_context_tokens
             ))
 
-    def process_query(self, query: str, session_id: Optional[str] = None) -> Dict[str, Any]:
+    def get_available_datasets(self) -> List[Dict[str, Any]]:
+        """Returns list of distinct source datasets and counts from the indexed vector DB."""
+        if hasattr(self.rag_orchestrator, "retriever") and hasattr(self.rag_orchestrator.retriever, "vector_db"):
+            vdb = self.rag_orchestrator.retriever.vector_db
+            if vdb and hasattr(vdb, "get_available_datasets"):
+                return vdb.get_available_datasets()
+        return []
+
+    def process_query(
+        self,
+        query: str,
+        session_id: Optional[str] = None,
+        dataset_filter: Optional[List[str]] = None
+    ) -> Dict[str, Any]:
         """
         Processes user query through the full tool-enabled agentic conversational pipeline:
         1. Conversation Memory & Session Retrieval
-        2. Context Resolver & Query Rewriter
+        2. Context Resolver & Query Rewriting
         3. Agentic Planner -> Execution Plan
         4. Tool Router -> Selected Tool / Retrieval Execution
         5. Record turn in Conversation Memory
@@ -122,11 +135,18 @@ class AssistantController:
         )
 
         # 4. Tool Routing & Execution
+        meta_filters = {}
+        if dataset_filter:
+            valid_filters = [d.strip() for d in dataset_filter if d and isinstance(d, str) and d.strip()]
+            if valid_filters:
+                meta_filters["source_dataset"] = valid_filters if len(valid_filters) > 1 else valid_filters[0]
+
         context_data = {
             "session_id": session.session_id,
             "session": session,
             "memory": session.memory,
             "research_context": session.research_context,
+            "metadata_filters": meta_filters if meta_filters else None,
             "review_decisions": getattr(session, "review_decisions", {}),
             "provider": getattr(self.rag_orchestrator.llm_adapter, "__class__", type(self.rag_orchestrator.llm_adapter)).__name__,
             "model": self.rag_orchestrator.llm_adapter.get_model_name() if hasattr(self.rag_orchestrator.llm_adapter, "get_model_name") else "unknown"

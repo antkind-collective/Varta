@@ -16,7 +16,9 @@ from api.schemas import (
     ReviewRecordItem,
     ReviewQueueResponse,
     DatasetAuditStats,
-    PreprocessingStageInfo
+    PreprocessingStageInfo,
+    DatasetItem,
+    DatasetListResponse
 )
 from api.dependencies import get_assistant_controller, get_server_uptime, reload_assistant_controller
 from src.assistant_controller import AssistantController
@@ -84,7 +86,11 @@ def chat_endpoint(
             )
 
     try:
-        resp_dict = controller.process_query(clean_msg, session_id=req.session_id)
+        resp_dict = controller.process_query(
+            clean_msg,
+            session_id=req.session_id,
+            dataset_filter=req.dataset_filter
+        )
         return ChatResponse(
             session_id=resp_dict["session_id"],
             answer=resp_dict.get("assistant_answer") or resp_dict.get("answer", ""),
@@ -101,6 +107,43 @@ def chat_endpoint(
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail=f"Internal assistant processing error: {e}"
+        )
+
+@router.get(
+    "/datasets/list",
+    response_model=DatasetListResponse,
+    summary="List Available Datasets",
+    description="Returns all distinct source_dataset values in chunk_metadata with friendly display names and chunk counts."
+)
+@router.get(
+    "/dataset/list",
+    response_model=DatasetListResponse,
+    include_in_schema=False
+)
+def list_datasets_endpoint(
+    controller: AssistantController = Depends(get_assistant_controller)
+) -> DatasetListResponse:
+    try:
+        raw_datasets = controller.get_available_datasets()
+        items = [
+            DatasetItem(
+                source_dataset=d["source_dataset"],
+                display_name=d["display_name"],
+                chunk_count=d["chunk_count"]
+            )
+            for d in raw_datasets
+        ]
+        total_chunks = sum(item.chunk_count for item in items)
+        return DatasetListResponse(
+            datasets=items,
+            total_datasets=len(items),
+            total_chunks=total_chunks
+        )
+    except Exception as e:
+        logger.error(f"Error listing datasets: {e}", exc_info=True)
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"Error listing datasets: {e}"
         )
 
 @router.post(

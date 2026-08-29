@@ -1,6 +1,6 @@
 import os
 import numpy as np
-from typing import List, Dict, Any, Optional
+from typing import List, Dict, Any, Optional, Union
 from src.index_loader import IndexLoader
 from src.metadata_store import MetadataStore
 
@@ -136,9 +136,14 @@ class VectorDatabase:
                 for k, v in metadata_filters.items():
                     if k in ("allowed_vector_ids", "excluded_vector_ids", "excluded_post_ids"):
                         continue
-                    if meta.get(k) != v and res.get(k) != v:
-                        match = False
-                        break
+                    if isinstance(v, list):
+                        if meta.get(k) not in v and res.get(k) not in v:
+                            match = False
+                            break
+                    else:
+                        if meta.get(k) != v and res.get(k) != v:
+                            match = False
+                            break
                 if not match:
                     continue
 
@@ -148,13 +153,19 @@ class VectorDatabase:
 
         return filtered_results
 
+    def get_available_datasets(self) -> List[Dict[str, Any]]:
+        """Retrieves available datasets with chunk counts from the metadata store."""
+        if hasattr(self, "metadata_store") and self.metadata_store and hasattr(self.metadata_store, "get_available_datasets"):
+            return self.metadata_store.get_available_datasets()
+        return []
+
     def get_scoped_vector_ids(
         self,
         geography: Optional[List[str]] = None,
         specific_location: Optional[str] = None,
         domain: str = "disaster",
         disaster_types: Optional[List[str]] = None,
-        source_dataset: Optional[str] = None,
+        source_dataset: Optional[Union[str, List[str]]] = None,
         limit: int = 5000
     ) -> List[int]:
         """Retrieves scoped vector IDs satisfying geography, disaster domain, and source_dataset from metadata store."""

@@ -46,11 +46,13 @@ temp/
 *.db
 *.npy
 *.bin
+!data/vector_db/faiss_index.bin
 
 # Local Backups, Scratch & Profiling JSONs
 *.bak
 scratch/
-data/uploads/
+data/uploads/*
+!data/uploads/Disaster Reddit.csv
 reports/*.json
 
 # Local Session Logs & Generated DB JSONs
