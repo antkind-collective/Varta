@@ -1,5 +1,5 @@
 import time
-from typing import Dict, Any, List
+from typing import Dict, Any, List, Optional
 from src.execution_plan import ExecutionPlan
 from src.rag_orchestrator import RAGOrchestrator
 

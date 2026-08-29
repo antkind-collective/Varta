@@ -2,7 +2,7 @@ import time
 import logging
 from pathlib import Path
 from typing import Dict, Any, Optional, List
-from fastapi import APIRouter, Depends, HTTPException, status, UploadFile, File, BackgroundTasks
+from fastapi import APIRouter, Depends, HTTPException, status, UploadFile, File, BackgroundTasks, Form
 from api.schemas import (
     ChatRequest,
     ChatResponse,
