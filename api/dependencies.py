@@ -2,7 +2,8 @@ import sys
 import time
 import logging
 from pathlib import Path
-from typing import Optional
+from typing import Optional, List, Dict, Any, Union, Tuple
+from src.metadata_store import MetadataStore
 from src.vector_database import VectorDatabase
 from src.semantic_retriever import SemanticRetriever
 from src.rag_orchestrator import RAGOrchestrator
