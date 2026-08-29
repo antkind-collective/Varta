@@ -20,6 +20,7 @@ class RAGOrchestrator:
         self,
         retriever: SemanticRetriever,
         llm_adapter: Optional[BaseLLMAdapter] = None,
+        prompt_builder: Optional[PromptBuilder] = None,
         max_context_tokens: int = 3500,
         min_similarity_threshold: float = 0.30,
         merge_overlapping_chunks: bool = True,
@@ -33,7 +34,7 @@ class RAGOrchestrator:
         self.context_assembler = ContextAssembler(merge_overlapping_chunks=merge_overlapping_chunks)
         self.context_ranker = ContextRanker()
         self.token_budget_manager = TokenBudgetManager(max_context_tokens=max_context_tokens)
-        self.prompt_builder = PromptBuilder()
+        self.prompt_builder = prompt_builder if prompt_builder is not None else PromptBuilder()
 
     @staticmethod
     def is_dataset_summary_query(query: str) -> bool:
