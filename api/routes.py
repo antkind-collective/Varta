@@ -31,12 +31,20 @@ router = APIRouter()
     summary="API Health Check",
     description="Returns operational status, API version, server uptime, and active LLM model/provider info."
 )
-def health_check(
-    controller: AssistantController = Depends(get_assistant_controller)
-) -> HealthResponse:
-    llm = controller.rag_orchestrator.llm_adapter
-    provider_name = getattr(llm, "__class__", type(llm)).__name__
-    model_name = llm.get_model_name() if hasattr(llm, "get_model_name") else "unknown"
+def health_check() -> HealthResponse:
+    import os
+    try:
+        from api.dependencies import _ASSISTANT_CONTROLLER
+        if _ASSISTANT_CONTROLLER is not None:
+            llm = _ASSISTANT_CONTROLLER.rag_orchestrator.llm_adapter
+            provider_name = getattr(llm, "__class__", type(llm)).__name__
+            model_name = llm.get_model_name() if hasattr(llm, "get_model_name") else "unknown"
+        else:
+            model_name = os.getenv("OPENAI_MODEL", "gpt-5")
+            provider_name = "OpenAILLMAdapter" if os.getenv("OPENAI_API_KEY") else "MockLLMAdapter"
+    except Exception:
+        model_name = "gpt-5"
+        provider_name = "OpenAILLMAdapter"
 
     return HealthResponse(
         status="ok",

@@ -34,8 +34,10 @@ from api.dependencies import get_assistant_controller
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    # Startup: Pre-warm AssistantController singleton (VectorDB, SentenceTransformer, LLM)
-    get_assistant_controller()
+    # Startup: Asynchronously pre-warm AssistantController singleton in background
+    import asyncio
+    loop = asyncio.get_running_loop()
+    loop.run_in_executor(None, get_assistant_controller)
     yield
 
 app = FastAPI(
