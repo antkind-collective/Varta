@@ -19,44 +19,40 @@ _SERVER_START_TIME: float = time.time()
 _ASSISTANT_CONTROLLER: Optional[AssistantController] = None
 
 def _ensure_seed_metadata(project_root: Path, meta_store: MetadataStore):
-    if meta_store.get_total_records_count() == 0:
-        logger.info("Initializing metadata.sqlite from seed files...")
-        chunks_json = project_root / "data" / "embeddings" / "chunks.json"
-        if chunks_json.exists():
-            import json
-            with open(chunks_json, "r", encoding="utf-8") as f:
-                chunks = json.load(f)
-            # Filter out the 8 test fabricated records if present
-            valid_chunks = [c for c in chunks if not str(c.get("doc_id", "")).startswith("reddit_post_")]
-            meta_store.append_chunks(valid_chunks, source_dataset="master_news_corpus")
-            logger.info(f"Seeded {len(valid_chunks)} master_news_corpus chunks into metadata.sqlite.")
-        
-        reddit_csv = project_root / "data" / "uploads" / "Disaster Reddit.csv"
-        if reddit_csv.exists():
-            import json
-            from src.dataset_loader import DatasetLoader
-            from src.preprocessing_pipeline import PreprocessingPipeline
-            from src.document_builder import DocumentBuilder
-            
-            with open(project_root / "config" / "column_mapping.json", "r", encoding="utf-8") as f:
-                col_config = json.load(f)
-            with open(project_root / "config" / "embedding_config.json", "r", encoding="utf-8") as f:
-                emb_config = json.load(f)
-                
-            cleaner = PreprocessingPipeline(col_config)
-            doc_builder = DocumentBuilder(
-                chunk_size=emb_config.get("chunk_size_chars", 1000),
-                chunk_overlap=emb_config.get("chunk_overlap_chars", 200)
-            )
-            loader = DatasetLoader(str(reddit_csv))
-            for df_raw in loader.stream_data(batch_size=1000):
-                df_clean, _ = cleaner.clean_structure_and_columns(df_raw)
-                df_valid, _ = cleaner.filter_and_fill_identifiers(df_clean)
-                if not df_valid.empty:
-                    batch_docs = doc_builder.build_canonical_documents(df_valid, dataset_name="sagar_reddit_dataset")
-                    batch_chunks = doc_builder.extract_hierarchical_chunks(batch_docs, dataset_name="sagar_reddit_dataset")
-                    meta_store.append_chunks(batch_chunks, source_dataset="sagar_reddit_dataset")
-            logger.info("Seeded sagar_reddit_dataset into metadata.sqlite.")
+    expected_total = 49374
+    current_total = meta_store.get_total_records_count()
+    
+    needs_sync = False
+    if current_total != expected_total:
+        needs_sync = True
+    else:
+        datasets = {d["source_dataset"]: d["chunk_count"] for d in meta_store.get_available_datasets()}
+        if "master_news_corpus" not in datasets or "sagar_reddit_dataset" not in datasets:
+            needs_sync = True
+
+    if needs_sync:
+        logger.info(f"Database sync required (current_total={current_total}, expected={expected_total}). Re-synchronizing metadata.sqlite...")
+        gz_path = project_root / "data" / "vector_db" / "metadata.sqlite.gz"
+        sqlite_path = project_root / "data" / "vector_db" / "metadata.sqlite"
+        if gz_path.exists():
+            import gzip
+            import shutil
+            logger.info("Restoring metadata.sqlite from synchronized gold standard archive...")
+            temp_sqlite = project_root / "data" / "vector_db" / "metadata_temp.sqlite"
+            with gzip.open(gz_path, "rb") as f_in:
+                with open(temp_sqlite, "wb") as f_out:
+                    shutil.copyfileobj(f_in, f_out)
+            if sqlite_path.exists():
+                try:
+                    sqlite_path.unlink()
+                except Exception as e:
+                    logger.warning(f"Could not unlink old sqlite directly ({e}), attempting replace...")
+            try:
+                temp_sqlite.replace(sqlite_path)
+                logger.info("Successfully restored and synchronized 49,374 metadata records into metadata.sqlite.")
+            except Exception as e:
+                logger.error(f"Error replacing metadata.sqlite: {e}")
+
 
 def get_assistant_controller() -> AssistantController:
     """

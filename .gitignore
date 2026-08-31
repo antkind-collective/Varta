@@ -47,6 +47,7 @@ temp/
 *.npy
 *.bin
 !data/vector_db/faiss_index.bin
+!data/vector_db/metadata.sqlite.gz
 
 # Local Backups, Scratch & Profiling JSONs
 *.bak
