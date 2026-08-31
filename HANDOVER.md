@@ -19,7 +19,7 @@ This document establishes the exact state of the system for handover, detailing 
 
 ### 1.1 Two-Layer Scoped RAG Architecture
 - **Layer 1 (Corpus Scoping):** Fast SQL-accelerated metadata filtering that bounds document search spaces by geography (e.g., Assam, Bihar, Odisha, Mumbai), disaster domain (floods, cyclones, landslides), and source dataset tags.
-- **Layer 2 (Semantic Vector Retrieval):** FAISS-indexed Cosine Similarity matching over `BAAI/bge-small-en-v1.5` / `paraphrase-multilingual-MiniLM-L12-v2` dense vector embeddings (384 dimensions), retrieving granular text chunks synchronized 1-to-1 with SQLite metadata.
+- **Layer 2 (Semantic Vector Retrieval):** FAISS-indexed Cosine Similarity matching over OpenAI `text-embedding-3-small` dense vector embeddings configured at 384 dimensions (via OpenAI's native Matryoshka `dimensions=384` reduction parameter to minimize memory and keep the vector index lightweight on Railway), retrieving granular text chunks synchronized 1-to-1 with SQLite metadata.
 
 ### 1.2 Multi-Turn Conversational Memory & Context Resolution
 - **Session State Management:** In-memory + SQLite conversation log persistence with unique session IDs (`/session`, `/chat`).
