@@ -174,6 +174,37 @@ def sync_seed_endpoint() -> Dict[str, Any]:
     }
 
 @router.post(
+    "/dataset/prune-news-corpus",
+    summary="Permanently Prune Master News Corpus",
+    description="Permanently deletes master_news_corpus to reclaim disk space, keeping only sagar_reddit_dataset (10,210 chunks)."
+)
+@router.get(
+    "/dataset/prune-news-corpus",
+    summary="Permanently Prune Master News Corpus",
+    include_in_schema=False
+)
+def prune_news_corpus_endpoint() -> Dict[str, Any]:
+    from scripts.remove_master_news_corpus import main as run_prune
+    try:
+        run_prune()
+        reload_assistant_controller()
+        controller = get_assistant_controller()
+        raw_datasets = controller.get_available_datasets()
+        return {
+            "status": "success",
+            "message": "master_news_corpus permanently removed and volume reclaimed.",
+            "datasets": raw_datasets,
+            "total_chunks": sum(d.get("chunk_count", 0) for d in raw_datasets)
+        }
+    except Exception as e:
+        logger.error(f"Error pruning master_news_corpus: {e}", exc_info=True)
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"Error pruning master_news_corpus: {e}"
+        )
+
+
+@router.post(
     "/session",
     response_model=SessionCreateResponse,
     status_code=status.HTTP_201_CREATED,
