@@ -2873,5 +2873,1449 @@
     },
     "provider": "OpenAILLMAdapter",
     "model": "gpt-5"
+  },
+  {
+    "timestamp": "2026-08-26T12:36:31.269895+00:00",
+    "session_id": "6b9238bbe9c0",
+    "user_query": "flood in assam?",
+    "rewritten_query": "flood in assam?",
+    "memory_used": false,
+    "turn_number": 1,
+    "plan_type": "direct",
+    "tool_selected": "rag_search",
+    "execution_time": 14745.55,
+    "confidence": {
+      "score": 0.4883,
+      "level": "MEDIUM",
+      "retrieval_support": "MODERATE",
+      "context_coverage_pct": 4.79
+    },
+    "provider": "OpenAILLMAdapter",
+    "model": "gpt-5"
+  },
+  {
+    "timestamp": "2026-08-26T16:20:02.976896+00:00",
+    "session_id": "a52a7f6e7d11",
+    "user_query": "Guwahati situation of flood?",
+    "rewritten_query": "Guwahati situation of flood?",
+    "memory_used": false,
+    "turn_number": 1,
+    "plan_type": "direct",
+    "tool_selected": "rag_search",
+    "execution_time": 10340.1,
+    "confidence": {
+      "score": 0.4874,
+      "level": "MEDIUM",
+      "retrieval_support": "MODERATE",
+      "context_coverage_pct": 4.79
+    },
+    "provider": "OpenAILLMAdapter",
+    "model": "gpt-5"
+  },
+  {
+    "timestamp": "2026-08-26T16:36:49.999943+00:00",
+    "session_id": "session_test_assam",
+    "user_query": "Tell me about the recent floods in Assam",
+    "rewritten_query": "Tell me about the recent floods in Assam",
+    "memory_used": false,
+    "turn_number": 1,
+    "plan_type": "direct",
+    "tool_selected": "rag_search",
+    "execution_time": 18407.94,
+    "confidence": {
+      "score": 0.4876,
+      "level": "MEDIUM",
+      "retrieval_support": "MODERATE",
+      "context_coverage_pct": 4.79
+    },
+    "provider": "OpenAILLMAdapter",
+    "model": "gpt-5"
+  },
+  {
+    "timestamp": "2026-08-26T16:42:48.383634+00:00",
+    "session_id": "session_test_assam",
+    "user_query": "Tell me about the recent floods in Assam",
+    "rewritten_query": "Tell me about the recent floods in Assam",
+    "memory_used": false,
+    "turn_number": 1,
+    "plan_type": "direct",
+    "tool_selected": "rag_search",
+    "execution_time": 27096.67,
+    "confidence": {
+      "score": 0.4876,
+      "level": "MEDIUM",
+      "retrieval_support": "MODERATE",
+      "context_coverage_pct": 4.79
+    },
+    "provider": "OpenAILLMAdapter",
+    "model": "gpt-5"
+  },
+  {
+    "timestamp": "2026-08-26T16:43:12.876804+00:00",
+    "session_id": "session_test_assam",
+    "user_query": "Which districts were worst affected?",
+    "rewritten_query": "Which districts were worst affected in the recent floods in Assam?",
+    "memory_used": true,
+    "turn_number": 2,
+    "plan_type": "followup",
+    "tool_selected": "rag_search",
+    "execution_time": 8682.78,
+    "confidence": {
+      "score": 0.4813,
+      "level": "MEDIUM",
+      "retrieval_support": "MODERATE",
+      "context_coverage_pct": 4.79
+    },
+    "provider": "OpenAILLMAdapter",
+    "model": "gpt-5"
+  },
+  {
+    "timestamp": "2026-08-26T16:43:32.829040+00:00",
+    "session_id": "sess_guwahati",
+    "user_query": "What is the flood situation in Guwahati?",
+    "rewritten_query": "What is the flood situation in Guwahati?",
+    "memory_used": false,
+    "turn_number": 1,
+    "plan_type": "direct",
+    "tool_selected": "rag_search",
+    "execution_time": 12685.2,
+    "confidence": {
+      "score": 0.4715,
+      "level": "MEDIUM",
+      "retrieval_support": "MODERATE",
+      "context_coverage_pct": 4.79
+    },
+    "provider": "OpenAILLMAdapter",
+    "model": "gpt-5"
+  },
+  {
+    "timestamp": "2026-08-26T16:43:45.552218+00:00",
+    "session_id": "sess_mumbai",
+    "user_query": "I need Mumbai dataset for waterlogging",
+    "rewritten_query": "I need Mumbai dataset for waterlogging",
+    "memory_used": false,
+    "turn_number": 1,
+    "plan_type": "direct",
+    "tool_selected": "rag_search",
+    "execution_time": 9960.36,
+    "confidence": {
+      "score": 0.3221,
+      "level": "LOW",
+      "retrieval_support": "MODERATE",
+      "context_coverage_pct": 4.74
+    },
+    "provider": "OpenAILLMAdapter",
+    "model": "gpt-5"
+  },
+  {
+    "timestamp": "2026-08-26T16:51:32.232145+00:00",
+    "session_id": "3f02b3acd46d",
+    "user_query": "hey, whats the flood situation of chennai?",
+    "rewritten_query": "hey, whats the flood situation of chennai?",
+    "memory_used": false,
+    "turn_number": 1,
+    "plan_type": "direct",
+    "tool_selected": "rag_search",
+    "execution_time": 16397.02,
+    "confidence": {
+      "score": 0.3636,
+      "level": "LOW",
+      "retrieval_support": "MODERATE",
+      "context_coverage_pct": 4.79
+    },
+    "provider": "OpenAILLMAdapter",
+    "model": "gpt-5"
+  },
+  {
+    "timestamp": "2026-08-26T17:06:20.371398+00:00",
+    "session_id": "sess_guwahati",
+    "user_query": "What is the flood situation in Guwahati?",
+    "rewritten_query": "What is the flood situation in Guwahati?",
+    "memory_used": false,
+    "turn_number": 1,
+    "plan_type": "direct",
+    "tool_selected": "rag_search",
+    "execution_time": 12506.61,
+    "confidence": {
+      "score": 0.6206,
+      "level": "MEDIUM",
+      "retrieval_support": "MODERATE",
+      "context_coverage_pct": 54.49
+    },
+    "provider": "OpenAILLMAdapter",
+    "model": "gpt-5"
+  },
+  {
+    "timestamp": "2026-08-26T17:06:39.142152+00:00",
+    "session_id": "sess_mumbai",
+    "user_query": "I need Mumbai dataset for waterlogging",
+    "rewritten_query": "I need Mumbai dataset for waterlogging",
+    "memory_used": false,
+    "turn_number": 1,
+    "plan_type": "direct",
+    "tool_selected": "rag_search",
+    "execution_time": 12002.71,
+    "confidence": {
+      "score": 0.492,
+      "level": "LOW",
+      "retrieval_support": "MODERATE",
+      "context_coverage_pct": 61.38
+    },
+    "provider": "OpenAILLMAdapter",
+    "model": "gpt-5"
+  },
+  {
+    "timestamp": "2026-08-26T17:11:16.114042+00:00",
+    "session_id": "8bb91f61502b",
+    "user_query": "i want you to only process assam data, and tell whats the reason behind the causes happening in assam , and what people thought of those - like they think its by god or bcoz of humans or what",
+    "rewritten_query": "i want you to only process assam data, and tell whats the reason behind the causes happening in assam , and what people thought of those - like they think its by god or bcoz of humans or what",
+    "memory_used": false,
+    "turn_number": 1,
+    "plan_type": "direct",
+    "tool_selected": "rag_search",
+    "execution_time": 22593.25,
+    "confidence": {
+      "score": 0.4616,
+      "level": "LOW",
+      "retrieval_support": "MODERATE",
+      "context_coverage_pct": 63.43
+    },
+    "provider": "OpenAILLMAdapter",
+    "model": "gpt-5"
+  },
+  {
+    "timestamp": "2026-08-26T17:17:40.563709+00:00",
+    "session_id": "8bb91f61502b",
+    "user_query": "im talking about disasters",
+    "rewritten_query": "im talking about disasters",
+    "memory_used": false,
+    "turn_number": 2,
+    "plan_type": "direct",
+    "tool_selected": "rag_search",
+    "execution_time": 32567.83,
+    "confidence": {
+      "score": 0.4146,
+      "level": "LOW",
+      "retrieval_support": "MODERATE",
+      "context_coverage_pct": 65.62
+    },
+    "provider": "OpenAILLMAdapter",
+    "model": "gpt-5"
+  },
+  {
+    "timestamp": "2026-08-26T17:21:30.122853+00:00",
+    "session_id": "sess_audit_user",
+    "user_query": "I want to only process Assam data, and tell what's the reason behind the causes happening in Assam, and what people thought of those - like they think it's by God or because of humans or what",
+    "rewritten_query": "I want to only process Assam data, and tell what's the reason behind the causes happening in Assam, and what people thought of those - like they think it's by God or because of humans or what",
+    "memory_used": false,
+    "turn_number": 1,
+    "plan_type": "direct",
+    "tool_selected": "rag_search",
+    "execution_time": 15473.59,
+    "confidence": {
+      "score": 0.4653,
+      "level": "LOW",
+      "retrieval_support": "MODERATE",
+      "context_coverage_pct": 62.55
+    },
+    "provider": "OpenAILLMAdapter",
+    "model": "gpt-5"
+  },
+  {
+    "timestamp": "2026-08-26T17:22:00.982894+00:00",
+    "session_id": "sess_audit_user",
+    "user_query": "im talking about disasters",
+    "rewritten_query": "im talking about disasters",
+    "memory_used": false,
+    "turn_number": 2,
+    "plan_type": "direct",
+    "tool_selected": "rag_search",
+    "execution_time": 30843.45,
+    "confidence": {
+      "score": 0.4146,
+      "level": "LOW",
+      "retrieval_support": "MODERATE",
+      "context_coverage_pct": 65.62
+    },
+    "provider": "OpenAILLMAdapter",
+    "model": "gpt-5"
+  },
+  {
+    "timestamp": "2026-08-26T17:22:39.770635+00:00",
+    "session_id": "sess_audit_failures",
+    "user_query": "I want to only process Assam data, and tell what's the reason behind the causes happening in Assam, and what people thought of those - like they think it's by God or because of humans or what",
+    "rewritten_query": "I want to only process Assam data, and tell what's the reason behind the causes happening in Assam, and what people thought of those - like they think it's by God or because of humans or what",
+    "memory_used": false,
+    "turn_number": 1,
+    "plan_type": "direct",
+    "tool_selected": "rag_search",
+    "execution_time": 9.71,
+    "confidence": {
+      "score": 0.4653,
+      "level": "LOW",
+      "retrieval_support": "MODERATE",
+      "context_coverage_pct": 62.55
+    },
+    "provider": "MockLLMAdapter",
+    "model": "mock-rag-synthesizer-v1"
+  },
+  {
+    "timestamp": "2026-08-26T17:22:43.664512+00:00",
+    "session_id": "sess_audit_failures",
+    "user_query": "im talking about disasters",
+    "rewritten_query": "im talking about disasters",
+    "memory_used": false,
+    "turn_number": 2,
+    "plan_type": "direct",
+    "tool_selected": "rag_search",
+    "execution_time": 7.57,
+    "confidence": {
+      "score": 0.4146,
+      "level": "LOW",
+      "retrieval_support": "MODERATE",
+      "context_coverage_pct": 65.62
+    },
+    "provider": "MockLLMAdapter",
+    "model": "mock-rag-synthesizer-v1"
+  },
+  {
+    "timestamp": "2026-08-26T17:22:48.373820+00:00",
+    "session_id": "sess_test_a",
+    "user_query": "What is the flood situation in Assam?",
+    "rewritten_query": "What is the flood situation in Assam?",
+    "memory_used": false,
+    "turn_number": 1,
+    "plan_type": "direct",
+    "tool_selected": "rag_search",
+    "execution_time": 6.48,
+    "confidence": {
+      "score": 0.6617,
+      "level": "HIGH",
+      "retrieval_support": "STRONG",
+      "context_coverage_pct": 54.49
+    },
+    "provider": "MockLLMAdapter",
+    "model": "mock-rag-synthesizer-v1"
+  },
+  {
+    "timestamp": "2026-08-26T17:22:51.745866+00:00",
+    "session_id": "sess_test_b",
+    "user_query": "What are the main causes of disasters in Assam?",
+    "rewritten_query": "What are the main causes of disasters in Assam?",
+    "memory_used": false,
+    "turn_number": 1,
+    "plan_type": "direct",
+    "tool_selected": "rag_search",
+    "execution_time": 3.14,
+    "confidence": {
+      "score": 0.5725,
+      "level": "MEDIUM",
+      "retrieval_support": "MODERATE",
+      "context_coverage_pct": 56.15
+    },
+    "provider": "MockLLMAdapter",
+    "model": "mock-rag-synthesizer-v1"
+  },
+  {
+    "timestamp": "2026-08-26T17:22:54.311819+00:00",
+    "session_id": "sess_test_c",
+    "user_query": "Do people attribute disasters in Assam to God, nature, climate change, or human actions?",
+    "rewritten_query": "Do people attribute disasters in Assam to God, nature, climate change, or human actions?",
+    "memory_used": false,
+    "turn_number": 1,
+    "plan_type": "direct",
+    "tool_selected": "rag_search",
+    "execution_time": 6.91,
+    "confidence": {
+      "score": 0.5336,
+      "level": "LOW",
+      "retrieval_support": "MODERATE",
+      "context_coverage_pct": 73.93
+    },
+    "provider": "MockLLMAdapter",
+    "model": "mock-rag-synthesizer-v1"
+  },
+  {
+    "timestamp": "2026-08-26T17:22:57.951294+00:00",
+    "session_id": "sess_test_d",
+    "user_query": "Which human activities are reported as contributing to disasters in Assam?",
+    "rewritten_query": "Which human activities are reported as contributing to disasters in Assam?",
+    "memory_used": false,
+    "turn_number": 1,
+    "plan_type": "direct",
+    "tool_selected": "rag_search",
+    "execution_time": 5.55,
+    "confidence": {
+      "score": 0.6069,
+      "level": "MEDIUM",
+      "retrieval_support": "MODERATE",
+      "context_coverage_pct": 61.57
+    },
+    "provider": "MockLLMAdapter",
+    "model": "mock-rag-synthesizer-v1"
+  },
+  {
+    "timestamp": "2026-08-26T17:22:59.746474+00:00",
+    "session_id": "sess_test_e",
+    "user_query": "Which districts in Assam were most affected by floods?",
+    "rewritten_query": "Which districts in Assam were most affected by floods?",
+    "memory_used": false,
+    "turn_number": 1,
+    "plan_type": "direct",
+    "tool_selected": "rag_search",
+    "execution_time": 7.39,
+    "confidence": {
+      "score": 0.6433,
+      "level": "MEDIUM",
+      "retrieval_support": "MODERATE",
+      "context_coverage_pct": 61.82
+    },
+    "provider": "MockLLMAdapter",
+    "model": "mock-rag-synthesizer-v1"
+  },
+  {
+    "timestamp": "2026-08-26T17:29:23.335577+00:00",
+    "session_id": "sess_conv_verify",
+    "user_query": "I want to only process Assam data, and tell what's the reason behind the causes happening in Assam, and what people thought of those - like they think it's by God or because of humans or what",
+    "rewritten_query": "I want to only process Assam data, and tell what's the reason behind the causes happening in Assam, and what people thought of those - like they think it's by God or because of humans or what",
+    "memory_used": false,
+    "turn_number": 1,
+    "plan_type": "direct",
+    "tool_selected": "rag_search",
+    "execution_time": 1194.13,
+    "confidence": {
+      "score": 0.4653,
+      "level": "LOW",
+      "retrieval_support": "MODERATE",
+      "context_coverage_pct": 62.55
+    },
+    "provider": "MockLLMAdapter",
+    "model": "mock-rag-synthesizer-v1"
+  },
+  {
+    "timestamp": "2026-08-26T17:30:22.410583+00:00",
+    "session_id": "sess_conv_verify",
+    "user_query": "I want to only process Assam data, and tell what's the reason behind the causes happening in Assam, and what people thought of those - like they think it's by God or because of humans or what",
+    "rewritten_query": "I want to only process Assam data, and tell what's the reason behind the causes happening in Assam, and what people thought of those - like they think it's by God or because of humans or what",
+    "memory_used": false,
+    "turn_number": 1,
+    "plan_type": "direct",
+    "tool_selected": "rag_search",
+    "execution_time": 6869.11,
+    "confidence": {
+      "score": 0.4615,
+      "level": "LOW",
+      "retrieval_support": "MODERATE",
+      "context_coverage_pct": 61.91
+    },
+    "provider": "MockLLMAdapter",
+    "model": "mock-rag-synthesizer-v1"
+  },
+  {
+    "timestamp": "2026-08-26T17:30:29.087248+00:00",
+    "session_id": "sess_conv_verify",
+    "user_query": "im talking about disasters",
+    "rewritten_query": "Disasters in I want to only process Assam data, and tell what's the reason behind the causes happening in Assam, and what people thought of those - like they think it's by God or because of humans or what",
+    "memory_used": true,
+    "turn_number": 2,
+    "plan_type": "followup",
+    "tool_selected": "rag_search",
+    "execution_time": 5680.85,
+    "confidence": {
+      "score": 0.4942,
+      "level": "LOW",
+      "retrieval_support": "MODERATE",
+      "context_coverage_pct": 56.64
+    },
+    "provider": "MockLLMAdapter",
+    "model": "mock-rag-synthesizer-v1"
+  },
+  {
+    "timestamp": "2026-08-26T17:30:33.572237+00:00",
+    "session_id": "sess_test_a",
+    "user_query": "What is the flood situation in Assam?",
+    "rewritten_query": "What is the flood situation in Assam?",
+    "memory_used": false,
+    "turn_number": 1,
+    "plan_type": "direct",
+    "tool_selected": "rag_search",
+    "execution_time": 3529.13,
+    "confidence": {
+      "score": 0.6723,
+      "level": "HIGH",
+      "retrieval_support": "STRONG",
+      "context_coverage_pct": 58.01
+    },
+    "provider": "MockLLMAdapter",
+    "model": "mock-rag-synthesizer-v1"
+  },
+  {
+    "timestamp": "2026-08-26T17:30:38.386086+00:00",
+    "session_id": "sess_test_b",
+    "user_query": "What are the main causes of disasters in Assam?",
+    "rewritten_query": "What are the main causes of disasters in Assam?",
+    "memory_used": false,
+    "turn_number": 1,
+    "plan_type": "direct",
+    "tool_selected": "rag_search",
+    "execution_time": 3794.06,
+    "confidence": {
+      "score": 0.6008,
+      "level": "MEDIUM",
+      "retrieval_support": "MODERATE",
+      "context_coverage_pct": 66.02
+    },
+    "provider": "MockLLMAdapter",
+    "model": "mock-rag-synthesizer-v1"
+  },
+  {
+    "timestamp": "2026-08-26T17:30:48.630340+00:00",
+    "session_id": "sess_test_c",
+    "user_query": "Do people attribute disasters in Assam to God, nature, climate change, or human actions?",
+    "rewritten_query": "Do people attribute disasters in Assam to God, nature, climate change, or human actions?",
+    "memory_used": false,
+    "turn_number": 1,
+    "plan_type": "direct",
+    "tool_selected": "rag_search",
+    "execution_time": 7645.98,
+    "confidence": {
+      "score": 0.4731,
+      "level": "LOW",
+      "retrieval_support": "MODERATE",
+      "context_coverage_pct": 53.76
+    },
+    "provider": "MockLLMAdapter",
+    "model": "mock-rag-synthesizer-v1"
+  },
+  {
+    "timestamp": "2026-08-26T17:31:04.094073+00:00",
+    "session_id": "sess_test_d",
+    "user_query": "Which human activities are reported as contributing to disasters in Assam?",
+    "rewritten_query": "Which human activities are reported as contributing to disasters in Assam?",
+    "memory_used": false,
+    "turn_number": 1,
+    "plan_type": "direct",
+    "tool_selected": "rag_search",
+    "execution_time": 9726.23,
+    "confidence": {
+      "score": 0.621,
+      "level": "MEDIUM",
+      "retrieval_support": "MODERATE",
+      "context_coverage_pct": 66.75
+    },
+    "provider": "MockLLMAdapter",
+    "model": "mock-rag-synthesizer-v1"
+  },
+  {
+    "timestamp": "2026-08-26T17:31:08.095786+00:00",
+    "session_id": "sess_test_e",
+    "user_query": "Which districts in Assam were most affected by floods?",
+    "rewritten_query": "Which districts in Assam were most affected by floods?",
+    "memory_used": false,
+    "turn_number": 1,
+    "plan_type": "direct",
+    "tool_selected": "rag_search",
+    "execution_time": 3014.26,
+    "confidence": {
+      "score": 0.6465,
+      "level": "MEDIUM",
+      "retrieval_support": "MODERATE",
+      "context_coverage_pct": 63.23
+    },
+    "provider": "MockLLMAdapter",
+    "model": "mock-rag-synthesizer-v1"
+  },
+  {
+    "timestamp": "2026-08-26T17:31:41.337826+00:00",
+    "session_id": "sess_guwahati",
+    "user_query": "What is the flood situation in Guwahati?",
+    "rewritten_query": "What is the flood situation in Guwahati?",
+    "memory_used": false,
+    "turn_number": 1,
+    "plan_type": "direct",
+    "tool_selected": "rag_search",
+    "execution_time": 15371.18,
+    "confidence": {
+      "score": 0.6564,
+      "level": "MEDIUM",
+      "retrieval_support": "MODERATE",
+      "context_coverage_pct": 66.41
+    },
+    "provider": "OpenAILLMAdapter",
+    "model": "gpt-5"
+  },
+  {
+    "timestamp": "2026-08-26T17:32:05.164350+00:00",
+    "session_id": "sess_mumbai",
+    "user_query": "I need Mumbai dataset for waterlogging",
+    "rewritten_query": "I need Mumbai dataset for waterlogging",
+    "memory_used": false,
+    "turn_number": 1,
+    "plan_type": "direct",
+    "tool_selected": "rag_search",
+    "execution_time": 15810.78,
+    "confidence": {
+      "score": 0.5022,
+      "level": "LOW",
+      "retrieval_support": "MODERATE",
+      "context_coverage_pct": 66.11
+    },
+    "provider": "OpenAILLMAdapter",
+    "model": "gpt-5"
+  },
+  {
+    "timestamp": "2026-08-27T10:43:29.943436+00:00",
+    "session_id": "sess_1787827408545",
+    "user_query": "did you process the disaster data from Reddit. in the file i just uploaded",
+    "rewritten_query": "did you process the disaster data from Reddit. in the file i just uploaded",
+    "memory_used": false,
+    "turn_number": 1,
+    "plan_type": "direct",
+    "tool_selected": "rag_search",
+    "execution_time": 1397.43,
+    "confidence": {
+      "score": 0.0,
+      "level": "INSUFFICIENT",
+      "retrieval_support": "NONE",
+      "context_coverage_pct": 0.0
+    },
+    "provider": "OpenAILLMAdapter",
+    "model": "gpt-5"
+  },
+  {
+    "timestamp": "2026-08-27T10:43:32.204318+00:00",
+    "session_id": "sess_1787827409960",
+    "user_query": "What are the semiconductor chip manufacturing policies in Taiwan?",
+    "rewritten_query": "What are the semiconductor chip manufacturing policies in Taiwan?",
+    "memory_used": false,
+    "turn_number": 1,
+    "plan_type": "direct",
+    "tool_selected": "rag_search",
+    "execution_time": 2243.59,
+    "confidence": {
+      "score": 0.0,
+      "level": "INSUFFICIENT",
+      "retrieval_support": "NONE",
+      "context_coverage_pct": 0.0
+    },
+    "provider": "OpenAILLMAdapter",
+    "model": "gpt-5"
+  },
+  {
+    "timestamp": "2026-08-27T10:44:27.797947+00:00",
+    "session_id": "sess_1787827412224",
+    "user_query": "What are the primary causes of flood devastation in Assam and what human activities worsen it?",
+    "rewritten_query": "What are the primary causes of flood devastation in Assam and what human activities worsen it?",
+    "memory_used": false,
+    "turn_number": 1,
+    "plan_type": "direct",
+    "tool_selected": "rag_search",
+    "execution_time": 55572.92,
+    "confidence": {
+      "score": 0.5488,
+      "level": "MEDIUM",
+      "retrieval_support": "MODERATE",
+      "context_coverage_pct": 38.23
+    },
+    "provider": "OpenAILLMAdapter",
+    "model": "gpt-5"
+  },
+  {
+    "timestamp": "2026-08-27T10:44:57.089418+00:00",
+    "session_id": "sess_1787827467811",
+    "user_query": "Do people attribute disasters in Assam to God, nature, climate change, or human actions?",
+    "rewritten_query": "Do people attribute disasters in Assam to God, nature, climate change, or human actions?",
+    "memory_used": false,
+    "turn_number": 1,
+    "plan_type": "direct",
+    "tool_selected": "rag_search",
+    "execution_time": 29277.46,
+    "confidence": {
+      "score": 0.4062,
+      "level": "LOW",
+      "retrieval_support": "MODERATE",
+      "context_coverage_pct": 31.46
+    },
+    "provider": "OpenAILLMAdapter",
+    "model": "gpt-5"
+  },
+  {
+    "timestamp": "2026-08-27T10:48:48.114617+00:00",
+    "session_id": "sess_1787827727001",
+    "user_query": "did you process the disaster data from Reddit. in the file i just uploaded",
+    "rewritten_query": "did you process the disaster data from Reddit. in the file i just uploaded",
+    "memory_used": false,
+    "turn_number": 1,
+    "plan_type": "direct",
+    "tool_selected": "rag_search",
+    "execution_time": 1113.25,
+    "confidence": {
+      "score": 0.0,
+      "level": "INSUFFICIENT",
+      "retrieval_support": "NONE",
+      "context_coverage_pct": 0.0
+    },
+    "provider": "OpenAILLMAdapter",
+    "model": "gpt-5"
+  },
+  {
+    "timestamp": "2026-08-27T10:49:18.702413+00:00",
+    "session_id": "sess_1787827728138",
+    "user_query": "What is the flood situation in Assam?",
+    "rewritten_query": "What is the flood situation in Assam?",
+    "memory_used": false,
+    "turn_number": 1,
+    "plan_type": "direct",
+    "tool_selected": "rag_search",
+    "execution_time": 30563.25,
+    "confidence": {
+      "score": 0.5806,
+      "level": "HIGH",
+      "retrieval_support": "STRONG",
+      "context_coverage_pct": 27.43
+    },
+    "provider": "OpenAILLMAdapter",
+    "model": "gpt-5"
+  },
+  {
+    "timestamp": "2026-08-27T10:49:34.390920+00:00",
+    "session_id": "sess_1787827758733",
+    "user_query": "Which districts in Assam were most affected by floods?",
+    "rewritten_query": "Which districts in Assam were most affected by floods?",
+    "memory_used": false,
+    "turn_number": 1,
+    "plan_type": "direct",
+    "tool_selected": "rag_search",
+    "execution_time": 15657.33,
+    "confidence": {
+      "score": 0.5678,
+      "level": "MEDIUM",
+      "retrieval_support": "MODERATE",
+      "context_coverage_pct": 37.0
+    },
+    "provider": "OpenAILLMAdapter",
+    "model": "gpt-5"
+  },
+  {
+    "timestamp": "2026-08-27T10:50:20.775260+00:00",
+    "session_id": "sess_1787827774446",
+    "user_query": "What are the main causes of disasters in Assam?",
+    "rewritten_query": "What are the main causes of disasters in Assam?",
+    "memory_used": false,
+    "turn_number": 1,
+    "plan_type": "direct",
+    "tool_selected": "rag_search",
+    "execution_time": 46328.48,
+    "confidence": {
+      "score": 0.5187,
+      "level": "MEDIUM",
+      "retrieval_support": "MODERATE",
+      "context_coverage_pct": 38.63
+    },
+    "provider": "OpenAILLMAdapter",
+    "model": "gpt-5"
+  },
+  {
+    "timestamp": "2026-08-27T10:51:01.610878+00:00",
+    "session_id": "sess_1787827820808",
+    "user_query": "What is the flood situation in Patna and Bihar?",
+    "rewritten_query": "What is the flood situation in Patna and Bihar?",
+    "memory_used": false,
+    "turn_number": 1,
+    "plan_type": "direct",
+    "tool_selected": "rag_search",
+    "execution_time": 40802.0,
+    "confidence": {
+      "score": 0.5366,
+      "level": "MEDIUM",
+      "retrieval_support": "MODERATE",
+      "context_coverage_pct": 36.31
+    },
+    "provider": "OpenAILLMAdapter",
+    "model": "gpt-5"
+  },
+  {
+    "timestamp": "2026-08-27T15:38:15.374830+00:00",
+    "session_id": "sess_1787845093512",
+    "user_query": "did you process the disaster data from Reddit. in the file i just uploaded",
+    "rewritten_query": "did you process the disaster data from Reddit. in the file i just uploaded",
+    "memory_used": false,
+    "turn_number": 1,
+    "plan_type": "direct",
+    "tool_selected": "rag_search",
+    "execution_time": 1862.74,
+    "confidence": {
+      "score": 0.0,
+      "level": "INSUFFICIENT",
+      "retrieval_support": "NONE",
+      "context_coverage_pct": 0.0
+    },
+    "provider": "OpenAILLMAdapter",
+    "model": "gpt-5"
+  },
+  {
+    "timestamp": "2026-08-27T15:38:16.350970+00:00",
+    "session_id": "sess_1787845095385",
+    "user_query": "What are the semiconductor chip manufacturing policies in Taiwan?",
+    "rewritten_query": "What are the semiconductor chip manufacturing policies in Taiwan?",
+    "memory_used": false,
+    "turn_number": 1,
+    "plan_type": "direct",
+    "tool_selected": "rag_search",
+    "execution_time": 965.83,
+    "confidence": {
+      "score": 0.0,
+      "level": "INSUFFICIENT",
+      "retrieval_support": "NONE",
+      "context_coverage_pct": 0.0
+    },
+    "provider": "OpenAILLMAdapter",
+    "model": "gpt-5"
+  },
+  {
+    "timestamp": "2026-08-27T15:38:42.486374+00:00",
+    "session_id": "sess_1787845096358",
+    "user_query": "What are the primary causes of flood devastation in Assam and what human activities worsen it?",
+    "rewritten_query": "What are the primary causes of flood devastation in Assam and what human activities worsen it?",
+    "memory_used": false,
+    "turn_number": 1,
+    "plan_type": "direct",
+    "tool_selected": "rag_search",
+    "execution_time": 26127.52,
+    "confidence": {
+      "score": 0.5488,
+      "level": "MEDIUM",
+      "retrieval_support": "MODERATE",
+      "context_coverage_pct": 38.23
+    },
+    "provider": "OpenAILLMAdapter",
+    "model": "gpt-5"
+  },
+  {
+    "timestamp": "2026-08-27T15:39:04.286531+00:00",
+    "session_id": "sess_1787845122498",
+    "user_query": "Do people attribute disasters in Assam to God, nature, climate change, or human actions?",
+    "rewritten_query": "Do people attribute disasters in Assam to God, nature, climate change, or human actions?",
+    "memory_used": false,
+    "turn_number": 1,
+    "plan_type": "direct",
+    "tool_selected": "rag_search",
+    "execution_time": 21787.72,
+    "confidence": {
+      "score": 0.4062,
+      "level": "LOW",
+      "retrieval_support": "MODERATE",
+      "context_coverage_pct": 31.46
+    },
+    "provider": "OpenAILLMAdapter",
+    "model": "gpt-5"
+  },
+  {
+    "timestamp": "2026-08-29T07:39:59.943094+00:00",
+    "session_id": "test_bug_session_1",
+    "user_query": "Is there a difference between how officials or media describe the disaster response and how it's actually being experienced by affected communities?",
+    "rewritten_query": "Is there a difference between how officials or media describe the disaster response and how it's actually being experienced by affected communities?",
+    "memory_used": false,
+    "turn_number": 1,
+    "plan_type": "comparison",
+    "tool_selected": "rag_search",
+    "execution_time": 30868.3,
+    "confidence": {
+      "score": 0.4775,
+      "level": "MEDIUM",
+      "retrieval_support": "MODERATE",
+      "context_coverage_pct": 90.0
+    },
+    "provider": "OpenAILLMAdapter",
+    "model": "gpt-5"
+  },
+  {
+    "timestamp": "2026-08-29T07:40:28.603012+00:00",
+    "session_id": "test_bug_session_1",
+    "user_query": "Are there any government policies or programs mentioned in the coverage that don't seem to come up when people talk about their actual experience?",
+    "rewritten_query": "Are disasters in Is there a difference between how officials or media describe the disaster response and how it's actually being experienced by affected communities? any government policies or programs mentioned in the coverage that don't seem to come up when people talk about their actual experience?",
+    "memory_used": true,
+    "turn_number": 2,
+    "plan_type": "comparison",
+    "tool_selected": "rag_search",
+    "execution_time": 28583.23,
+    "confidence": {
+      "score": 0.4472,
+      "level": "LOW",
+      "retrieval_support": "MODERATE",
+      "context_coverage_pct": 90.0
+    },
+    "provider": "OpenAILLMAdapter",
+    "model": "gpt-5"
+  },
+  {
+    "timestamp": "2026-08-29T07:43:18.674352+00:00",
+    "session_id": "test_bug_session_1",
+    "user_query": "Is there a difference between how officials or media describe the disaster response and how it's actually being experienced by affected communities?",
+    "rewritten_query": "Is there a difference between how officials or media describe the disaster response and how it's actually being experienced by affected communities?",
+    "memory_used": false,
+    "turn_number": 1,
+    "plan_type": "direct",
+    "tool_selected": "rag_search",
+    "execution_time": 25441.18,
+    "confidence": {
+      "score": 0.3826,
+      "level": "LOW",
+      "retrieval_support": "MODERATE",
+      "context_coverage_pct": 30.11
+    },
+    "provider": "OpenAILLMAdapter",
+    "model": "gpt-5"
+  },
+  {
+    "timestamp": "2026-08-29T07:44:17.361702+00:00",
+    "session_id": "test_bug_session_1",
+    "user_query": "Is there a difference between how officials or media describe the disaster response and how it's actually being experienced by affected communities?",
+    "rewritten_query": "Is there a difference between how officials or media describe the disaster response and how it's actually being experienced by affected communities?",
+    "memory_used": false,
+    "turn_number": 1,
+    "plan_type": "direct",
+    "tool_selected": "rag_search",
+    "execution_time": 23347.17,
+    "confidence": {
+      "score": 0.3826,
+      "level": "LOW",
+      "retrieval_support": "MODERATE",
+      "context_coverage_pct": 30.11
+    },
+    "provider": "OpenAILLMAdapter",
+    "model": "gpt-5"
+  },
+  {
+    "timestamp": "2026-08-29T07:44:47.083234+00:00",
+    "session_id": "test_bug_session_1",
+    "user_query": "Are there any government policies or programs mentioned in the coverage that don't seem to come up when people talk about their actual experience?",
+    "rewritten_query": "Are there any government policies or programs mentioned in the coverage that don't seem to come up when people talk about their actual experience?",
+    "memory_used": false,
+    "turn_number": 2,
+    "plan_type": "direct",
+    "tool_selected": "rag_search",
+    "execution_time": 29712.1,
+    "confidence": {
+      "score": 0.3169,
+      "level": "LOW",
+      "retrieval_support": "MODERATE",
+      "context_coverage_pct": 21.69
+    },
+    "provider": "OpenAILLMAdapter",
+    "model": "gpt-5"
+  },
+  {
+    "timestamp": "2026-08-29T07:46:14.251606+00:00",
+    "session_id": "test_multi_turn_seq_session",
+    "user_query": "Is there a difference between how officials or media describe the disaster response and how it's actually being experienced by affected communities?",
+    "rewritten_query": "Is there a difference between how officials or media describe the disaster response and how it's actually being experienced by affected communities?",
+    "memory_used": false,
+    "turn_number": 1,
+    "plan_type": "direct",
+    "tool_selected": "rag_search",
+    "execution_time": 23002.62,
+    "confidence": {
+      "score": 0.4466,
+      "level": "LOW",
+      "retrieval_support": "MODERATE",
+      "context_coverage_pct": 51.46
+    },
+    "provider": "OpenAILLMAdapter",
+    "model": "gpt-5"
+  },
+  {
+    "timestamp": "2026-08-29T07:46:49.680985+00:00",
+    "session_id": "test_multi_turn_seq_session",
+    "user_query": "Are there any government policies or programs mentioned in the coverage that don't seem to come up when people talk about their actual experience?",
+    "rewritten_query": "Are there any government policies or programs mentioned in the coverage that don't seem to come up when people talk about their actual experience?",
+    "memory_used": false,
+    "turn_number": 2,
+    "plan_type": "direct",
+    "tool_selected": "rag_search",
+    "execution_time": 35420.1,
+    "confidence": {
+      "score": 0.363,
+      "level": "LOW",
+      "retrieval_support": "MODERATE",
+      "context_coverage_pct": 37.06
+    },
+    "provider": "OpenAILLMAdapter",
+    "model": "gpt-5"
+  },
+  {
+    "timestamp": "2026-08-29T07:47:19.153594+00:00",
+    "session_id": "test_multi_turn_seq_session",
+    "user_query": "Tell me about the flood situation in Assam.",
+    "rewritten_query": "Tell me about the flood situation in Assam.",
+    "memory_used": false,
+    "turn_number": 3,
+    "plan_type": "direct",
+    "tool_selected": "rag_search",
+    "execution_time": 29464.38,
+    "confidence": {
+      "score": 0.6514,
+      "level": "MEDIUM",
+      "retrieval_support": "MODERATE",
+      "context_coverage_pct": 58.89
+    },
+    "provider": "OpenAILLMAdapter",
+    "model": "gpt-5"
+  },
+  {
+    "timestamp": "2026-08-29T07:47:29.371773+00:00",
+    "session_id": "test_multi_turn_seq_session",
+    "user_query": "Which districts are worst affected?",
+    "rewritten_query": "Which districts are worst affected in Assam?",
+    "memory_used": true,
+    "turn_number": 4,
+    "plan_type": "followup",
+    "tool_selected": "rag_search",
+    "execution_time": 10209.8,
+    "confidence": {
+      "score": 0.5811,
+      "level": "MEDIUM",
+      "retrieval_support": "MODERATE",
+      "context_coverage_pct": 65.04
+    },
+    "provider": "OpenAILLMAdapter",
+    "model": "gpt-5"
+  },
+  {
+    "timestamp": "2026-08-29T07:48:09.306136+00:00",
+    "session_id": "test_multi_turn_seq_session",
+    "user_query": "What about Patna?",
+    "rewritten_query": "Latest flood situation in Patna, Bihar, India: current status, worst-affected areas, river levels, evacuations, casualties, and official advisories",
+    "memory_used": true,
+    "turn_number": 5,
+    "plan_type": "followup",
+    "tool_selected": "rag_search",
+    "execution_time": 39926.79,
+    "confidence": {
+      "score": 0.5864,
+      "level": "MEDIUM",
+      "retrieval_support": "MODERATE",
+      "context_coverage_pct": 57.03
+    },
+    "provider": "OpenAILLMAdapter",
+    "model": "gpt-5"
+  },
+  {
+    "timestamp": "2026-08-29T07:48:57.899934+00:00",
+    "session_id": "test_multi_turn_seq_session",
+    "user_query": "Compare the flood impacts in Assam and Bihar",
+    "rewritten_query": "Compare the flood impacts in Assam and Bihar",
+    "memory_used": false,
+    "turn_number": 6,
+    "plan_type": "comparison",
+    "tool_selected": "rag_search",
+    "execution_time": 48586.51,
+    "confidence": {
+      "score": 0.6805,
+      "level": "HIGH",
+      "retrieval_support": "STRONG",
+      "context_coverage_pct": 90.0
+    },
+    "provider": "OpenAILLMAdapter",
+    "model": "gpt-5"
+  },
+  {
+    "timestamp": "2026-08-29T07:56:27.995062+00:00",
+    "session_id": "test_multi_turn_seq_session",
+    "user_query": "Is there a difference between how officials or media describe the disaster response and how it's actually being experienced by affected communities?",
+    "rewritten_query": "Is there a difference between how officials or media describe the disaster response and how it's actually being experienced by affected communities?",
+    "memory_used": false,
+    "turn_number": 1,
+    "plan_type": "direct",
+    "tool_selected": "rag_search",
+    "execution_time": 28583.53,
+    "confidence": {
+      "score": 0.4466,
+      "level": "LOW",
+      "retrieval_support": "MODERATE",
+      "context_coverage_pct": 51.46
+    },
+    "provider": "OpenAILLMAdapter",
+    "model": "gpt-5"
+  },
+  {
+    "timestamp": "2026-08-29T07:57:24.719682+00:00",
+    "session_id": "test_multi_turn_seq_session",
+    "user_query": "Are there any government policies or programs mentioned in the coverage that don't seem to come up when people talk about their actual experience?",
+    "rewritten_query": "Are there any government policies or programs mentioned in the coverage that don't seem to come up when people talk about their actual experience?",
+    "memory_used": false,
+    "turn_number": 2,
+    "plan_type": "direct",
+    "tool_selected": "rag_search",
+    "execution_time": 56715.58,
+    "confidence": {
+      "score": 0.363,
+      "level": "LOW",
+      "retrieval_support": "MODERATE",
+      "context_coverage_pct": 37.06
+    },
+    "provider": "OpenAILLMAdapter",
+    "model": "gpt-5"
+  },
+  {
+    "timestamp": "2026-08-29T07:57:58.094869+00:00",
+    "session_id": "test_multi_turn_seq_session",
+    "user_query": "Tell me about the flood situation in Assam.",
+    "rewritten_query": "Tell me about the flood situation in Assam.",
+    "memory_used": false,
+    "turn_number": 3,
+    "plan_type": "direct",
+    "tool_selected": "rag_search",
+    "execution_time": 33367.78,
+    "confidence": {
+      "score": 0.6514,
+      "level": "MEDIUM",
+      "retrieval_support": "MODERATE",
+      "context_coverage_pct": 58.89
+    },
+    "provider": "OpenAILLMAdapter",
+    "model": "gpt-5"
+  },
+  {
+    "timestamp": "2026-08-29T07:58:06.775490+00:00",
+    "session_id": "test_multi_turn_seq_session",
+    "user_query": "Which districts are worst affected?",
+    "rewritten_query": "Which districts are worst affected in Assam?",
+    "memory_used": true,
+    "turn_number": 4,
+    "plan_type": "followup",
+    "tool_selected": "rag_search",
+    "execution_time": 8672.78,
+    "confidence": {
+      "score": 0.5811,
+      "level": "MEDIUM",
+      "retrieval_support": "MODERATE",
+      "context_coverage_pct": 65.04
+    },
+    "provider": "OpenAILLMAdapter",
+    "model": "gpt-5"
+  },
+  {
+    "timestamp": "2026-08-29T07:58:54.706157+00:00",
+    "session_id": "test_multi_turn_seq_session",
+    "user_query": "What about Patna?",
+    "rewritten_query": "Latest updates on the 2026 monsoon flood situation in Patna, Bihar, including affected areas, casualties, evacuations, and official advisories.",
+    "memory_used": true,
+    "turn_number": 5,
+    "plan_type": "followup",
+    "tool_selected": "rag_search",
+    "execution_time": 47922.9,
+    "confidence": {
+      "score": 0.6059,
+      "level": "MEDIUM",
+      "retrieval_support": "MODERATE",
+      "context_coverage_pct": 52.29
+    },
+    "provider": "OpenAILLMAdapter",
+    "model": "gpt-5"
+  },
+  {
+    "timestamp": "2026-08-29T07:59:45.155403+00:00",
+    "session_id": "test_multi_turn_seq_session",
+    "user_query": "Compare the flood impacts in Assam and Bihar",
+    "rewritten_query": "Compare the flood impacts in Assam and Bihar",
+    "memory_used": false,
+    "turn_number": 6,
+    "plan_type": "comparison",
+    "tool_selected": "rag_search",
+    "execution_time": 50441.24,
+    "confidence": {
+      "score": 0.6876,
+      "level": "HIGH",
+      "retrieval_support": "STRONG",
+      "context_coverage_pct": 90.0
+    },
+    "provider": "OpenAILLMAdapter",
+    "model": "gpt-5"
+  },
+  {
+    "timestamp": "2026-08-29T11:10:10.755361+00:00",
+    "session_id": "f89183cb86d8",
+    "user_query": "What is the flood situation in Assam?",
+    "rewritten_query": "What is the flood situation in Assam?",
+    "memory_used": false,
+    "turn_number": 1,
+    "plan_type": "direct",
+    "tool_selected": "rag_search",
+    "execution_time": 32817.55,
+    "confidence": {
+      "score": 0.5806,
+      "level": "HIGH",
+      "retrieval_support": "STRONG",
+      "context_coverage_pct": 27.43
+    },
+    "provider": "OpenAILLMAdapter",
+    "model": "gpt-5"
+  },
+  {
+    "timestamp": "2026-08-29T11:53:50.816799+00:00",
+    "session_id": "9879539c21ae",
+    "user_query": "What is the flood situation in Assam?",
+    "rewritten_query": "What is the flood situation in Assam?",
+    "memory_used": false,
+    "turn_number": 1,
+    "plan_type": "direct",
+    "tool_selected": "rag_search",
+    "execution_time": 33951.77,
+    "confidence": {
+      "score": 0.5806,
+      "level": "HIGH",
+      "retrieval_support": "STRONG",
+      "context_coverage_pct": 27.43
+    },
+    "provider": "OpenAILLMAdapter",
+    "model": "gpt-5"
+  },
+  {
+    "timestamp": "2026-08-29T12:46:38.039516+00:00",
+    "session_id": "6de13cf924ce",
+    "user_query": "What is the flood situation in Assam?",
+    "rewritten_query": "What is the flood situation in Assam?",
+    "memory_used": false,
+    "turn_number": 1,
+    "plan_type": "direct",
+    "tool_selected": "rag_search",
+    "execution_time": 34440.43,
+    "confidence": {
+      "score": 0.5806,
+      "level": "HIGH",
+      "retrieval_support": "STRONG",
+      "context_coverage_pct": 27.43
+    },
+    "provider": "OpenAILLMAdapter",
+    "model": "gpt-5"
+  },
+  {
+    "timestamp": "2026-08-29T13:06:36.069246+00:00",
+    "session_id": "f7c6c7af288a",
+    "user_query": "What are people saying about landslides and rainfall in Himachal Pradesh or Kerala?",
+    "rewritten_query": "What are people saying about landslides and rainfall in Himachal Pradesh or Kerala?",
+    "memory_used": false,
+    "turn_number": 1,
+    "plan_type": "direct",
+    "tool_selected": "rag_search",
+    "execution_time": 1319.94,
+    "confidence": {
+      "score": 0.0,
+      "level": "INSUFFICIENT",
+      "retrieval_support": "NONE",
+      "context_coverage_pct": 0.0
+    },
+    "provider": "OpenAILLMAdapter",
+    "model": "gpt-5"
+  },
+  {
+    "timestamp": "2026-08-29T13:07:18.695519+00:00",
+    "session_id": "72e1f713aff1",
+    "user_query": "What is the official flood situation in Assam and NDRF deployment?",
+    "rewritten_query": "What is the official flood situation in Assam and NDRF deployment?",
+    "memory_used": false,
+    "turn_number": 1,
+    "plan_type": "direct",
+    "tool_selected": "rag_search",
+    "execution_time": 42610.0,
+    "confidence": {
+      "score": 0.5631,
+      "level": "MEDIUM",
+      "retrieval_support": "MODERATE",
+      "context_coverage_pct": 32.94
+    },
+    "provider": "OpenAILLMAdapter",
+    "model": "gpt-5"
+  },
+  {
+    "timestamp": "2026-08-29T13:07:43.443900+00:00",
+    "session_id": "dedd9f7e704f",
+    "user_query": "Give an overview of recent disaster damages in India.",
+    "rewritten_query": "Give an overview of recent disaster damages in India.",
+    "memory_used": false,
+    "turn_number": 1,
+    "plan_type": "summarization",
+    "tool_selected": "rag_search",
+    "execution_time": 24736.2,
+    "confidence": {
+      "score": 0.5447,
+      "level": "MEDIUM",
+      "retrieval_support": "MODERATE",
+      "context_coverage_pct": 30.29
+    },
+    "provider": "OpenAILLMAdapter",
+    "model": "gpt-5"
+  },
+  {
+    "timestamp": "2026-08-29T13:07:56.489709+00:00",
+    "session_id": "a2df3fbeb60a",
+    "user_query": "Is August a safe time to visit Munnar or Kodaikanal according to reddit?",
+    "rewritten_query": "Is August a safe time to visit Munnar or Kodaikanal according to reddit?",
+    "memory_used": false,
+    "turn_number": 1,
+    "plan_type": "direct",
+    "tool_selected": "rag_search",
+    "execution_time": 881.42,
+    "confidence": {
+      "score": 0.0,
+      "level": "INSUFFICIENT",
+      "retrieval_support": "NONE",
+      "context_coverage_pct": 0.0
+    },
+    "provider": "OpenAILLMAdapter",
+    "model": "gpt-5"
+  },
+  {
+    "timestamp": "2026-08-29T13:26:12.115339+00:00",
+    "session_id": "9f899698190e",
+    "user_query": "Is it safe to travel to Munnar or Ooty in August amidst recent rainfall and landslides according to Reddit discussions?",
+    "rewritten_query": "Is it safe to travel to Munnar or Ooty in August amidst recent rainfall and landslides according to Reddit discussions?",
+    "memory_used": false,
+    "turn_number": 1,
+    "plan_type": "direct",
+    "tool_selected": "rag_search",
+    "execution_time": 22877.92,
+    "confidence": {
+      "score": 0.6089,
+      "level": "HIGH",
+      "retrieval_support": "STRONG",
+      "context_coverage_pct": 20.34
+    },
+    "provider": "OpenAILLMAdapter",
+    "model": "gpt-5"
+  },
+  {
+    "timestamp": "2026-08-29T13:26:44.303959+00:00",
+    "session_id": "f7b7dbabe424",
+    "user_query": "What is the official flood situation in Assam and NDRF deployment?",
+    "rewritten_query": "What is the official flood situation in Assam and NDRF deployment?",
+    "memory_used": false,
+    "turn_number": 1,
+    "plan_type": "direct",
+    "tool_selected": "rag_search",
+    "execution_time": 32167.05,
+    "confidence": {
+      "score": 0.6573,
+      "level": "HIGH",
+      "retrieval_support": "STRONG",
+      "context_coverage_pct": 42.17
+    },
+    "provider": "OpenAILLMAdapter",
+    "model": "gpt-5"
+  },
+  {
+    "timestamp": "2026-08-29T13:27:09.975795+00:00",
+    "session_id": "4c223264fcae",
+    "user_query": "Give an overview of recent disaster damages in India.",
+    "rewritten_query": "Give an overview of recent disaster damages in India.",
+    "memory_used": false,
+    "turn_number": 1,
+    "plan_type": "summarization",
+    "tool_selected": "rag_search",
+    "execution_time": 25656.04,
+    "confidence": {
+      "score": 0.5428,
+      "level": "MEDIUM",
+      "retrieval_support": "MODERATE",
+      "context_coverage_pct": 24.77
+    },
+    "provider": "OpenAILLMAdapter",
+    "model": "gpt-5"
+  },
+  {
+    "timestamp": "2026-08-29T13:28:15.686924+00:00",
+    "session_id": "823dc6756552",
+    "user_query": "What is the flood situation in Assam?",
+    "rewritten_query": "What is the flood situation in Assam?",
+    "memory_used": false,
+    "turn_number": 1,
+    "plan_type": "direct",
+    "tool_selected": "rag_search",
+    "execution_time": 29884.47,
+    "confidence": {
+      "score": 0.6765,
+      "level": "HIGH",
+      "retrieval_support": "STRONG",
+      "context_coverage_pct": 39.91
+    },
+    "provider": "OpenAILLMAdapter",
+    "model": "gpt-5"
+  },
+  {
+    "timestamp": "2026-08-29T13:38:16.386486+00:00",
+    "session_id": "5302f23b1204",
+    "user_query": "Is it safe to travel to Munnar or Ooty in August amidst recent rainfall and landslides according to Reddit discussions?",
+    "rewritten_query": "Is it safe to travel to Munnar or Ooty in August amidst recent rainfall and landslides according to Reddit discussions?",
+    "memory_used": false,
+    "turn_number": 1,
+    "plan_type": "direct",
+    "tool_selected": "rag_search",
+    "execution_time": 27278.73,
+    "confidence": {
+      "score": 0.6089,
+      "level": "HIGH",
+      "retrieval_support": "STRONG",
+      "context_coverage_pct": 20.34
+    },
+    "provider": "OpenAILLMAdapter",
+    "model": "gpt-5"
+  },
+  {
+    "timestamp": "2026-08-29T13:55:25.370893+00:00",
+    "session_id": "2398af769245",
+    "user_query": "Is it safe to travel to Munnar or Ooty in August amidst recent rainfall and landslides according to Reddit discussions?",
+    "rewritten_query": "Is it safe to travel to Munnar or Ooty in August amidst recent rainfall and landslides according to Reddit discussions?",
+    "memory_used": false,
+    "turn_number": 1,
+    "plan_type": "direct",
+    "tool_selected": "rag_search",
+    "execution_time": 28413.73,
+    "confidence": {
+      "score": 0.6089,
+      "level": "HIGH",
+      "retrieval_support": "STRONG",
+      "context_coverage_pct": 20.34
+    },
+    "provider": "OpenAILLMAdapter",
+    "model": "gpt-5"
+  },
+  {
+    "timestamp": "2026-08-29T13:55:49.010995+00:00",
+    "session_id": "d733f9c61b29",
+    "user_query": "What is the official flood situation in Assam and NDRF deployment?",
+    "rewritten_query": "What is the official flood situation in Assam and NDRF deployment?",
+    "memory_used": false,
+    "turn_number": 1,
+    "plan_type": "direct",
+    "tool_selected": "rag_search",
+    "execution_time": 23625.03,
+    "confidence": {
+      "score": 0.6573,
+      "level": "HIGH",
+      "retrieval_support": "STRONG",
+      "context_coverage_pct": 42.17
+    },
+    "provider": "OpenAILLMAdapter",
+    "model": "gpt-5"
+  },
+  {
+    "timestamp": "2026-08-29T13:56:11.200783+00:00",
+    "session_id": "7de34d4f43ea",
+    "user_query": "Give an overview of recent disaster damages in India.",
+    "rewritten_query": "Give an overview of recent disaster damages in India.",
+    "memory_used": false,
+    "turn_number": 1,
+    "plan_type": "summarization",
+    "tool_selected": "rag_search",
+    "execution_time": 22158.7,
+    "confidence": {
+      "score": 0.5428,
+      "level": "MEDIUM",
+      "retrieval_support": "MODERATE",
+      "context_coverage_pct": 24.77
+    },
+    "provider": "OpenAILLMAdapter",
+    "model": "gpt-5"
   }
 ]

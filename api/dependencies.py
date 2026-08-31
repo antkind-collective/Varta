@@ -19,7 +19,7 @@ _SERVER_START_TIME: float = time.time()
 _ASSISTANT_CONTROLLER: Optional[AssistantController] = None
 
 def _ensure_seed_metadata(project_root: Path, sqlite_path: Path, gz_path: Optional[Path] = None, force: bool = False):
-    expected_total = 49374
+    expected_total = 10210
     needs_sync = force
     
     candidate_gz_paths = [
@@ -51,12 +51,13 @@ def _ensure_seed_metadata(project_root: Path, sqlite_path: Path, gz_path: Option
                     cursor.execute("SELECT source_dataset, COUNT(*) FROM chunk_metadata GROUP BY source_dataset")
                     rows = dict(cursor.fetchall())
                     total = sum(rows.values())
-                    if total != expected_total or "master_news_corpus" not in rows or "sagar_reddit_dataset" not in rows:
+                    if total != expected_total or "sagar_reddit_dataset" not in rows or "master_news_corpus" in rows:
                         needs_sync = True
                 conn.close()
             except Exception as e:
                 logger.warning(f"Error checking existing metadata.sqlite ({e}), flagging for sync...")
                 needs_sync = True
+
 
     if needs_sync and valid_gz and valid_gz.exists():
         import gzip

@@ -37,10 +37,11 @@ This document establishes the exact state of the system for handover, detailing 
 
 ### 1.5 Live Railway Production Deployment
 - **Live URL:** `https://varta-production-749d.up.railway.app`
-- **Indexed Production Corpus (49,374 vectors total):**
-  - `master_news_corpus`: **39,164 chunks** (Gold standard verified news corpus across Assam/Bihar flood events)
+- **Indexed Production Corpus (10,210 vectors total):**
   - `sagar_reddit_dataset`: **10,210 chunks** (Real Reddit discussions, community updates, and megathread posts)
+  - *(Note: `master_news_corpus` was permanently pruned and removed along with raw CSV files to free ~265 MB disk space to remain well within Railway's 500 MB persistent volume limit).*
 - **Deployment Engine:** Docker container with automated database integrity synchronization on startup via `src/seed_metadata.sqlite.gz` and fallback on-demand endpoint (`/dataset/sync-seed`).
+
 
 ---
 
@@ -103,11 +104,12 @@ VARTA/
 │   │   ├── generated_disaster_taxonomy.md     # Approved v1 coding taxonomy
 │   │   └── sample_classification_results.md  # 2,500-sample statistical report
 │   └── vector_db/
-│       ├── faiss_index.bin      # FAISS Dense Vector Index (49,382 vectors, 384 dim)
-│       └── metadata.sqlite      # SQLite metadata database (49,374 rows)
+│       ├── faiss_index.bin      # FAISS Dense Vector Index (10,210 vectors, 384 dim, 14.96 MB)
+│       └── metadata.sqlite      # SQLite metadata database (10,210 rows, 24.09 MB)
 ├── scripts/
 │   ├── run_sample_taxonomy_classification.py # Sample taxonomy tagging & SQL aggregations
 │   ├── test_live_uvicorn_startup.py          # Local container startup simulator
+│   ├── remove_master_news_corpus.py          # Pruning & disk reclamation script
 │   └── rebuild_faiss_index.py                # FAISS indexing & metadata alignment script
 ├── src/
 │   ├── assistant_controller.py  # Central workflow orchestrator
@@ -115,7 +117,7 @@ VARTA/
 │   ├── prompt_builder.py        # Natural conversational prompt constructor
 │   ├── metadata_store.py        # SQLite relational metadata layer & scoping queries
 │   ├── vector_database.py       # FAISS vector database facade & search engine
-│   ├── seed_metadata.sqlite.gz  # 23.8 MB compressed seed archive for Docker container sync
+│   ├── seed_metadata.sqlite.gz  # 4.38 MB compressed seed archive for Docker container sync
 │   └── taxonomy_generator.py    # Inducto-deductive taxonomy generator
 ├── static/
 │   ├── app.js                   # Frontend client logic & dataset chip picker

@@ -57,7 +57,9 @@ def test_uvicorn_startup():
         with urllib.request.urlopen(req_d, timeout=15) as resp:
             ds_resp = json.loads(resp.read().decode("utf-8"))
             print("[2] /datasets/list response:", ds_resp)
-            assert ds_resp.get("total_datasets", 0) >= 2, "Expected at least 2 datasets"
+            assert ds_resp.get("total_chunks") == 10210, f"Expected 10210 chunks, got {ds_resp.get('total_chunks')}"
+            assert ds_resp.get("total_datasets") == 1, f"Expected 1 dataset, got {ds_resp.get('total_datasets')}"
+
             
         # Test /session
         req_s = urllib.request.Request(f"http://127.0.0.1:{port}/session", data=b"", headers={"Content-Type": "application/json"})
