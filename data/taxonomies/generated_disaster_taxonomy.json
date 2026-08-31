@@ -1,0 +1,497 @@
+{
+  "project_title": "Assam & Regional Disaster Discourse Study",
+  "research_objectives_summary": "This taxonomy operationalizes four analytical dimensions aligned to the brief: primary communicative frame, causal attribution, temporal phase in the disaster lifecycle, and public stance/action demands. Each dimension is designed for automated, document-level categorical coding to enable statistical summaries (proportions, cross-tabs, margins of error). The scheme is informed by observed corpus patterns across floods, landslides, cloudbursts, drainage failures, dam operations, alerts, relief, governance debates, and metaphorical uses of 'flood'. It includes explicit 'non-disaster/metaphorical' and 'no-causal-claim' categories to ensure exhaustiveness for mixed news streams.",
+  "dimensions": [
+    {
+      "dimension_id": "dim_primary_frame",
+      "name": "Primary Communicative Frame",
+      "description": "Identifies the dominant informational or argumentative lens used to discuss the event/topic.",
+      "is_multi_label": false,
+      "categories": [
+        {
+          "code": "F1",
+          "name": "Forecasts, Alerts & Hazard Monitoring",
+          "definition": "Texts primarily focused on meteorological/hydrological forecasts, warnings, watches, river-level bulletins, and surveillance of potential hazards before or during events.",
+          "inclusion_rules": [
+            "Mentions of IMD/meteorological alerts, watches, advisories (yellow/orange/red alerts).",
+            "Hydrological bulletins: river 'in spate', 'danger mark', 'warning level', gate operations announced as precaution.",
+            "Real-time monitoring terms: 'tracking', 'surveillance', 'control room activated', 'CCTV monitoring (for hazard management)'.",
+            "School/office closures as precaution due to forecast."
+          ],
+          "exclusion_rules": [
+            "If the text centers on damages/impacts already realized, code F3.",
+            "If emphasis is on response/relief/rescue operations, code F4.",
+            "If the focus is long-term planning or drainage/embankment upgrades, code F5."
+          ],
+          "example_indicators": [
+            "IMD issues yellow/orange/red alert",
+            "river level near/above danger mark",
+            "forecast of heavy rain/cloudburst",
+            "pre-emptive gate opening/closing",
+            "flash flood warning"
+          ]
+        },
+        {
+          "code": "F2",
+          "name": "Risk, Vulnerability & Preparedness Assessment",
+          "definition": "Analytical/diagnostic focus on exposure of specific places or groups, structural vulnerabilities, seasonal readiness, drills, capacity building, and scenario planning.",
+          "inclusion_rules": [
+            "Discussions of 'vulnerable hotspots', 'landslide-prone', 'floodplain exposure', 'encroachment risks'.",
+            "Preparedness activities: mock drills, SDRF formation, equipment audits, early warning system upgrades.",
+            "Expert assessments, risk maps, GSI studies, urban flood risk diagnostics."
+          ],
+          "exclusion_rules": [
+            "If it is about policy politics/funding/tribunals or administrative decisions, code F5.",
+            "If centered on real-time alerts, code F1.",
+            "If centered on impact or response, code F3 or F4 as appropriate."
+          ],
+          "example_indicators": [
+            "vulnerable locations reduced/increased",
+            "drain capacity assessment",
+            "mock drill",
+            "hotspots",
+            "readiness, monsoon preparedness"
+          ]
+        },
+        {
+          "code": "F3",
+          "name": "Impact, Disruption & Damage",
+          "definition": "Primary emphasis on realized consequences: inundation, casualties, displacements, transport disruption, landslides, school closures due to impact.",
+          "inclusion_rules": [
+            "Reports of deaths/missing, marooned, waterlogging, embankment breach, dam inflow records with downstream effects.",
+            "Transport/utility disruptions: highways shut, trains halted, power/water outages.",
+            "Damage/cost figures, loss of crops/housing/livelihoods."
+          ],
+          "exclusion_rules": [
+            "If focus is on rescue/relief operations or compensation delivery, code F4.",
+            "If mainly blaming or debating institutions/policies, code F5."
+          ],
+          "example_indicators": [
+            "roads/highways blocked",
+            "trains halted",
+            "houses submerged",
+            "casualties/missing",
+            "landslide/embankment breach"
+          ]
+        },
+        {
+          "code": "F4",
+          "name": "Emergency Response, Relief, Compensation & Community Solidarity",
+          "definition": "Emphasis on organized response (NDRF/SDRF/police/administration), evacuations, relief camps, ex gratia/compensation, and community-led mutual aid and heroism.",
+          "inclusion_rules": [
+            "Mentions of rescue operations, boats deployed, search for missing.",
+            "Relief camps, rations, medical aid, ex gratia payments, housing support.",
+            "Community actions: volunteers, NGOs, neighbors rescuing animals/people."
+          ],
+          "exclusion_rules": [
+            "If the piece primarily evaluates policies, funding, or inter-governmental disputes, code F5.",
+            "If the focus is tallying damage without response emphasis, code F3."
+          ],
+          "example_indicators": [
+            "NDRF/SDRF deployment",
+            "rescue operation continues",
+            "relief camp",
+            "compensation/ex gratia",
+            "volunteers, community kitchen, mutual aid"
+          ]
+        },
+        {
+          "code": "F5",
+          "name": "Governance, Policy & Institutional Politics",
+          "definition": "Primary focus on governmental decisions, budgets, tribunals, inter-state/transboundary water governance, institutional accountability/critique, and long-term policy solutions (e.g., drainage plans, embankment strategy).",
+          "inclusion_rules": [
+            "Budget asks for preparedness, SDRF establishment, disaster governance reforms.",
+            "Debates on dam operations, barrage gate policies, tribunal inspections, inter-state water disputes.",
+            "Political critiques, allegations of negligence/corruption, administrative audits and court/NGT actions."
+          ],
+          "exclusion_rules": [
+            "If primarily about real-time operations or human-interest rescue stories, code F4.",
+            "If centered on scientific/technical risk assessment without politics, code F2."
+          ],
+          "example_indicators": [
+            "disaster preparedness funding",
+            "tribunal visit/hearing",
+            "policy blueprint/drainage plan",
+            "allegations of negligence/mismanagement",
+            "inter-state water dispute"
+          ]
+        },
+        {
+          "code": "F6",
+          "name": "Non-Disaster/Metaphorical/Unrelated",
+          "definition": "Texts not substantively about hydrometeorological disasters or related governance; includes metaphorical uses of 'flood', unrelated accidents, or general news with incidental weather mentions.",
+          "inclusion_rules": [
+            "Metaphorical usage: 'flooded with applications', 'flood of replies'.",
+            "Unrelated topics: sports, finance, entertainment, general administration, human-wildlife conflict without disaster linkage.",
+            "Weather items without hazard/disaster nexus (e.g., routine fog advisories without risk framing)."
+          ],
+          "exclusion_rules": [
+            "If any substantive portion addresses flood/landslide/flash flood/cyclone impacts, alerts, response, or governance, prefer F1–F5 based on dominant focus.",
+            "If drowning/boat mishap is explicitly embedded in flood/river hazard context, do not use F6; use F3 or F4."
+          ],
+          "example_indicators": [
+            "market flooded with offers",
+            "platform flooded with posts",
+            "sports commentary using 'flood'",
+            "routine weather comfort info only"
+          ]
+        }
+      ]
+    },
+    {
+      "dimension_id": "dim_causal_attribution",
+      "name": "Causal Attribution & Responsibility",
+      "description": "Captures the explicit or dominant causal explanation for the hazard/impact or its severity.",
+      "is_multi_label": false,
+      "categories": [
+        {
+          "code": "C1",
+          "name": "Natural/Meteorological Extremes",
+          "definition": "Attribution primarily to weather-climate drivers or fluvial dynamics beyond immediate human control.",
+          "inclusion_rules": [
+            "Mentions of heavy rain, cloudburst, monsoon surge, upstream rainfall (e.g., in Nepal/Bhutan), river in spate, cyclones.",
+            "References to IMD forecasts as cause of flooding/landslides when intensity is emphasized."
+          ],
+          "exclusion_rules": [
+            "If text blames dam releases/embankment breach/blocked drains, code C2.",
+            "If it blames encroachment, wetland loss, garbage choking drains, code C3.",
+            "If it emphasizes administrative negligence or corruption, code C4.",
+            "If framed as 'act of God' or fate without meteorological specificity, consider C5."
+          ],
+          "example_indicators": [
+            "मूसलाधार बारिश",
+            "cloudburst",
+            "upstream surge",
+            "torrential monsoon",
+            "cyclone red alert"
+          ]
+        },
+        {
+          "code": "C2",
+          "name": "Infrastructure/Engineering & Water-Management Failures",
+          "definition": "Attribution to failure or mismanagement of hard infrastructure and operational decisions that modulate flows or protect settlements.",
+          "inclusion_rules": [
+            "Embankment/dyke/ring-bund breach, dam/barrage gate misoperation or sudden releases, culvert failures.",
+            "Drainage infrastructure capacity shortfall or maintenance failure (silted/stuck pumps)."
+          ],
+          "exclusion_rules": [
+            "If the core claim is about land-use encroachment or wetland destruction, code C3.",
+            "If cause is political/administrative negligence beyond specific infrastructure operation (e.g., delayed compensation), code C4.",
+            "If only natural rainfall is mentioned without infra blame, code C1."
+          ],
+          "example_indicators": [
+            "embankment breach",
+            "uncoordinated dam release",
+            "barrage gates closed/opened causing backflow",
+            "blocked drainage/outfalls",
+            "pump failure"
+          ]
+        },
+        {
+          "code": "C3",
+          "name": "Land-Use, Encroachment & Environmental Degradation",
+          "definition": "Attribution to socio-spatial processes and ecological change increasing exposure or impeding natural drainage.",
+          "inclusion_rules": [
+            "Encroachment in floodplains/riparian zones, illegal construction, settlements in riverbeds.",
+            "Wetland/beel/talab loss, deforestation, siltation from sand mining, garbage blocking inlets.",
+            "Urban planning deficits: narrow drains, concretization increasing runoff."
+          ],
+          "exclusion_rules": [
+            "If the emphasis is on specific engineered structure failure, code C2.",
+            "If only weather intensity is cited, code C1.",
+            "If blame is on administrative negligence unrelated to land-use, code C4."
+          ],
+          "example_indicators": [
+            "अतिक्रमण (encroachment) on floodplain",
+            "wetland loss",
+            "garbage choking drains",
+            "unplanned urbanization",
+            "deforestation leading to landslides"
+          ]
+        },
+        {
+          "code": "C4",
+          "name": "Administrative/Governance Lapses",
+          "definition": "Attribution to policy failures, negligence, corruption, delayed response, poor coordination, or inadequate funding/regulation that worsen impacts.",
+          "inclusion_rules": [
+            "Claims of negligence, corruption, double standards, ignoring warnings, lack of dredging funds.",
+            "Court/NGT censure for lapses; political actors blaming each other for flood mismanagement."
+          ],
+          "exclusion_rules": [
+            "If the proximate cause is a technical infrastructure failure, code C2.",
+            "If focus is land-use/environmental encroachment, code C3.",
+            "If no explicit blame is stated, code C6."
+          ],
+          "example_indicators": [
+            "mismanagement/negligence",
+            "no funds for dredging",
+            "ignored alerts",
+            "political blame game",
+            "criminal action ordered for lapses"
+          ]
+        },
+        {
+          "code": "C5",
+          "name": "Fatalistic/Divine/Inevitable",
+          "definition": "Attribution to divine will, fate, or the inherent inevitability of disasters without human or meteorological specificity.",
+          "inclusion_rules": [
+            "Phrases like 'act of God', 'nature’s wrath', 'kismat/भाग्य', 'inevitable fate'.",
+            "Resigned tone disclaiming preventability without reference to specific drivers."
+          ],
+          "exclusion_rules": [
+            "If text specifies weather intensity or hydrology as cause, code C1.",
+            "If it points to human systems (infra/governance/land-use), code C2–C4.",
+            "If no causal statement is made, code C6."
+          ],
+          "example_indicators": [
+            "act of God",
+            "wrath of nature",
+            "कुछ नहीं किया जा सकता (nothing can be done)",
+            "fated/inevitable"
+          ]
+        },
+        {
+          "code": "C6",
+          "name": "No Explicit Causal Claim / Descriptive or Metaphorical",
+          "definition": "Texts that report events or use metaphor without attributing cause.",
+          "inclusion_rules": [
+            "Straight logs of water levels, casualties, operations with no causal statement.",
+            "Metaphorical 'flood' in non-disaster contexts.",
+            "Accidents/drownings without causal framing tied to hazards."
+          ],
+          "exclusion_rules": [
+            "If any causal driver is explicitly stated (C1–C5), do not use C6."
+          ],
+          "example_indicators": [
+            "status updates without 'because/due to'",
+            "metaphorical flood of posts/users",
+            "search continues; cause under investigation"
+          ]
+        }
+      ]
+    },
+    {
+      "dimension_id": "dim_temporal_phase",
+      "name": "Disaster Lifecycle Phase",
+      "description": "Situates the text within the temporal arc of the event: before, during, immediate aftermath, or longer-term recovery/policy.",
+      "is_multi_label": false,
+      "categories": [
+        {
+          "code": "T1",
+          "name": "Anticipatory/Pre-Event Preparedness",
+          "definition": "Forecasts, alerts, readiness checks, school closures ahead of expected impact.",
+          "inclusion_rules": [
+            "IMD alerts, advisories to prepare/evacuate.",
+            "Pre-emptive resource staging, mock drills, gate management as precaution."
+          ],
+          "exclusion_rules": [
+            "If impacts have already occurred (damage, rescue ongoing), code T2 or T3.",
+            "If discussing long-term structural plans not tied to an imminent event, code T4."
+          ],
+          "example_indicators": [
+            "yellow/orange/red alert issued",
+            "prepare/keep umbrellas/evacuate",
+            "monitoring cell activated"
+          ]
+        },
+        {
+          "code": "T2",
+          "name": "Acute Crisis/Ongoing Hazard",
+          "definition": "Real-time or same-day coverage of submergence, landslides, rescues, active alerts during impact.",
+          "inclusion_rules": [
+            "Phrases like 'continues', 'ongoing', 'inundated now', 'rescue underway'.",
+            "Roads blocked, trains halted right now; live updates."
+          ],
+          "exclusion_rules": [
+            "If primarily summarizing after impact with assessments and compensation, code T3.",
+            "If focused on months-long recovery/policy, code T4."
+          ],
+          "example_indicators": [
+            "rescue operations continue",
+            "villages marooned",
+            "flash flood hits",
+            "river breaching embankment now"
+          ]
+        },
+        {
+          "code": "T3",
+          "name": "Immediate Aftermath & Relief",
+          "definition": "Post-event assessments over days/weeks: tallying losses, compensation announcements, relief distribution.",
+          "inclusion_rules": [
+            "Damage/loss assessment, death tolls, relief camps running, ex gratia declared.",
+            "Restoration of services underway."
+          ],
+          "exclusion_rules": [
+            "If still framed as unfolding crisis, code T2.",
+            "If about long-term plans beyond the immediate relief window, code T4."
+          ],
+          "example_indicators": [
+            "limping back to normal",
+            "compensation announced",
+            "relief camps house X people",
+            "assessment teams deployed"
+          ]
+        },
+        {
+          "code": "T4",
+          "name": "Recovery, Mitigation & Policy (Off-season/Non-acute)",
+          "definition": "Longer-term reconstruction, mitigation, tribunal/policy deliberations, drainage/embankment plans, budgets.",
+          "inclusion_rules": [
+            "Blueprints, audits, tribunal field visits, SDRF formation, budget requests for cyclone shelters.",
+            "Critiques of past seasons; planning for next season."
+          ],
+          "exclusion_rules": [
+            "If tied to an imminent hazard or real-time event, code T1 or T2.",
+            "If primarily immediate relief accounting, code T3."
+          ],
+          "example_indicators": [
+            "new drainage plan approved",
+            "tribunal visits dam",
+            "preparedness funding",
+            "civil defence volunteers formed"
+          ]
+        },
+        {
+          "code": "T5",
+          "name": "No Event-Specific Temporal Context / Unrelated",
+          "definition": "Texts lacking a disaster lifecycle anchor (e.g., metaphorical usage, unrelated news, general climate statistics without an event phase).",
+          "inclusion_rules": [
+            "Metaphorical 'flood' in non-disaster context.",
+            "Political statements referencing floods abstractly without time-bounding.",
+            "Routine weather comfort pieces (e.g., fog) without hazard framing."
+          ],
+          "exclusion_rules": [
+            "If any of T1–T4 clearly applies, do not use T5."
+          ],
+          "example_indicators": [
+            "no dates/phases referenced",
+            "figurative language only",
+            "generic trend without event"
+          ]
+        }
+      ]
+    },
+    {
+      "dimension_id": "dim_stance_action",
+      "name": "Public Stance & Action Demands",
+      "description": "Captures emotional tone and prescriptive calls (who should do what). Multiple stances may co-occur.",
+      "is_multi_label": true,
+      "categories": [
+        {
+          "code": "A1",
+          "name": "Accountability & Blame Demands",
+          "definition": "Expresses critique, outrage, or demands for inquiry, punishment, compensation, or political responsibility.",
+          "inclusion_rules": [
+            "Calls for probe, resignation, criminal action, allegations of negligence/corruption.",
+            "Public anger over delayed response, inadequate aid."
+          ],
+          "exclusion_rules": [
+            "Neutral reporting of policy actions without evaluative tone should not be coded A1 (use A6 if no other stance).",
+            "Fatalistic tone without explicit blame should be A3."
+          ],
+          "example_indicators": [
+            "demand action/inquiry",
+            "negligence/mismanagement",
+            "double standards",
+            "criminal proceedings ordered",
+            "why no permanent solution?"
+          ]
+        },
+        {
+          "code": "A2",
+          "name": "Solidarity, Mutual Aid & Heroism",
+          "definition": "Highlights community cooperation, volunteerism, humanitarian ethos, or individual acts of bravery.",
+          "inclusion_rules": [
+            "Mentions of volunteers, NGOs, donations, community kitchens, rescuing animals/people.",
+            "Commendations of collective spirit."
+          ],
+          "exclusion_rules": [
+            "Purely official relief logistics without community emphasis should not be A2 (consider A4/A6)."
+          ],
+          "example_indicators": [
+            "volunteers mobilized",
+            "donation drives",
+            "community helps evacuate",
+            "rescues calf/child",
+            "mutual aid"
+          ]
+        },
+        {
+          "code": "A3",
+          "name": "Resignation, Vulnerability & Fatalism",
+          "definition": "Expresses helplessness, inevitability, or chronic vulnerability without actionable demands.",
+          "inclusion_rules": [
+            "Phrases like 'every year we suffer', 'nothing changes', 'God’s will', 'we can’t do anything'.",
+            "Emphasis on enduring hardship, displacement as routine."
+          ],
+          "exclusion_rules": [
+            "If paired with demands for action, also code A1; do not substitute A3."
+          ],
+          "example_indicators": [
+            "helplessness",
+            "inevitable",
+            "हर साल बाढ़ का कष्ट",
+            "act of God",
+            "we live with risk"
+          ]
+        },
+        {
+          "code": "A4",
+          "name": "Safety Advisories & Precautionary Calls",
+          "definition": "Calls for concrete protective behaviors or compliance with advisories.",
+          "inclusion_rules": [
+            "Evacuate, avoid low-lying areas, stay indoors, school closures for safety.",
+            "Helpline numbers, do’s and don’ts, route diversions."
+          ],
+          "exclusion_rules": [
+            "If the message is institutional achievement or policy assurance rather than immediate precautions, prefer A6 or none."
+          ],
+          "example_indicators": [
+            "evacuation ordered",
+            "keep umbrellas/avoid travel",
+            "helpline issued",
+            "traffic advisory/diversion"
+          ]
+        },
+        {
+          "code": "A5",
+          "name": "Resilience & Return-to-Normal",
+          "definition": "Optimistic or steadying tone emphasizing recovery, continuity, or systems functioning.",
+          "inclusion_rules": [
+            "Life returning to normal, services restored, 'city limping back', readiness reassurances.",
+            "Positive framing of coping capacity."
+          ],
+          "exclusion_rules": [
+            "If framed as self-congratulatory governance without recovery signals, use A6.",
+            "If paired with critique, also code A1."
+          ],
+          "example_indicators": [
+            "life normalizes",
+            "limping back to normal",
+            "services restored",
+            "situation under control"
+          ]
+        },
+        {
+          "code": "A6",
+          "name": "Neutral/Informational Only",
+          "definition": "Primarily factual without discernible affect or prescriptive calls.",
+          "inclusion_rules": [
+            "Straight reporting of levels, counts, logistics, schedules, without evaluation or demands."
+          ],
+          "exclusion_rules": [
+            "If any of A1–A5 signals are present, do not apply A6."
+          ],
+          "example_indicators": [
+            "water level at X m",
+            "X gates opened",
+            "X teams deployed",
+            "basic bulletin language"
+          ]
+        }
+      ]
+    }
+  ],
+  "dataset_sample_size": 500,
+  "created_at": "2026-08-27 20:47:09"
+}
