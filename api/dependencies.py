@@ -18,45 +18,74 @@ logger = logging.getLogger("VARTA.Dependencies")
 _SERVER_START_TIME: float = time.time()
 _ASSISTANT_CONTROLLER: Optional[AssistantController] = None
 
-def _ensure_seed_metadata(project_root: Path, sqlite_path: Path, gz_path: Path):
+def _ensure_seed_metadata(project_root: Path, sqlite_path: Path, gz_path: Optional[Path] = None, force: bool = False):
     expected_total = 49374
-    needs_sync = False
+    needs_sync = force
     
-    if not sqlite_path.exists():
-        needs_sync = True
-    else:
-        try:
-            import sqlite3
-            conn = sqlite3.connect(str(sqlite_path))
-            cursor = conn.cursor()
-            cursor.execute("SELECT source_dataset, COUNT(*) FROM chunk_metadata GROUP BY source_dataset")
-            rows = dict(cursor.fetchall())
-            total = sum(rows.values())
-            conn.close()
-            if total != expected_total or "master_news_corpus" not in rows or "sagar_reddit_dataset" not in rows:
-                needs_sync = True
-        except Exception as e:
-            logger.warning(f"Error checking existing metadata.sqlite ({e}), flagging for sync...")
-            needs_sync = True
+    candidate_gz_paths = [
+        project_root / "src" / "seed_metadata.sqlite.gz",
+        project_root / "data" / "vector_db" / "metadata.sqlite.gz",
+        sqlite_path.parent / "metadata.sqlite.gz"
+    ]
+    if gz_path:
+        candidate_gz_paths.insert(0, gz_path)
 
-    if needs_sync and gz_path.exists():
+    valid_gz = None
+    for p in candidate_gz_paths:
+        if p.exists() and p.is_file():
+            valid_gz = p
+            break
+
+    if not needs_sync:
+        if not sqlite_path.exists():
+            needs_sync = True
+        else:
+            try:
+                import sqlite3
+                conn = sqlite3.connect(str(sqlite_path))
+                cursor = conn.cursor()
+                cursor.execute("SELECT name FROM sqlite_master WHERE type='table' AND name='chunk_metadata'")
+                if not cursor.fetchone():
+                    needs_sync = True
+                else:
+                    cursor.execute("SELECT source_dataset, COUNT(*) FROM chunk_metadata GROUP BY source_dataset")
+                    rows = dict(cursor.fetchall())
+                    total = sum(rows.values())
+                    if total != expected_total or "master_news_corpus" not in rows or "sagar_reddit_dataset" not in rows:
+                        needs_sync = True
+                conn.close()
+            except Exception as e:
+                logger.warning(f"Error checking existing metadata.sqlite ({e}), flagging for sync...")
+                needs_sync = True
+
+    if needs_sync and valid_gz and valid_gz.exists():
         import gzip
         import shutil
-        logger.info("Restoring metadata.sqlite from synchronized gold standard archive...")
+        logger.info(f"Restoring metadata.sqlite from synchronized gold standard archive: {valid_gz}...")
+        sqlite_path.parent.mkdir(parents=True, exist_ok=True)
         temp_sqlite = sqlite_path.parent / "metadata_temp.sqlite"
-        with gzip.open(gz_path, "rb") as f_in:
-            with open(temp_sqlite, "wb") as f_out:
-                shutil.copyfileobj(f_in, f_out)
-        if sqlite_path.exists():
-            try:
-                sqlite_path.unlink()
-            except Exception as e:
-                logger.warning(f"Could not unlink old sqlite directly ({e})")
         try:
-            temp_sqlite.replace(sqlite_path)
+            with gzip.open(valid_gz, "rb") as f_in:
+                with open(temp_sqlite, "wb") as f_out:
+                    shutil.copyfileobj(f_in, f_out)
+            if sqlite_path.exists():
+                try:
+                    sqlite_path.unlink()
+                except Exception as e:
+                    logger.warning(f"Could not unlink old sqlite directly ({e})")
+            try:
+                temp_sqlite.replace(sqlite_path)
+            except Exception:
+                with open(temp_sqlite, "rb") as f_in, open(sqlite_path, "wb") as f_out:
+                    shutil.copyfileobj(f_in, f_out)
+                try:
+                    temp_sqlite.unlink()
+                except Exception:
+                    pass
             logger.info("Successfully restored and synchronized 49,374 metadata records into metadata.sqlite.")
         except Exception as e:
-            logger.error(f"Error replacing metadata.sqlite: {e}")
+            logger.error(f"Error extracting metadata archive: {e}", exc_info=True)
+
 
 
 def get_assistant_controller() -> AssistantController:

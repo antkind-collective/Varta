@@ -147,6 +147,33 @@ def list_datasets_endpoint(
         )
 
 @router.post(
+    "/dataset/sync-seed",
+    summary="Synchronize Gold Standard Seed Datasets",
+    description="Forces extraction and reload of the 49,374-record multi-dataset SQLite metadata database."
+)
+@router.get(
+    "/dataset/sync-seed",
+    summary="Synchronize Gold Standard Seed Datasets",
+    include_in_schema=False
+)
+def sync_seed_endpoint() -> Dict[str, Any]:
+    from api.dependencies import _ensure_seed_metadata
+    project_root = Path(__file__).resolve().parent.parent
+    vdb_dir = project_root / "data" / "vector_db"
+    sqlite_file = vdb_dir / "metadata.sqlite"
+    
+    _ensure_seed_metadata(project_root, sqlite_file, force=True)
+    reload_assistant_controller()
+    controller = get_assistant_controller()
+    raw_datasets = controller.get_available_datasets()
+    return {
+        "status": "success",
+        "message": "Seed metadata synchronized successfully.",
+        "datasets": raw_datasets,
+        "total_chunks": sum(d.get("chunk_count", 0) for d in raw_datasets)
+    }
+
+@router.post(
     "/session",
     response_model=SessionCreateResponse,
     status_code=status.HTTP_201_CREATED,
