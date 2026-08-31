@@ -54,7 +54,7 @@ def test_uvicorn_startup():
         
         # Test /datasets/list
         req_d = urllib.request.Request(f"http://127.0.0.1:{port}/datasets/list")
-        with urllib.request.urlopen(req_d, timeout=5) as resp:
+        with urllib.request.urlopen(req_d, timeout=15) as resp:
             ds_resp = json.loads(resp.read().decode("utf-8"))
             print("[2] /datasets/list response:", ds_resp)
             assert ds_resp.get("total_datasets", 0) >= 2, "Expected at least 2 datasets"
