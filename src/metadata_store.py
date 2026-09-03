@@ -390,13 +390,48 @@ class MetadataStore:
     def get_available_datasets(self) -> List[Dict[str, Any]]:
         """
         Returns all distinct source_dataset values currently stored in the metadata store,
-        along with friendly display names, indexed chunk counts, and distinct raw document/video counts.
+        along with friendly display names, indexed chunk counts, distinct raw document counts,
+        and clean disaster record counts (after filtering blank/trivial and out-of-domain noise).
         """
         with self._get_connection() as conn:
             cursor = conn.cursor()
+            
+            disaster_filter_clause = """
+                LENGTH(TRIM(COALESCE(content, ''))) >= 40
+                AND (
+                    LOWER(title || ' ' || content) LIKE '%flood%' OR
+                    LOWER(title || ' ' || content) LIKE '%cyclon%' OR
+                    LOWER(title || ' ' || content) LIKE '%landslide%' OR
+                    LOWER(title || ' ' || content) LIKE '%rain%' OR
+                    LOWER(title || ' ' || content) LIKE '%storm%' OR
+                    LOWER(title || ' ' || content) LIKE '%deluge%' OR
+                    LOWER(title || ' ' || content) LIKE '%inundat%' OR
+                    LOWER(title || ' ' || content) LIKE '%waterlog%' OR
+                    LOWER(title || ' ' || content) LIKE '%river%' OR
+                    LOWER(title || ' ' || content) LIKE '%dam%' OR
+                    LOWER(title || ' ' || content) LIKE '%rescue%' OR
+                    LOWER(title || ' ' || content) LIKE '%relief%' OR
+                    LOWER(title || ' ' || content) LIKE '%ndrf%' OR
+                    LOWER(title || ' ' || content) LIKE '%sdrf%' OR
+                    LOWER(title || ' ' || content) LIKE '%evacuat%' OR
+                    LOWER(title || ' ' || content) LIKE '%disaster%' OR
+                    LOWER(title || ' ' || content) LIKE '%calamity%' OR
+                    LOWER(title || ' ' || content) LIKE '%weather%' OR
+                    LOWER(title || ' ' || content) LIKE '%alert%' OR
+                    LOWER(title || ' ' || content) LIKE '%water%' OR
+                    title || ' ' || content LIKE '%बाढ़%' OR
+                    title || ' ' || content LIKE '%आपदा%'
+                )
+            """
+            
             cursor.execute(
                 f"""
-                SELECT source_dataset, COUNT(*) as count, COUNT(DISTINCT parent_doc_id) as doc_count
+                SELECT 
+                    source_dataset, 
+                    COUNT(*) as count, 
+                    COUNT(DISTINCT parent_doc_id) as doc_count,
+                    COUNT(DISTINCT CASE WHEN {disaster_filter_clause} THEN parent_doc_id END) as clean_doc_count,
+                    COUNT(CASE WHEN {disaster_filter_clause} THEN 1 END) as clean_chunk_count
                 FROM {self.table_name}
                 WHERE source_dataset IS NOT NULL AND TRIM(source_dataset) != ''
                 GROUP BY source_dataset
@@ -407,13 +442,21 @@ class MetadataStore:
             datasets = []
             for row in rows:
                 ds = row["source_dataset"] if isinstance(row, sqlite3.Row) or hasattr(row, "keys") else row[0]
-                cnt = row["count"] if isinstance(row, sqlite3.Row) or hasattr(row, "keys") else row[1]
-                doc_cnt = row["doc_count"] if isinstance(row, sqlite3.Row) or hasattr(row, "keys") else (row[2] if len(row) > 2 else row[1])
+                cnt = int(row["count"] if isinstance(row, sqlite3.Row) or hasattr(row, "keys") else row[1])
+                doc_cnt = int(row["doc_count"] if isinstance(row, sqlite3.Row) or hasattr(row, "keys") else (row[2] if len(row) > 2 else row[1]))
+                clean_docs = int(row["clean_doc_count"] if isinstance(row, sqlite3.Row) or hasattr(row, "keys") else (row[3] if len(row) > 3 else doc_cnt))
+                clean_chunks = int(row["clean_chunk_count"] if isinstance(row, sqlite3.Row) or hasattr(row, "keys") else (row[4] if len(row) > 4 else cnt))
+                noise_docs = max(0, doc_cnt - clean_docs)
+                
                 datasets.append({
                     "source_dataset": ds,
                     "display_name": self._format_dataset_display_name(ds),
-                    "chunk_count": int(cnt),
-                    "doc_count": int(doc_cnt)
+                    "chunk_count": cnt,
+                    "doc_count": doc_cnt,
+                    "raw_doc_count": doc_cnt,
+                    "clean_doc_count": clean_docs,
+                    "clean_chunk_count": clean_chunks,
+                    "noise_doc_count": noise_docs
                 })
             return datasets
 
