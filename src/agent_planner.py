@@ -18,6 +18,13 @@ class AgentPlanner:
         "system status", "system info", "active model", "what model", "system information",
         "token budget", "runtime environment"
     }
+    DATASET_META_PATTERNS = [
+        r"\b(?:how\s+many|total|count|size\s+of)\b.*\b(?:videos?|entries|records?|chunks?|posts?|items?|documents?)\b",
+        r"\b(?:how\s+many)\s+(?:total\s+)?(?:videos?|entries|records?|chunks?|posts?|items?|documents?)\b",
+        r"\b(?:total|size\s+of)\s+(?:videos?|entries|records?|chunks?|posts?|items?|documents?)\b",
+        r"\b(?:cleaning|preprocess(?:ing)?|normalization|sanitization)\s*(?:logic|process|pipeline|steps|method)\b",
+        r"\bhow\s+(?:did\s+you|was\s+the)\s+(?:clean|process|prepare|preprocess)\s+(?:the\s+)?(?:data\s*set|dataset|data)\b"
+    ]
     META_CITATION_PATTERNS = [
         r"why\b.*\b(?:not\s+giving|no|missing|without|don't\s+give|didn't\s+give|not\s+showing|not\s+providing)\b.*\b(?:urls?|links?|sources?|citations?|references?)\b",
         r"why\b.*\b(?:doc\s*ids?|document\s*ids?)\b.*\b(?:instead|no\s+urls?|without\s+urls?|only)\b",
@@ -70,16 +77,17 @@ class AgentPlanner:
                 reasoning="Mathematical calculation query detected requiring CalculatorTool."
             )
 
-        # 3. Check System Info & Meta Explanation Intent (Citations / URLs / VARTA identity)
+        # 3. Check System Info, Dataset Metadata, & Meta Explanation Intent
         is_sys_info = any(kw in combined_text for kw in self.SYSTEM_INFO_KEYWORDS)
         is_meta_query = any(re.search(pat, combined_text, re.IGNORECASE) for pat in self.META_CITATION_PATTERNS)
-        if is_sys_info or is_meta_query:
+        is_dataset_meta = any(re.search(pat, combined_text, re.IGNORECASE) for pat in self.DATASET_META_PATTERNS)
+        if is_sys_info or is_meta_query or is_dataset_meta:
             return ExecutionPlan(
                 plan_type="system_info",
                 steps=[{"type": "tool_call", "tool": "system_info", "query": clean_q}],
                 original_query=clean_q,
                 rewritten_query=clean_rw,
-                reasoning="System status or meta-explanation query detected requiring SystemInfoTool."
+                reasoning="System status, dataset metadata, or meta-explanation query detected requiring SystemInfoTool."
             )
 
         # 4. Check Conversation Memory Intent

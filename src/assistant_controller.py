@@ -74,10 +74,12 @@ class AssistantController:
         if not self.tool_registry.has_tool("system_info"):
             provider_name = getattr(self.rag_orchestrator.llm_adapter, "__class__", type(self.rag_orchestrator.llm_adapter)).__name__
             model_name = self.rag_orchestrator.llm_adapter.get_model_name() if hasattr(self.rag_orchestrator.llm_adapter, "get_model_name") else "unknown"
+            vdb = getattr(self.rag_orchestrator.retriever, "vector_db", None) if hasattr(self.rag_orchestrator, "retriever") else None
             self.tool_registry.register_tool(SystemInfoTool(
                 provider=provider_name,
                 model=model_name,
-                max_context_tokens=self.rag_orchestrator.max_context_tokens
+                max_context_tokens=self.rag_orchestrator.max_context_tokens,
+                vector_db=vdb
             ))
 
     def get_available_datasets(self) -> List[Dict[str, Any]]:

@@ -2,7 +2,7 @@
 
 **Project Title:** VARTA — Grounded Disaster Intelligence & Multi-Source Evidence Retrieval  
 **Handover Date:** August 31, 2026  
-**Live Production URL:** [https://varta-production-749d.up.railway.app](https://varta-production-749d.up.railway.app)  
+**Live Production URL:** [https://varta-production-0038.up.railway.app](https://varta-production-0038.up.railway.app)  
 **Repository:** `antkind-collective/Varta` (Branch: `main`)
 
 ---
