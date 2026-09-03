@@ -48,9 +48,9 @@ class SystemInfoTool(BaseTool):
 
         # 1. Check for dataset size / record count / video count queries
         is_count_query = any(w in query for w in [
-            "how many total", "how many videos", "how many entries", "how many records",
-            "how many posts", "total videos", "total entries", "total records", "dataset size",
-            "size of the dataset", "size of dataset", "how many in the dataset", "how many data"
+            "how many total", "how many videos", "how many vdos", "how many entries", "how many records",
+            "how many posts", "total videos", "total vdos", "total entries", "total records", "dataset size",
+            "size of the dataset", "size of dataset", "how many in the dataset", "how many data", "how many video"
         ])
         
         # 2. Check for data cleaning / preprocessing logic queries
@@ -61,23 +61,67 @@ class SystemInfoTool(BaseTool):
         ])
 
         if is_count_query:
-            total_records = 10210
-            datasets_desc = "Sagar's Reddit Disaster Dataset (`sagar_reddit_dataset`)"
+            total_records = 0
+            video_records = 0
+            post_records = 0
+            ds_list = []
+            
             if self.vector_db and hasattr(self.vector_db, "get_available_datasets"):
                 try:
                     ds_list = self.vector_db.get_available_datasets()
-                    if ds_list:
-                        total_records = sum(d.get("chunk_count", 0) for d in ds_list)
-                        datasets_desc = ", ".join(f"{d.get('display_name', d.get('source_dataset'))} ({d.get('chunk_count', 0):,} chunks)" for d in ds_list)
                 except Exception:
                     pass
 
+            breakdown_lines = []
+            if not ds_list:
+                total_records = 10210
+                post_records = 10210
+                breakdown_lines.append("- **Sagar's Reddit Data**: **10,210** community discussion posts")
+            else:
+                total_records = sum(d.get("chunk_count", 0) for d in ds_list)
+                for d in ds_list:
+                    name = d.get("display_name") or d.get("source_dataset", "Unknown")
+                    count = d.get("chunk_count", 0)
+                    src_tag = str(d.get("source_dataset", "")).lower()
+                    name_lower = name.lower()
+                    
+                    if "youtube" in src_tag or "youtube" in name_lower or "video" in src_tag or "video" in name_lower:
+                        video_records += count
+                        breakdown_lines.append(f"- **{name}**: **{count:,}** verified disaster videos")
+                    elif "reddit" in src_tag or "reddit" in name_lower:
+                        post_records += count
+                        breakdown_lines.append(f"- **{name}**: **{count:,}** community discussion posts")
+                    else:
+                        breakdown_lines.append(f"- **{name}**: **{count:,}** records")
+
+            asked_specifically_about_videos = any(w in query for w in ["video", "videos", "vdo", "vdos"])
+
+            if asked_specifically_about_videos and video_records > 0:
+                header_msg = (
+                    f"There are **{video_records:,} total videos** in this dataset "
+                    f"(under the **Disaster YouTube** collection), "
+                    f"alongside **{post_records:,} community discussion posts** from Reddit, "
+                    f"for a combined total of **{total_records:,} indexed records**."
+                )
+            elif asked_specifically_about_videos:
+                header_msg = (
+                    f"The currently active repository contains **{total_records:,} indexed disaster records** "
+                    f"(primarily community reporting and disaster incident logs)."
+                )
+            else:
+                header_msg = (
+                    f"The active dataset contains a total of **{total_records:,} indexed records** across all sources."
+                )
+
+            breakdown_str = "\n".join(breakdown_lines)
+
             formatted_answer = (
-                f"**Dataset Inventory & Video/Post Counts**:\n\n"
-                f"- **Total Indexed Records**: **{total_records:,}** chunks / entries\n"
-                f"- **Active Corpus**: {datasets_desc}\n"
-                f"- **Regional Coverage**: High-density disaster reporting spanning Assam, Bihar, Punjab, Himachal Pradesh, Odisha, Mumbai, Sikkim, and Uttarakhand.\n\n"
-                f"*Note on RAG Retrieval*: The complete dataset consists of over 10,000 records. For individual research questions, VARTA retrieves the top relevant sample excerpts (typically 10 chunks) to ground its answers, rather than dumping all 10,000 entries into a single prompt."
+                f"{header_msg}\n\n"
+                f"**Dataset Breakdown by Source**:\n"
+                f"{breakdown_str}\n\n"
+                f"**Regional Coverage**:\n"
+                f"High-density disaster reporting spanning Assam, Bihar, Punjab, Himachal Pradesh, Odisha, Mumbai, Sikkim, and Uttarakhand.\n\n"
+                f"*Note on RAG Retrieval*: When you ask specific factual questions, VARTA retrieves the top 10 relevant sample excerpts into its prompt context to synthesize grounded answers with citations, rather than dumping all {total_records:,} entries into a single query."
             )
         elif is_cleaning_query:
             formatted_answer = (

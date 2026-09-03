@@ -19,9 +19,10 @@ class AgentPlanner:
         "token budget", "runtime environment"
     }
     DATASET_META_PATTERNS = [
-        r"\b(?:how\s+many|total|count|size\s+of)\b.*\b(?:videos?|entries|records?|chunks?|posts?|items?|documents?)\b",
-        r"\b(?:how\s+many)\s+(?:total\s+)?(?:videos?|entries|records?|chunks?|posts?|items?|documents?)\b",
-        r"\b(?:total|size\s+of)\s+(?:videos?|entries|records?|chunks?|posts?|items?|documents?)\b",
+        r"\b(?:how\s+many|total|count|size\s+of)\b.*\b(?:videos?|vdos?|entries|records?|chunks?|posts?|items?|documents?)\b",
+        r"\b(?:how\s+many)\s+(?:total\s+)?(?:videos?|vdos?|entries|records?|chunks?|posts?|items?|documents?)\b",
+        r"\b(?:total|size\s+of)\s+(?:videos?|vdos?|entries|records?|chunks?|posts?|items?|documents?)\b",
+        r"\bhow\s+many\s+(?:total\s+)?vdos?\b",
         r"\b(?:cleaning|preprocess(?:ing)?|normalization|sanitization)\s*(?:logic|process|pipeline|steps|method)\b",
         r"\bhow\s+(?:did\s+you|was\s+the)\s+(?:clean|process|prepare|preprocess)\s+(?:the\s+)?(?:data\s*set|dataset|data)\b"
     ]
