@@ -4317,5 +4317,119 @@
     },
     "provider": "OpenAILLMAdapter",
     "model": "gpt-5"
+  },
+  {
+    "timestamp": "2026-09-03T07:43:48.916140+00:00",
+    "session_id": "0870099d4446",
+    "user_query": "now tell me how many total videos are there in the dataset",
+    "rewritten_query": "now tell me how many total videos are there in the dataset",
+    "memory_used": false,
+    "turn_number": 1,
+    "plan_type": "system_info",
+    "tool_selected": "system_info",
+    "execution_time": 7.27,
+    "confidence": {
+      "score": 1.0,
+      "level": "HIGH",
+      "retrieval_support": "SYSTEM_METADATA",
+      "context_coverage_pct": 100.0
+    },
+    "provider": "OpenAILLMAdapter",
+    "model": "gpt-5"
+  },
+  {
+    "timestamp": "2026-09-03T07:43:48.944174+00:00",
+    "session_id": "be1e08c3ac70",
+    "user_query": "what was the cleaning logic you used for this dataset?",
+    "rewritten_query": "what was the cleaning logic you used for this dataset?",
+    "memory_used": false,
+    "turn_number": 1,
+    "plan_type": "system_info",
+    "tool_selected": "system_info",
+    "execution_time": 1.1,
+    "confidence": {
+      "score": 1.0,
+      "level": "HIGH",
+      "retrieval_support": "SYSTEM_METADATA",
+      "context_coverage_pct": 100.0
+    },
+    "provider": "OpenAILLMAdapter",
+    "model": "gpt-5"
+  },
+  {
+    "timestamp": "2026-09-03T07:48:59.068270+00:00",
+    "session_id": "17e19b20e0f1",
+    "user_query": "now tell me how many total videos are there in the dataset",
+    "rewritten_query": "now tell me how many total videos are there in the dataset",
+    "memory_used": false,
+    "turn_number": 1,
+    "plan_type": "system_info",
+    "tool_selected": "system_info",
+    "execution_time": 8.16,
+    "confidence": {
+      "score": 1.0,
+      "level": "HIGH",
+      "retrieval_support": "SYSTEM_METADATA",
+      "context_coverage_pct": 100.0
+    },
+    "provider": "OpenAILLMAdapter",
+    "model": "gpt-5"
+  },
+  {
+    "timestamp": "2026-09-03T07:48:59.095155+00:00",
+    "session_id": "b85539fee1a6",
+    "user_query": "what was the cleaning logic you used for this dataset?",
+    "rewritten_query": "what was the cleaning logic you used for this dataset?",
+    "memory_used": false,
+    "turn_number": 1,
+    "plan_type": "system_info",
+    "tool_selected": "system_info",
+    "execution_time": 1.39,
+    "confidence": {
+      "score": 1.0,
+      "level": "HIGH",
+      "retrieval_support": "SYSTEM_METADATA",
+      "context_coverage_pct": 100.0
+    },
+    "provider": "OpenAILLMAdapter",
+    "model": "gpt-5"
+  },
+  {
+    "timestamp": "2026-09-03T07:49:44.217464+00:00",
+    "session_id": "8ce76b0af1fe",
+    "user_query": "what is the percentage of entries that have a climate change link to the disaster?",
+    "rewritten_query": "what is the percentage of entries that have a climate change link to the disaster?",
+    "memory_used": false,
+    "turn_number": 1,
+    "plan_type": "direct",
+    "tool_selected": "rag_search",
+    "execution_time": 45104.94,
+    "confidence": {
+      "score": 0.5451,
+      "level": "MEDIUM",
+      "retrieval_support": "MODERATE",
+      "context_coverage_pct": 46.17
+    },
+    "provider": "OpenAILLMAdapter",
+    "model": "gpt-5"
+  },
+  {
+    "timestamp": "2026-09-03T07:50:42.796508+00:00",
+    "session_id": "791ed3aa484f",
+    "user_query": "what is the percentage of entries that have a climate change link to the disaster?",
+    "rewritten_query": "what is the percentage of entries that have a climate change link to the disaster?",
+    "memory_used": false,
+    "turn_number": 1,
+    "plan_type": "direct",
+    "tool_selected": "rag_search",
+    "execution_time": 25634.01,
+    "confidence": {
+      "score": 0.5451,
+      "level": "MEDIUM",
+      "retrieval_support": "MODERATE",
+      "context_coverage_pct": 46.17
+    },
+    "provider": "OpenAILLMAdapter",
+    "model": "gpt-5"
   }
 ]

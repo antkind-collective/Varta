@@ -62,8 +62,10 @@ class SystemInfoTool(BaseTool):
 
         if is_count_query:
             total_records = 0
-            video_records = 0
-            post_records = 0
+            video_docs = 0
+            video_chunks = 0
+            post_docs = 0
+            post_chunks = 0
             ds_list = []
             
             if self.vector_db and hasattr(self.vector_db, "get_available_datasets"):
@@ -75,33 +77,37 @@ class SystemInfoTool(BaseTool):
             breakdown_lines = []
             if not ds_list:
                 total_records = 10210
-                post_records = 10210
-                breakdown_lines.append("- **Sagar's Reddit Data**: **10,210** community discussion posts")
+                post_docs = 8885
+                post_chunks = 10210
+                breakdown_lines.append("- **Sagar's Reddit Data**: **8,885** raw posts (**10,210** searchable chunks)")
             else:
                 total_records = sum(d.get("chunk_count", 0) for d in ds_list)
                 for d in ds_list:
                     name = d.get("display_name") or d.get("source_dataset", "Unknown")
-                    count = d.get("chunk_count", 0)
+                    chunks = d.get("chunk_count", 0)
+                    docs = d.get("doc_count", chunks)
                     src_tag = str(d.get("source_dataset", "")).lower()
                     name_lower = name.lower()
                     
                     if "youtube" in src_tag or "youtube" in name_lower or "video" in src_tag or "video" in name_lower:
-                        video_records += count
-                        breakdown_lines.append(f"- **{name}**: **{count:,}** verified disaster videos")
+                        video_docs += docs
+                        video_chunks += chunks
+                        breakdown_lines.append(f"- **{name}**: **{docs:,}** raw video rows (segmented into **{chunks:,}** searchable vector chunks)")
                     elif "reddit" in src_tag or "reddit" in name_lower:
-                        post_records += count
-                        breakdown_lines.append(f"- **{name}**: **{count:,}** community discussion posts")
+                        post_docs += docs
+                        post_chunks += chunks
+                        breakdown_lines.append(f"- **{name}**: **{docs:,}** raw discussion posts (segmented into **{chunks:,}** searchable vector chunks)")
                     else:
-                        breakdown_lines.append(f"- **{name}**: **{count:,}** records")
+                        breakdown_lines.append(f"- **{name}**: **{docs:,}** raw items (**{chunks:,}** chunks)")
 
             asked_specifically_about_videos = any(w in query for w in ["video", "videos", "vdo", "vdos"])
 
-            if asked_specifically_about_videos and video_records > 0:
+            if asked_specifically_about_videos and video_docs > 0:
                 header_msg = (
-                    f"There are **{video_records:,} total videos** in this dataset "
-                    f"(under the **Disaster YouTube** collection), "
-                    f"alongside **{post_records:,} community discussion posts** from Reddit, "
-                    f"for a combined total of **{total_records:,} indexed records**."
+                    f"The raw dataset contains **{video_docs:,} total video entries** "
+                    f"(which were segmented into **{video_chunks:,} searchable vector chunks** via 500-token sliding-window chunking), "
+                    f"alongside **{post_docs:,} community discussion posts** ({post_chunks:,} chunks) from Reddit, "
+                    f"for a combined total of **{total_records:,} indexed vector chunks**."
                 )
             elif asked_specifically_about_videos:
                 header_msg = (
@@ -110,7 +116,7 @@ class SystemInfoTool(BaseTool):
                 )
             else:
                 header_msg = (
-                    f"The active dataset contains a total of **{total_records:,} indexed records** across all sources."
+                    f"The active dataset contains **{total_records:,} total indexed chunks** across all sources."
                 )
 
             breakdown_str = "\n".join(breakdown_lines)
@@ -119,6 +125,9 @@ class SystemInfoTool(BaseTool):
                 f"{header_msg}\n\n"
                 f"**Dataset Breakdown by Source**:\n"
                 f"{breakdown_str}\n\n"
+                f"**Data Quality & Noise Observations**:\n"
+                f"- The raw YouTube scrape contains ~8,300+ entries collected via disaster tags. A portion of the raw dataset contains noisy, promotional, or out-of-domain entries (such as real-estate ads, video games, songs, or empty/short descriptions) due to creator hashtag spamming on social media.\n"
+                f"- VARTA's semantic vector filtering and relevance scoring prioritize substantive disaster records while ranking promotional or blank entries low during query retrieval.\n\n"
                 f"**Regional Coverage**:\n"
                 f"High-density disaster reporting spanning Assam, Bihar, Punjab, Himachal Pradesh, Odisha, Mumbai, Sikkim, and Uttarakhand.\n\n"
                 f"*Note on RAG Retrieval*: When you ask specific factual questions, VARTA retrieves the top 10 relevant sample excerpts into its prompt context to synthesize grounded answers with citations, rather than dumping all {total_records:,} entries into a single query."

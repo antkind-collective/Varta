@@ -1564,5 +1564,59 @@
     "execution_time_ms": 22158.7,
     "status": "success",
     "planner_decision": "summarization"
+  },
+  {
+    "timestamp": "2026-09-03T07:43:48.937499+00:00",
+    "session_id": "0870099d4446",
+    "user_query": "now tell me how many total videos are there in the dataset",
+    "tool_selected": "system_info",
+    "execution_time_ms": 7.27,
+    "status": "success",
+    "planner_decision": "system_info"
+  },
+  {
+    "timestamp": "2026-09-03T07:43:48.956458+00:00",
+    "session_id": "be1e08c3ac70",
+    "user_query": "what was the cleaning logic you used for this dataset?",
+    "tool_selected": "system_info",
+    "execution_time_ms": 1.1,
+    "status": "success",
+    "planner_decision": "system_info"
+  },
+  {
+    "timestamp": "2026-09-03T07:48:59.089595+00:00",
+    "session_id": "17e19b20e0f1",
+    "user_query": "now tell me how many total videos are there in the dataset",
+    "tool_selected": "system_info",
+    "execution_time_ms": 8.16,
+    "status": "success",
+    "planner_decision": "system_info"
+  },
+  {
+    "timestamp": "2026-09-03T07:48:59.107622+00:00",
+    "session_id": "b85539fee1a6",
+    "user_query": "what was the cleaning logic you used for this dataset?",
+    "tool_selected": "system_info",
+    "execution_time_ms": 1.39,
+    "status": "success",
+    "planner_decision": "system_info"
+  },
+  {
+    "timestamp": "2026-09-03T07:49:44.232320+00:00",
+    "session_id": "8ce76b0af1fe",
+    "user_query": "what is the percentage of entries that have a climate change link to the disaster?",
+    "tool_selected": "rag_search",
+    "execution_time_ms": 45104.94,
+    "status": "success",
+    "planner_decision": "direct"
+  },
+  {
+    "timestamp": "2026-09-03T07:50:42.817079+00:00",
+    "session_id": "791ed3aa484f",
+    "user_query": "what is the percentage of entries that have a climate change link to the disaster?",
+    "tool_selected": "rag_search",
+    "execution_time_ms": 25634.01,
+    "status": "success",
+    "planner_decision": "direct"
   }
 ]

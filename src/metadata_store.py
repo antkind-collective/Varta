@@ -390,13 +390,13 @@ class MetadataStore:
     def get_available_datasets(self) -> List[Dict[str, Any]]:
         """
         Returns all distinct source_dataset values currently stored in the metadata store,
-        along with friendly display names and indexed chunk counts.
+        along with friendly display names, indexed chunk counts, and distinct raw document/video counts.
         """
         with self._get_connection() as conn:
             cursor = conn.cursor()
             cursor.execute(
                 f"""
-                SELECT source_dataset, COUNT(*) as count
+                SELECT source_dataset, COUNT(*) as count, COUNT(DISTINCT parent_doc_id) as doc_count
                 FROM {self.table_name}
                 WHERE source_dataset IS NOT NULL AND TRIM(source_dataset) != ''
                 GROUP BY source_dataset
@@ -408,10 +408,12 @@ class MetadataStore:
             for row in rows:
                 ds = row["source_dataset"] if isinstance(row, sqlite3.Row) or hasattr(row, "keys") else row[0]
                 cnt = row["count"] if isinstance(row, sqlite3.Row) or hasattr(row, "keys") else row[1]
+                doc_cnt = row["doc_count"] if isinstance(row, sqlite3.Row) or hasattr(row, "keys") else (row[2] if len(row) > 2 else row[1])
                 datasets.append({
                     "source_dataset": ds,
                     "display_name": self._format_dataset_display_name(ds),
-                    "chunk_count": int(cnt)
+                    "chunk_count": int(cnt),
+                    "doc_count": int(doc_cnt)
                 })
             return datasets
 
